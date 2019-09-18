@@ -1,4 +1,4 @@
-import { Dimensions } from '../../engine/index';
+import { Dimensions } from '../..';
 
 export const DEFUALT_UNIT_DIM: Dimensions = new Dimensions(100, 100);
 export const DEFUALT_WALLUNIT_DIM: Dimensions = new Dimensions(100, 50);

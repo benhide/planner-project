@@ -1,9 +1,8 @@
-import { BaseWidget } from '../widgets/BaseWidget';
-import { Dimensions } from './index';
-import { Vec2 } from './Vec2';
+import { BaseWidget } from './widgets';
+import { Dimensions, Vec2 } from '.';
 
 // Simple AABB collision detection returns true/false? if intersecting
-export function isIntersecting(posToChck: Vec2, objPos: Vec2, objDim: Dimensions): boolean {
+export function IsIntersecting(posToChck: Vec2, objPos: Vec2, objDim: Dimensions): boolean {
     if (posToChck.y > objPos.y && posToChck.y < objPos.y + objDim.l && posToChck.x > objPos.x && posToChck.x < objPos.x + objDim.w) {
         return true;
     } else {
@@ -12,7 +11,7 @@ export function isIntersecting(posToChck: Vec2, objPos: Vec2, objDim: Dimensions
 }
 
 // Simple AABB collision detection returns true/false? if colliding
-export function isColliding(objA: BaseWidget, objB: BaseWidget): boolean {
+export function IsColliding(objA: BaseWidget, objB: BaseWidget): boolean {
     if (
         objA.position.x < objB.position.x + objB.dimensions.w &&
         objA.position.x + objA.dimensions.w > objB.position.x &&

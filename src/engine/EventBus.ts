@@ -1,11 +1,4 @@
-type SubscriptionFn = (data: object) => void;
-
-// An event subscription takes an event and a
-// subscription function
-interface IEventSubscription {
-    event: GameEvent;
-    fn: SubscriptionFn;
-}
+import { IEventSubscription, SubscriptionFn } from './Interfaces/IEventSubscription';
 
 // Type of event
 export enum GameEvent {

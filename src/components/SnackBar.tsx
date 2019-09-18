@@ -1,6 +1,4 @@
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Snackbar from '@material-ui/core/Snackbar';
+import { Button, IconButton, Snackbar } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import * as React from 'react';
@@ -13,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function SimpleSnackbar() {
+export function SimpleSnackbar() {
     const style = useStyles();
     const [open, setOpen] = React.useState(false);
 

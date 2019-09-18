@@ -3,6 +3,7 @@ let ID_2 = 1;
 let ID_3 = 1;
 let ID_4 = 1;
 
+// Generate IDs
 export function ID(zIndex: number): number {
     if (zIndex === 1) {
         return 100 + ID_1++;

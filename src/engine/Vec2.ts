@@ -22,6 +22,7 @@ export class Vec2 {
         const radians = Math.atan2(other.y - this.y, other.x - this.x);
         return radians;
     }
+
     public getAngleDegrees(other: Vec2): number {
         const radians = Math.atan2(other.y - this.y, other.x - this.x);
         return this.convertToDegrees(radians);

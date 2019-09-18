@@ -1,19 +1,19 @@
 import {
-    checkBounding,
-    collisionSnapping,
+    CheckBounding,
+    CollisionSnapping,
     Dimensions,
     DrawWidgets,
     EventBus,
     GameEvent,
-    isColliding,
-    isIntersecting,
-    selectTopItem,
-    snapToGrid,
-    snapToSize,
+    IsColliding,
+    IsIntersecting,
+    RemoveTopItem,
+    SelectTopItem,
+    SnapToGrid,
+    SnapToSize,
     Vec2,
-    removeTopItem,
-} from '../engine/index';
-import { Kitchen } from '../engine/Kitchen';
+} from '..';
+import { Kitchen } from '../Kitchen';
 
 export class BaseWidget {
     // Booleans for the widget
@@ -33,10 +33,6 @@ export class BaseWidget {
     public dirToRotate: Vec2 = new Vec2(0, 0);
     public angle: number = 0;
 
-    // Reference to the canvas and context
-    public canvas: HTMLCanvasElement;
-    public ctx: CanvasRenderingContext2D;
-
     // The last valid position to place item
     private lastValidPosition: Vec2;
 
@@ -51,10 +47,6 @@ export class BaseWidget {
         public isScalable: boolean,
         public isRotatable: boolean,
     ) {
-        // Get the canvas and context for reference
-        this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
-        this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-
         // Draw widget class
         this.drawWidget = new DrawWidgets();
 
@@ -121,24 +113,27 @@ export class BaseWidget {
     }
 
     // Draw function
-    public draw(): void {
+    public draw(ctx: CanvasRenderingContext2D): void {
         // Call the child class draw
-        this.draw();
+        this.draw(ctx);
     }
 
     // Draw other item details
-    public drawDetails(): void {
+    public drawDetails(ctx: CanvasRenderingContext2D): void {
+        // Get the canvas and context for reference
+        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+
         if (this.isRotatable) {
-            this.drawWidget.drawRotatingBox(this.position, this.dimensions);
+            this.drawWidget.drawRotatingBox(ctx, this.position, this.dimensions);
         }
         if (this.isScalable) {
-            this.drawWidget.drawScalingBox(this.position, this.dimensions);
+            this.drawWidget.drawScalingBox(ctx, this.position, this.dimensions);
         }
         if (this.isScaling || this.isSelected) {
-            this.drawWidget.drawLines(this.position, this.dimensions);
+            this.drawWidget.drawLines(ctx, canvas.width, canvas.height, this.position, this.dimensions);
         }
-        this.drawWidget.drawItemInfo(this.position, this.dimensions, this.id);
-        this.drawWidget.drawRemoveBox(this.position, this.dimensions);
+        this.drawWidget.drawItemInfo(ctx, this.position, this.dimensions, this.id);
+        this.drawWidget.drawRemoveBox(ctx, this.position, this.dimensions);
     }
 
     // Scale an item
@@ -147,14 +142,15 @@ export class BaseWidget {
         for (const id of collidingIDs) {
             if (id !== -1) {
                 this.isColliding = true;
-                collisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
+                CollisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
                 return;
             }
         }
 
         //
-        checkBounding(this);
+        CheckBounding(this);
 
+        const canvas = document.createElement('canvas');
         //
         this.dimensions.w = e.x - this.position.x;
         this.dimensions.l = e.y - this.position.y;
@@ -162,19 +158,19 @@ export class BaseWidget {
         //
         if (this.dimensions.w < this.defaultWidth) {
             this.dimensions.w = this.defaultWidth;
-        } else if (this.dimensions.w > this.canvas.width) {
-            this.dimensions.w = this.canvas.width;
+        } else if (this.dimensions.w > canvas.width) {
+            this.dimensions.w = canvas.width;
         }
 
         //
         if (this.dimensions.l < this.defaultLength) {
             this.dimensions.l = this.defaultLength;
-        } else if (this.dimensions.l > this.canvas.height) {
-            this.dimensions.l = this.canvas.height;
+        } else if (this.dimensions.l > canvas.height) {
+            this.dimensions.l = canvas.height;
         }
 
         //
-        snapToSize(this);
+        SnapToSize(this);
     }
 
     // Move an item
@@ -184,26 +180,26 @@ export class BaseWidget {
         //
         this.lastValidPosition = this.position;
         this.setPosition(-offset.x + e.x, -offset.y + e.y);
-        checkBounding(this);
+        CheckBounding(this);
 
         //
         const collidingIDs = this.collisionDetection();
         for (const id of collidingIDs) {
             if (id !== -1) {
                 this.isColliding = true;
-                collisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
+                CollisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
             }
         }
 
         //
         for (const id of collidingIDs) {
-            if (isColliding(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!)) {
+            if (IsColliding(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!)) {
                 this.setPosition(this.lastValidPosition.x, this.lastValidPosition.y);
             }
         }
 
         //
-        snapToGrid(this);
+        SnapToGrid(this);
     }
 
     // Roate an item
@@ -239,7 +235,7 @@ export class BaseWidget {
             }
 
             if (this.zIndex === item.zIndex || (this.zIndex === 4 || item.zIndex === 4)) {
-                if (isColliding(this, item)) {
+                if (IsColliding(this, item)) {
                     id.push(item.id);
                 }
             }
@@ -250,7 +246,7 @@ export class BaseWidget {
     // Should we try to scale the item
     private shouldScale(e: any): void {
         if (this.isScalable) {
-            this.isScaling = isIntersecting(
+            this.isScaling = IsIntersecting(
                 new Vec2(e.x as number, e.y as number),
                 new Vec2(this.position.x + this.dimensions.w - 15, this.position.y + this.dimensions.l - 15),
                 new Dimensions(15, 15),
@@ -260,18 +256,18 @@ export class BaseWidget {
 
     // Should we try to delete the item
     private shouldDelete(e: any) {
-        this.isDeleting = isIntersecting(
+        this.isDeleting = IsIntersecting(
             new Vec2(e.x as number, e.y as number),
             new Vec2(this.position.x, this.position.y),
             new Dimensions(15, 15),
         );
-        removeTopItem();
+        RemoveTopItem();
     }
 
     // Should we try to rotate the item
     private shouldRotate(e: any): Vec2 {
         if (this.isRotatable) {
-            this.isRotating = isIntersecting(
+            this.isRotating = IsIntersecting(
                 new Vec2(e.x as number, e.y as number),
                 new Vec2(this.position.x + this.dimensions.w - 15, this.position.y),
                 new Dimensions(20, 20),
@@ -283,7 +279,7 @@ export class BaseWidget {
 
     // Should we try to select the item
     private shouldSelect(e: any): void {
-        this.isSelected = isIntersecting(new Vec2(e.x as number, e.y as number), this.position, this.dimensions);
-        selectTopItem();
+        this.isSelected = IsIntersecting(new Vec2(e.x as number, e.y as number), this.position, this.dimensions);
+        SelectTopItem();
     }
 }

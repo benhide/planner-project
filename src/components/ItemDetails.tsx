@@ -1,12 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Slide from '@material-ui/core/Slide';
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { TransitionProps } from '@material-ui/core/transitions';
-import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function ItemDetails(props: any): JSX.Element {
+export function ItemDetails(props: any): JSX.Element {
     const style = useStyles();
 
     return (
@@ -82,3 +75,11 @@ export default function ItemDetails(props: any): JSX.Element {
 //         </div>
 //     );
 // }
+
+// import CardActionArea from '@material-ui/core/CardActionArea';
+// import CardContent from '@material-ui/core/CardContent';
+// import CardMedia from '@material-ui/core/CardMedia';
+// import { TransitionProps } from '@material-ui/core/transitions';
+// import Typography from '@material-ui/core/Typography';
+// import Slide from '@material-ui/core/Slide';
+// import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';

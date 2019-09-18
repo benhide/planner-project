@@ -1,6 +1,6 @@
-import { Dimensions, Vec2 } from '../engine/index';
-import { IRenderable, IRotatable, IScalable, ISelectable } from '../engine/Interfaces/index';
-import { BaseWidget } from './index';
+import { Dimensions, Vec2 } from '..';
+import { IRenderable, IRotatable, IScalable, ISelectable } from '../Interfaces';
+import { BaseWidget } from '.';
 
 // The unit class which inherits from base class BaseWidget
 // can be render and selected
@@ -19,17 +19,17 @@ export class Wall extends BaseWidget implements IRenderable, IRotatable, IScalab
     }
 
     // Draw the unit
-    public draw(): void {
-        this.ctx.beginPath();
+    public draw(ctx: CanvasRenderingContext2D): void {
+        ctx.beginPath();
 
         // If its been selected change color
-        this.ctx.fillStyle = this.isSelected && this.isHeld ? this.getColour(0.5) : this.getColour(0.9);
-        this.ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
+        ctx.fillStyle = this.isSelected && this.isHeld ? this.getColour(0.5) : this.getColour(0.9);
+        ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
 
         // Just some drawing stuff
-        this.ctx.fillRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
-        this.ctx.strokeRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
-        super.drawDetails();
+        ctx.fillRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
+        ctx.strokeRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
+        super.drawDetails(ctx);
     }
 
     // Just get the colour of te unit

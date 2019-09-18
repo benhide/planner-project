@@ -1,13 +1,9 @@
-import { Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import { Button, Paper, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { ItemDetails } from '.';
 import { Kitchen } from '../engine/Kitchen';
-import { AddUnit } from '../redux/actions/KitchenActions';
-import { DEFUALT_UNIT_DIM, DEFUALT_WALLUNIT_DIM, DEFUALT_WALL_DIM, DEFUALT_WORKTOP_DIM } from '../widgets/defaults/DefaultItemSizes';
-import ItemDetails from './ItemDetails';
+import { DEFUALT_UNIT_DIM, DEFUALT_WALLUNIT_DIM, DEFUALT_WALL_DIM, DEFUALT_WORKTOP_DIM } from '../engine/widgets/defaults';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,42 +29,36 @@ const useStyles = makeStyles((theme: Theme) =>
 export function ToolBox() {
     const style = useStyles();
 
-    const [localState, setLocalState] = React.useState({
-        units: 0,
-        wallunits: 0,
-        worktops: 0,
-        walls: 0,
-    });
+    // const [localState, setLocalState] = React.useState({
+    //     units: 0,
+    //     wallunits: 0,
+    //     worktops: 0,
+    //     walls: 0,
+    // });
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // Adds a unit to the kitchen
     function addUnit(e: any) {
         Kitchen.getInstance().addItem(DEFUALT_UNIT_DIM.w, DEFUALT_UNIT_DIM.l, e.clientX, e.clientY, false, true, 'add_unit');
-        const state = { ...localState, units: localState.units += 1 };
-        setLocalState(state);
-        dispatch(AddUnit(localState.units));
+        // const state = { ...localState, units: localState.units += 1 };
+        // setLocalState(state);
+        // // dispatch(AddItem(localState.units));
     }
 
     // Adds a worktop to the kitchen
     function addWorktop(e: any) {
         Kitchen.getInstance().addItem(DEFUALT_WORKTOP_DIM.w, DEFUALT_WORKTOP_DIM.l, e.clientX, e.clientY, true, true, 'add_worktop');
-        const state = { ...localState, worktops: localState.worktops += 1 };
-        setLocalState(state);
     }
 
     // Adds a wall to the kitchen
     function addWallunit(e: any) {
         Kitchen.getInstance().addItem(DEFUALT_WALLUNIT_DIM.w, DEFUALT_WALLUNIT_DIM.l, e.clientX, e.clientY, false, true, 'add_wallunit');
-        const state = { ...localState, wallunits: localState.wallunits += 1 };
-        setLocalState(state);
     }
 
     // Adds a wall to the kitchen
     function addWall(e: any) {
         Kitchen.getInstance().addItem(DEFUALT_WALL_DIM.w, DEFUALT_WALL_DIM.l, e.clientX, e.clientY, true, true, 'add_wall');
-        const state = { ...localState, walls: localState.walls += 1 };
-        setLocalState(state);
     }
 
     // Render the jsx
@@ -97,7 +87,7 @@ export function ToolBox() {
                 <Button variant="contained" className={style.button}>
                     And Another
                 </Button>
-                <ItemDetails itemSelected={'Items'} itemInfo={`Units: ${localState.units}  Wallunits:${localState.wallunits}`} itemImg={'img'} />
+                <ItemDetails itemSelected={'Items'} itemInfo={'Infomation'} itemImg={'img'} />
             </Paper>
         </div>
     );
@@ -120,3 +110,6 @@ export function ToolBox() {
 // );
 
 // export default connectedStateAndProps(ToolBox);
+
+// import { useDispatch } from 'react-redux';
+// import { AddItem } from '../redux/actions/KitchenActions';

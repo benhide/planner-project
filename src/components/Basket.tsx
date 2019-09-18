@@ -1,8 +1,6 @@
 import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Kitchen } from '../engine/Kitchen';
 
 const TAX_RATE = 0.2;
 

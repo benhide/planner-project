@@ -1,4 +1,4 @@
 // Can it be rendered
 export interface IRenderable {
-    draw(): void;
+    draw(ctx: CanvasRenderingContext2D): void;
 }

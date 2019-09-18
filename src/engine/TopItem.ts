@@ -1,6 +1,6 @@
 import { Kitchen } from './Kitchen';
 
-export function selectTopItem(): void {
+export function SelectTopItem(): void {
     let index = -1;
     if (Kitchen.getInstance().widgets.length > 0) {
         for (let i = 0; i < Kitchen.getInstance().widgets.length; i++) {
@@ -15,7 +15,7 @@ export function selectTopItem(): void {
     }
 }
 
-export function removeTopItem(): void {
+export function RemoveTopItem(): void {
     let index = -1;
     if (Kitchen.getInstance().widgets.length > 0) {
         for (let i = 0; i < Kitchen.getInstance().widgets.length; i++) {
