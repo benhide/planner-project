@@ -1,13 +1,10 @@
+import * as types from '../actions/ActionTypes';
+
 export function KitchenReducer(state: any = [], action: any) {
     switch (action.type) {
-        case 'UNIT_ADDED':
+        case types.UNIT_ADDED:
             return [...state, { ...action.unit }];
-        case 'WALLUNIT_ADDED':
-            return [...state, { ...action.wallunit }];
-        case 'WORKTOP_ADDED':
-            return [...state, { ...action.worktop }];
-        case 'WALL_ADDED':
-            return [...state, { ...action.wall }];
+        case types.UNIT_REMOVED:
         default:
             return state;
     }

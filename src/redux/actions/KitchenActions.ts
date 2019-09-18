@@ -1,8 +1,14 @@
+import * as types from '../actions/ActionTypes';
 import { BaseWidget } from '../../engine/widgets';
 
 // Action creator
 export function AddUnit(unit: BaseWidget) {
-    return { type: 'UNIT_ADDED', unit };
+    return { type: types.UNIT_ADDED, unit };
+}
+
+// Action creator
+export function RemoveUnit(unit: BaseWidget) {
+    return { type: types.UNIT_REMOVED, unit };
 }
 
 // Action creator

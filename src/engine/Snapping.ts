@@ -1,5 +1,5 @@
 import { BaseWidget } from './widgets';
-import { Vec2 } from './index';
+import { Vec2 } from '.';
 
 // Snap to grid
 export function SnapToGrid(obj: BaseWidget): void {

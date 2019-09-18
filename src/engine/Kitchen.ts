@@ -1,8 +1,8 @@
-import { Store } from '..';
-import { AddUnit, AddWall, AddWallunit, AddWorktop } from '../redux/actions/KitchenActions';
 import { ID } from '.';
-import { DEFAULT_UNIT_ZINDEX, DEFAULT_WALLUNIT_ZINDEX, DEFAULT_WALL_ZINDEX, DEFAULT_WORKTOP_ZINDEX } from './widgets/defaults';
-import { BaseWidget, Unit, Wall, WallUnit, WorkTop } from './widgets';
+import { Store } from '..';
+import * as actions from '../redux/actions/KitchenActions';
+import * as widgets from './widgets';
+import * as defaults from './widgets/defaults';
 
 // The kitchen class
 export class Kitchen {
@@ -17,7 +17,7 @@ export class Kitchen {
     private static instance: Kitchen;
 
     // Array of objects of type BaseWidget
-    public widgets = new Array<BaseWidget>();
+    public widgets = new Array<widgets.BaseWidget>();
 
     // The canvas for reference
     private canvas: HTMLCanvasElement;
@@ -71,35 +71,71 @@ export class Kitchen {
 
     // Add an item
     public addItem(width: number, length: number, x: number, y: number, isScalable: boolean, isRotatable: boolean, type: string): void {
-        let item: BaseWidget;
+        let item: widgets.BaseWidget;
         switch (type) {
             case 'add_unit':
-                item = new Unit(width, length, x, y, DEFAULT_UNIT_ZINDEX, ID(DEFAULT_UNIT_ZINDEX), isScalable, isRotatable);
+                item = new widgets.Unit(
+                    width,
+                    length,
+                    x,
+                    y,
+                    defaults.DEFAULT_UNIT_ZINDEX,
+                    ID(defaults.DEFAULT_UNIT_ZINDEX),
+                    isScalable,
+                    isRotatable,
+                );
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
-                Store.dispatch(AddUnit(item));
+                Store.dispatch(actions.AddUnit(item));
                 break;
             case 'add_worktop':
-                item = new WorkTop(width, length, x, y, DEFAULT_WORKTOP_ZINDEX, ID(DEFAULT_WORKTOP_ZINDEX), isScalable, isRotatable);
+                item = new widgets.WorkTop(
+                    width,
+                    length,
+                    x,
+                    y,
+                    defaults.DEFAULT_WORKTOP_ZINDEX,
+                    ID(defaults.DEFAULT_WORKTOP_ZINDEX),
+                    isScalable,
+                    isRotatable,
+                );
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
-                Store.dispatch(AddWorktop(item));
+                Store.dispatch(actions.AddWorktop(item));
                 break;
             case 'add_wallunit':
-                item = new WallUnit(width, length, x, y, DEFAULT_WALLUNIT_ZINDEX, ID(DEFAULT_WALLUNIT_ZINDEX), isScalable, isRotatable);
+                item = new widgets.WallUnit(
+                    width,
+                    length,
+                    x,
+                    y,
+                    defaults.DEFAULT_WALLUNIT_ZINDEX,
+                    ID(defaults.DEFAULT_WALLUNIT_ZINDEX),
+                    isScalable,
+                    isRotatable,
+                );
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
-                Store.dispatch(AddWallunit(item));
+                Store.dispatch(actions.AddWallunit(item));
                 break;
             case 'add_wall':
-                item = new Wall(width, length, x, y, DEFAULT_WALL_ZINDEX, ID(DEFAULT_WALL_ZINDEX), isScalable, isRotatable);
+                item = new widgets.Wall(
+                    width,
+                    length,
+                    x,
+                    y,
+                    defaults.DEFAULT_WALL_ZINDEX,
+                    ID(defaults.DEFAULT_WALL_ZINDEX),
+                    isScalable,
+                    isRotatable,
+                );
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
-                Store.dispatch(AddWall(item));
+                Store.dispatch(actions.AddWall(item));
                 break;
             default:
                 break;
