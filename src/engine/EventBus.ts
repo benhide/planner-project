@@ -1,4 +1,4 @@
-import * as subscription from './Interfaces/IEventSubscription';
+import * as subscription from './Interfaces';
 
 // Type of event
 export enum GameEvent {
@@ -27,7 +27,7 @@ export namespace EventBus {
 
     // Publish the event
     // when an event is publish an x and y are sent
-    export function publish(event: GameEvent, data: any) {
+    export function publish(event: GameEvent, data: object) {
         [...subscriptions.values()].filter((e: subscription.IEventSubscription) => e.event === event).forEach((e) => e.fn(data));
     }
 }

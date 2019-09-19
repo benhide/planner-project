@@ -1,4 +1,4 @@
-import { Dimensions, Vec2 } from '..';
+import { Dimensions, Vec2 } from '../Transform';
 
 // Draw widget class
 export class DrawWidgets {
@@ -39,7 +39,13 @@ export class DrawWidgets {
     }
 
     // Draw the guide lines
-    public drawLines(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, position: Vec2, dimensions: Dimensions): void {
+    public drawLines(
+        ctx: CanvasRenderingContext2D,
+        canvasWidth: number,
+        canvasHeight: number,
+        position: Vec2,
+        dimensions: Dimensions,
+    ): void {
         ctx.save();
         ctx.strokeStyle = `rgba(255, 255, 255, 1)`;
 

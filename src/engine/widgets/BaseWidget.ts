@@ -1,19 +1,10 @@
-import {
-    CheckBounding,
-    CollisionSnapping,
-    Dimensions,
-    DrawWidgets,
-    EventBus,
-    GameEvent,
-    IsColliding,
-    IsIntersecting,
-    RemoveTopItem,
-    SelectTopItem,
-    SnapToGrid,
-    SnapToSize,
-    Vec2,
-} from '..';
+import { IsColliding, IsIntersecting } from '../CollisionDetection';
+import { EventBus, GameEvent } from '../EventBus';
 import { Kitchen } from '../Kitchen';
+import { CheckBounding, CollisionSnapping, SnapToGrid, SnapToSize } from '../Snapping';
+import { RemoveTopItem, SelectTopItem } from '../TopItem';
+import { Dimensions, Vec2 } from '../Transform';
+import { DrawWidgets } from '../widgets/DrawWidgets';
 
 export class BaseWidget {
     // Booleans for the widget

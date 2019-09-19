@@ -1,2 +1,13 @@
 export const UNIT_ADDED = 'UNIT_ADDED';
 export const UNIT_REMOVED = 'UNIT_REMOVED';
+
+export const WALLUNIT_ADDED = 'WALLUNIT_ADDED';
+export const WALLUNIT_REMOVED = 'WALLUNIT_REMOVED';
+
+export const WALL_ADDED = 'WALL_ADDED';
+export const WALL_REMOVED = 'WALL_REMOVED';
+
+export const WORKTOP_ADDED = 'WORKTOP_ADDED';
+export const WORKTOP_REMOVED = 'WORKTOP_REMOVED';
+
+export const WIDGET_REMOVED = 'WIDGET_REMOVED';

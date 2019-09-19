@@ -1,8 +1,12 @@
-import { ID } from '.';
 import { Store } from '..';
-import * as actions from '../redux/actions/KitchenActions';
-import * as widgets from './widgets';
-import * as defaults from './widgets/defaults';
+import { ID } from './ID';
+import { DEFAULT_UNIT_ZINDEX, DEFAULT_WALLUNIT_ZINDEX, DEFAULT_WORKTOP_ZINDEX, DEFAULT_WALL_ZINDEX } from './Defaults';
+import { BaseWidget } from './widgets/BaseWidget';
+import { Unit } from './widgets/Unit';
+import { WorkTop } from './widgets/Worktop';
+import { WallUnit } from './widgets/WallUnit';
+import { Wall } from './widgets/Wall';
+import { AddUnit, AddWorktop, AddWallunit, AddWall, RemoveWidget } from '../redux/actions/KitchenActions';
 
 // The kitchen class
 export class Kitchen {
@@ -17,7 +21,7 @@ export class Kitchen {
     private static instance: Kitchen;
 
     // Array of objects of type BaseWidget
-    public widgets = new Array<widgets.BaseWidget>();
+    public widgets = new Array<BaseWidget>();
 
     // The canvas for reference
     private canvas: HTMLCanvasElement;
@@ -71,71 +75,71 @@ export class Kitchen {
 
     // Add an item
     public addItem(width: number, length: number, x: number, y: number, isScalable: boolean, isRotatable: boolean, type: string): void {
-        let item: widgets.BaseWidget;
+        let item: BaseWidget;
         switch (type) {
             case 'add_unit':
-                item = new widgets.Unit(
+                item = new Unit(
                     width,
                     length,
                     x,
                     y,
-                    defaults.DEFAULT_UNIT_ZINDEX,
-                    ID(defaults.DEFAULT_UNIT_ZINDEX),
+                    DEFAULT_UNIT_ZINDEX,
+                    ID(DEFAULT_UNIT_ZINDEX),
                     isScalable,
                     isRotatable,
                 );
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
-                Store.dispatch(actions.AddUnit(item));
+                Store.dispatch(AddUnit(item));
                 break;
             case 'add_worktop':
-                item = new widgets.WorkTop(
+                item = new WorkTop(
                     width,
                     length,
                     x,
                     y,
-                    defaults.DEFAULT_WORKTOP_ZINDEX,
-                    ID(defaults.DEFAULT_WORKTOP_ZINDEX),
+                    DEFAULT_WORKTOP_ZINDEX,
+                    ID(DEFAULT_WORKTOP_ZINDEX),
                     isScalable,
                     isRotatable,
                 );
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
-                Store.dispatch(actions.AddWorktop(item));
+                Store.dispatch(AddWorktop(item));
                 break;
             case 'add_wallunit':
-                item = new widgets.WallUnit(
+                item = new WallUnit(
                     width,
                     length,
                     x,
                     y,
-                    defaults.DEFAULT_WALLUNIT_ZINDEX,
-                    ID(defaults.DEFAULT_WALLUNIT_ZINDEX),
+                    DEFAULT_WALLUNIT_ZINDEX,
+                    ID(DEFAULT_WALLUNIT_ZINDEX),
                     isScalable,
                     isRotatable,
                 );
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
-                Store.dispatch(actions.AddWallunit(item));
+                Store.dispatch(AddWallunit(item));
                 break;
             case 'add_wall':
-                item = new widgets.Wall(
+                item = new Wall(
                     width,
                     length,
                     x,
                     y,
-                    defaults.DEFAULT_WALL_ZINDEX,
-                    ID(defaults.DEFAULT_WALL_ZINDEX),
+                    DEFAULT_WALL_ZINDEX,
+                    ID(DEFAULT_WALL_ZINDEX),
                     isScalable,
                     isRotatable,
                 );
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
-                Store.dispatch(actions.AddWall(item));
+                Store.dispatch(AddWall(item));
                 break;
             default:
                 break;
@@ -148,19 +152,20 @@ export class Kitchen {
     public removeItem(id: number): void {
         for (let i = 0; i < this.widgets.length; i++) {
             if (this.widgets[i].id === id) {
+                Store.dispatch(RemoveWidget(this.widgets[i]));
                 this.widgets.splice(i, 1);
             }
         }
 
-        // tslint:disable-next-line:no-console
-        console.log(this.widgets);
+        // // tslint:disable-next-line:no-console
+        // console.log(this.widgets);
     }
 
     // Sort the array for what to draw first
     private sortArrayByZIndex(): void {
         this.widgets.sort((a, b) => (a.zIndex > b.zIndex ? 1 : -1));
 
-        // tslint:disable-next-line:no-console
-        console.log(this.widgets);
+        // // tslint:disable-next-line:no-console
+        // console.log(this.widgets);
     }
 }

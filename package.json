@@ -23,6 +23,7 @@
         "@types/react-toastify": "^4.0.2",
         "@types/redux-immutable-state-invariant": "^2.1.1",
         "@types/webpack": "^4.39.1",
+        "circular-dependency-plugin": "^5.2.0",
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "react": "^16.9.0",

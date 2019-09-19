@@ -1,5 +1,5 @@
-import { BaseWidget } from './widgets';
-import { Dimensions, Vec2 } from '.';
+import { Dimensions, Vec2 } from './Transform';
+import { BaseWidget } from './widgets/BaseWidget';
 
 // Simple AABB collision detection returns true/false? if intersecting
 export function IsIntersecting(posToChck: Vec2, objPos: Vec2, objDim: Dimensions): boolean {

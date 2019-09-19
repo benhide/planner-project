@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EventBus, GameEvent } from '../engine/index';
+import { EventBus, GameEvent } from '../engine/EventBus';
 import { Kitchen } from '../engine/Kitchen';
 
 export const Planner: React.FunctionComponent = () => {

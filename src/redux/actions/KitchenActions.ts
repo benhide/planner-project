@@ -1,5 +1,5 @@
+import { BaseWidget } from '../../engine/widgets/BaseWidget';
 import * as types from '../actions/ActionTypes';
-import { BaseWidget } from '../../engine/widgets';
 
 // Action creator
 export function AddUnit(unit: BaseWidget) {
@@ -13,15 +13,35 @@ export function RemoveUnit(unit: BaseWidget) {
 
 // Action creator
 export function AddWallunit(wallunit: BaseWidget) {
-    return { type: 'WALLUNIT_ADDED', wallunit };
+    return { type: types.WALLUNIT_ADDED, wallunit };
+}
+
+// Action creator
+export function RemoveWallunit(wallunit: BaseWidget) {
+    return { type: types.WALLUNIT_REMOVED, wallunit };
 }
 
 // Action creator
 export function AddWall(wall: BaseWidget) {
-    return { type: 'WALL_ADDED', wall };
+    return { type: types.WALL_ADDED, wall };
+}
+
+// Action creator
+export function RemoveWall(wall: BaseWidget) {
+    return { type: types.WALL_REMOVED, wall };
 }
 
 // Action creator
 export function AddWorktop(worktop: BaseWidget) {
-    return { type: 'WORKTOP_ADDED', worktop };
+    return { type: types.WORKTOP_ADDED, worktop };
+}
+
+// Action creator
+export function RemoveWorktop(worktop: BaseWidget) {
+    return { type: types.WORKTOP_REMOVED, worktop };
+}
+
+// Action creator
+export function RemoveWidget(widget: BaseWidget) {
+    return { type: types.WIDGET_REMOVED, widget };
 }

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { KitchenReducer } from './KitchenReducer';
+import { RemoveWidget, Units, Walls, Wallunits, Worktops } from './KitchenReducer';
 
 // const initialState = {
 //     units: 0,
@@ -9,5 +9,9 @@ import { KitchenReducer } from './KitchenReducer';
 // };
 
 export const RootReducer = combineReducers({
-    KitchenReducer,
+    Units,
+    Wallunits,
+    Worktops,
+    Walls,
+    RemoveWidget,
 });
