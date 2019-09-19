@@ -1,9 +1,10 @@
 import { Button, Paper, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
-import { DEFUALT_UNIT_DIM, DEFUALT_WALLUNIT_DIM, DEFUALT_WALL_DIM, DEFUALT_WORKTOP_DIM } from '../engine/Defaults';
-import { Kitchen } from '../engine/Kitchen';
+import { DEFUALT_UNIT_DIM, DEFUALT_WALLUNIT_DIM, DEFUALT_WALL_DIM, DEFUALT_WORKTOP_DIM } from '../Defaults';
 import { ItemDetails } from './ItemDetails';
+import { Kitchen } from '../engine/Kitchen';
+// import { AddItem } from '../engine/Widgets';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -29,21 +30,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export function ToolBox() {
     const style = useStyles();
 
-    // const [localState, setLocalState] = React.useState({
-    //     units: 0,
-    //     wallunits: 0,
-    //     worktops: 0,
-    //     walls: 0,
-    // });
-
-    // const dispatch = useDispatch();
-
     // Adds a unit to the kitchen
     function addUnit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         Kitchen.getInstance().addItem(DEFUALT_UNIT_DIM.w, DEFUALT_UNIT_DIM.l, e.clientX, e.clientY, false, true, 'add_unit');
-        // const state = { ...localState, units: localState.units += 1 };
-        // setLocalState(state);
-        // // dispatch(AddItem(localState.units));
     }
 
     // Adds a worktop to the kitchen
@@ -92,24 +81,3 @@ export function ToolBox() {
         </div>
     );
 }
-
-// const mapStateToProps = (state: any) => {
-//     // stuff
-//     return {
-//         unit: state.units,
-//     };
-// };
-
-// function mapDispatchToProps() {
-//     // more stuff
-// }
-
-// const connectedStateAndProps = connect(
-//     null,
-//     // mapDispatchToProps,
-// );
-
-// export default connectedStateAndProps(ToolBox);
-
-// import { useDispatch } from 'react-redux';
-// import { AddItem } from '../redux/actions/KitchenActions';

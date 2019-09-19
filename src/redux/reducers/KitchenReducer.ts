@@ -1,4 +1,5 @@
 import * as types from '../actions/ActionTypes';
+// import initialState from './IntialState';
 
 export function Units(state: any = [], action: any) {
     switch (action.type) {
@@ -40,14 +41,14 @@ export function Worktops(state: any = [], action: any) {
     }
 }
 
-export function RemoveWidget(state: any = [], action: any) {
-    switch (action.type) {
-        case types.WIDGET_REMOVED:
-            // tslint:disable-next-line: no-console
-            console.log(action.widget);
-            return state;
-        // return [...state, { ...action.widget }];
-        default:
-            return state;
-    }
-}
+// export function RemoveWidget(state: any = [], action: any) {
+//     switch (action.type) {
+//         case types.WIDGET_REMOVED:
+//             // tslint:disable-next-line: no-console
+//             console.log(action.widget);
+//             return state;
+//         // return [...state, { ...action.widget }];
+//         default:
+//             return state;
+//     }
+// }

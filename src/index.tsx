@@ -5,9 +5,7 @@ import { Basket } from './components/Basket';
 import { NavBar } from './components/NavBar';
 import { Planner } from './components/Planner';
 import { ToolBox } from './components/ToolBox';
-import { ConfigureStore } from './redux/ConfigureStore';
-
-export const Store = ConfigureStore({});
+import { Store } from './redux/ConfigureStore';
 
 ReactDOM.render(
     (

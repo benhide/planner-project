@@ -1,12 +1,12 @@
-import { Store } from '..';
+import { BaseWidget } from '../engine/widgets/BaseWidget';
+import { Unit } from '../engine/widgets/Unit';
+import { Wall } from '../engine/widgets/Wall';
+import { WallUnit } from '../engine/widgets/WallUnit';
+import { WorkTop } from '../engine/widgets/Worktop';
+import { AddUnit, AddWall, AddWallunit, AddWorktop, RemoveWidget } from '../redux/actions/KitchenActions';
+import { Store } from '../redux/ConfigureStore';
+import { DEFAULT_UNIT_ZINDEX, DEFAULT_WALLUNIT_ZINDEX, DEFAULT_WALL_ZINDEX, DEFAULT_WORKTOP_ZINDEX } from '../Defaults';
 import { ID } from './ID';
-import { DEFAULT_UNIT_ZINDEX, DEFAULT_WALLUNIT_ZINDEX, DEFAULT_WORKTOP_ZINDEX, DEFAULT_WALL_ZINDEX } from './Defaults';
-import { BaseWidget } from './widgets/BaseWidget';
-import { Unit } from './widgets/Unit';
-import { WorkTop } from './widgets/Worktop';
-import { WallUnit } from './widgets/WallUnit';
-import { Wall } from './widgets/Wall';
-import { AddUnit, AddWorktop, AddWallunit, AddWall, RemoveWidget } from '../redux/actions/KitchenActions';
 
 // The kitchen class
 export class Kitchen {
@@ -78,64 +78,28 @@ export class Kitchen {
         let item: BaseWidget;
         switch (type) {
             case 'add_unit':
-                item = new Unit(
-                    width,
-                    length,
-                    x,
-                    y,
-                    DEFAULT_UNIT_ZINDEX,
-                    ID(DEFAULT_UNIT_ZINDEX),
-                    isScalable,
-                    isRotatable,
-                );
+                item = new Unit(width, length, x, y, DEFAULT_UNIT_ZINDEX, ID(DEFAULT_UNIT_ZINDEX), isScalable, isRotatable);
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
                 Store.dispatch(AddUnit(item));
                 break;
             case 'add_worktop':
-                item = new WorkTop(
-                    width,
-                    length,
-                    x,
-                    y,
-                    DEFAULT_WORKTOP_ZINDEX,
-                    ID(DEFAULT_WORKTOP_ZINDEX),
-                    isScalable,
-                    isRotatable,
-                );
+                item = new WorkTop(width, length, x, y, DEFAULT_WORKTOP_ZINDEX, ID(DEFAULT_WORKTOP_ZINDEX), isScalable, isRotatable);
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
                 Store.dispatch(AddWorktop(item));
                 break;
             case 'add_wallunit':
-                item = new WallUnit(
-                    width,
-                    length,
-                    x,
-                    y,
-                    DEFAULT_WALLUNIT_ZINDEX,
-                    ID(DEFAULT_WALLUNIT_ZINDEX),
-                    isScalable,
-                    isRotatable,
-                );
+                item = new WallUnit(width, length, x, y, DEFAULT_WALLUNIT_ZINDEX, ID(DEFAULT_WALLUNIT_ZINDEX), isScalable, isRotatable);
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
                 Store.dispatch(AddWallunit(item));
                 break;
             case 'add_wall':
-                item = new Wall(
-                    width,
-                    length,
-                    x,
-                    y,
-                    DEFAULT_WALL_ZINDEX,
-                    ID(DEFAULT_WALL_ZINDEX),
-                    isScalable,
-                    isRotatable,
-                );
+                item = new Wall(width, length, x, y, DEFAULT_WALL_ZINDEX, ID(DEFAULT_WALL_ZINDEX), isScalable, isRotatable);
                 item.isSelected = true;
                 item.isHeld = true;
                 this.widgets.push(item);
@@ -146,6 +110,35 @@ export class Kitchen {
         }
 
         this.sortArrayByZIndex();
+    }
+    public selectTopItem(): void {
+        let index = -1;
+        if (this.widgets.length > 0) {
+            for (let i = 0; i < this.widgets.length; i++) {
+                if (this.widgets[i].isSelected) {
+                    index = i;
+                    this.widgets[i].isSelected = false;
+                }
+            }
+            if (index >= 0) {
+                this.widgets[index].isSelected = true;
+            }
+        }
+    }
+
+    public removeTopItem(): void {
+        let index = -1;
+        if (this.widgets.length > 0) {
+            for (let i = 0; i < this.widgets.length; i++) {
+                if (this.widgets[i].isDeleting) {
+                    index = i;
+                    this.widgets[i].isDeleting = false;
+                }
+            }
+            if (index >= 0) {
+                this.widgets[index].isDeleting = true;
+            }
+        }
     }
 
     // Remove an item

@@ -1,8 +1,8 @@
 import { IsColliding, IsIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
-import { Kitchen } from '../Kitchen';
+import { Kitchen } from '../../engine/Kitchen';
 import { CheckBounding, CollisionSnapping, SnapToGrid, SnapToSize } from '../Snapping';
-import { RemoveTopItem, SelectTopItem } from '../TopItem';
+// import { RemoveTopItem, SelectTopItem } from '../TopItem';
 import { Dimensions, Vec2 } from '../Transform';
 import { DrawWidgets } from '../widgets/DrawWidgets';
 
@@ -252,7 +252,7 @@ export class BaseWidget {
             new Vec2(this.position.x, this.position.y),
             new Dimensions(15, 15),
         );
-        RemoveTopItem();
+        Kitchen.getInstance().removeTopItem();
     }
 
     // Should we try to rotate the item
@@ -271,6 +271,6 @@ export class BaseWidget {
     // Should we try to select the item
     private shouldSelect(e: any): void {
         this.isSelected = IsIntersecting(new Vec2(e.x as number, e.y as number), this.position, this.dimensions);
-        SelectTopItem();
+        Kitchen.getInstance().selectTopItem();
     }
 }
