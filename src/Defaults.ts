@@ -12,4 +12,4 @@ export const DEFUALT_WALL_DIM: Dimensions = new Dimensions(40, 40);
 
 export const DEFUALT_UNIT_PRICE: number = 44.99;
 export const DEFUALT_WALLUNIT_PRICE: number = 34.99;
-export const DEFUALT_WORKTOP_PRICE: number = 54.99;
+export const DEFUALT_WORKTOP_PRICE: number = 40.99;
