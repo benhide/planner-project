@@ -7,6 +7,7 @@ import { Planner } from './components/Planner';
 import { ToolBox } from './components/ToolBox';
 import { Store } from './redux/ConfigureStore';
 
+// React render
 ReactDOM.render(
     (
         <Provider store={Store}>

@@ -1,12 +1,12 @@
+// import { DEFAULT_UNIT_ZINDEX, DEFAULT_WALLUNIT_ZINDEX, DEFAULT_WALL_ZINDEX, DEFAULT_WORKTOP_ZINDEX } from '../Defaults';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
-import { Unit } from '../engine/widgets/Unit';
-import { Wall } from '../engine/widgets/Wall';
-import { WallUnit } from '../engine/widgets/WallUnit';
-import { WorkTop } from '../engine/widgets/Worktop';
-import { AddUnit, AddWall, AddWallunit, AddWorktop, RemoveWidget } from '../redux/actions/KitchenActions';
-import { Store } from '../redux/ConfigureStore';
-import { DEFAULT_UNIT_ZINDEX, DEFAULT_WALLUNIT_ZINDEX, DEFAULT_WALL_ZINDEX, DEFAULT_WORKTOP_ZINDEX } from '../Defaults';
-import { ID } from './ID';
+// import { Unit } from '../engine/widgets/Unit';
+// import { Wall } from '../engine/widgets/Wall';
+// import { WallUnit } from '../engine/widgets/WallUnit';
+// import { WorkTop } from '../engine/widgets/Worktop';
+// import { AddUnit, AddWall, AddWallunit, AddWorktop, RemoveUnit, RemoveWallunit, RemoveWorktop } from '../redux/actions/KitchenActions';
+// import { Store } from '../redux/ConfigureStore';
+// import { ID } from './ID';
 
 // The kitchen class
 export class Kitchen {
@@ -73,44 +73,7 @@ export class Kitchen {
         });
     }
 
-    // Add an item
-    public addItem(width: number, length: number, x: number, y: number, isScalable: boolean, isRotatable: boolean, type: string): void {
-        let item: BaseWidget;
-        switch (type) {
-            case 'add_unit':
-                item = new Unit(width, length, x, y, DEFAULT_UNIT_ZINDEX, ID(DEFAULT_UNIT_ZINDEX), isScalable, isRotatable);
-                item.isSelected = true;
-                item.isHeld = true;
-                this.widgets.push(item);
-                Store.dispatch(AddUnit(item));
-                break;
-            case 'add_worktop':
-                item = new WorkTop(width, length, x, y, DEFAULT_WORKTOP_ZINDEX, ID(DEFAULT_WORKTOP_ZINDEX), isScalable, isRotatable);
-                item.isSelected = true;
-                item.isHeld = true;
-                this.widgets.push(item);
-                Store.dispatch(AddWorktop(item));
-                break;
-            case 'add_wallunit':
-                item = new WallUnit(width, length, x, y, DEFAULT_WALLUNIT_ZINDEX, ID(DEFAULT_WALLUNIT_ZINDEX), isScalable, isRotatable);
-                item.isSelected = true;
-                item.isHeld = true;
-                this.widgets.push(item);
-                Store.dispatch(AddWallunit(item));
-                break;
-            case 'add_wall':
-                item = new Wall(width, length, x, y, DEFAULT_WALL_ZINDEX, ID(DEFAULT_WALL_ZINDEX), isScalable, isRotatable);
-                item.isSelected = true;
-                item.isHeld = true;
-                this.widgets.push(item);
-                Store.dispatch(AddWall(item));
-                break;
-            default:
-                break;
-        }
-
-        this.sortArrayByZIndex();
-    }
+    // Only select the top widget
     public selectTopItem(): void {
         let index = -1;
         if (this.widgets.length > 0) {
@@ -126,6 +89,7 @@ export class Kitchen {
         }
     }
 
+    // Only remove the top widget
     public removeTopItem(): void {
         let index = -1;
         if (this.widgets.length > 0) {
@@ -142,23 +106,26 @@ export class Kitchen {
     }
 
     // Remove an item
-    public removeItem(id: number): void {
+    public removeItem(id: number): boolean {
         for (let i = 0; i < this.widgets.length; i++) {
             if (this.widgets[i].id === id) {
-                Store.dispatch(RemoveWidget(this.widgets[i]));
                 this.widgets.splice(i, 1);
+                return true;
             }
         }
-
-        // // tslint:disable-next-line:no-console
-        // console.log(this.widgets);
+        return false;
     }
 
     // Sort the array for what to draw first
-    private sortArrayByZIndex(): void {
+    public sortArrayByZIndex(): void {
         this.widgets.sort((a, b) => (a.zIndex > b.zIndex ? 1 : -1));
+    }
 
-        // // tslint:disable-next-line:no-console
-        // console.log(this.widgets);
+    // Canvas dimensions getters
+    get canvasWidth(): number {
+        return this.canvas.width;
+    }
+    get canvasHeight(): number {
+        return this.canvas.height;
     }
 }

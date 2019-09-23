@@ -1,10 +1,20 @@
+import { Kitchen } from '../../engine/Kitchen';
+import { RemoveWidget, UpdateWidget } from '../../redux/actions/KitchenActions';
+import { Store } from '../../redux/ConfigureStore';
 import { IsColliding, IsIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
-import { Kitchen } from '../../engine/Kitchen';
 import { CheckBounding, CollisionSnapping, SnapToGrid, SnapToSize } from '../Snapping';
-// import { RemoveTopItem, SelectTopItem } from '../TopItem';
 import { Dimensions, Vec2 } from '../Transform';
 import { DrawWidgets } from '../widgets/DrawWidgets';
+
+//   RemoveUnit,
+//     RemoveWall,
+//     RemoveWallunit,
+//     RemoveWorktop,
+//     UpdateUnit,
+//     UpdateWall,
+//     UpdateWorktop,
+//     UpdateWallunit,
 
 export class BaseWidget {
     // Booleans for the widget
@@ -62,7 +72,7 @@ export class BaseWidget {
                 this.scale(e);
             }
             if (this.isRotatable && this.isRotating) {
-                this.rotate(e);
+                // this.rotate(e);
             }
         });
 
@@ -81,9 +91,16 @@ export class BaseWidget {
         });
 
         EventBus.subscribe(GameEvent.MouseUp, (e: any) => {
-            this.isSelected = false;
-            this.isScaling = false;
-            this.isHeld = false;
+            if (this.isSelected) {
+                this.isHeld = false;
+                this.isSelected = false;
+                this.update();
+            }
+
+            if (this.isScaling) {
+                this.isScaling = false;
+            }
+
             this.isColliding = false;
             this.isRotating = false;
 
@@ -114,6 +131,7 @@ export class BaseWidget {
         // Get the canvas and context for reference
         const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
+        // Draw object items if needed
         if (this.isRotatable) {
             this.drawWidget.drawRotatingBox(ctx, this.position, this.dimensions);
         }
@@ -138,29 +156,30 @@ export class BaseWidget {
             }
         }
 
-        //
+        // Make sure it is side the canvas bounds
         CheckBounding(this);
 
-        const canvas = document.createElement('canvas');
-        //
+        // Scale the item
         this.dimensions.w = e.x - this.position.x;
         this.dimensions.l = e.y - this.position.y;
 
-        //
+        // Get the canvas and keep the scaled size inside the canvas bounds (width)
+        const cw = Kitchen.getInstance().canvasWidth;
+        const ch = Kitchen.getInstance().canvasHeight;
         if (this.dimensions.w < this.defaultWidth) {
             this.dimensions.w = this.defaultWidth;
-        } else if (this.dimensions.w > canvas.width) {
-            this.dimensions.w = canvas.width;
+        } else if (this.dimensions.w > cw) {
+            this.dimensions.w = cw;
         }
 
-        //
+        // Keep the scaled size inside the canvas bounds (length)
         if (this.dimensions.l < this.defaultLength) {
             this.dimensions.l = this.defaultLength;
-        } else if (this.dimensions.l > canvas.height) {
-            this.dimensions.l = canvas.height;
+        } else if (this.dimensions.l > ch) {
+            this.dimensions.l = ch;
         }
 
-        //
+        // Snap to the grid size
         SnapToSize(this);
     }
 
@@ -168,12 +187,12 @@ export class BaseWidget {
     private move(e: any): void {
         const offset = new Vec2(this.dimensions.w * 0.5, this.dimensions.l * 0.5);
 
-        //
+        // The last valid position the object was in without colliding
         this.lastValidPosition = this.position;
         this.setPosition(-offset.x + e.x, -offset.y + e.y);
         CheckBounding(this);
 
-        //
+        // Collision detection
         const collidingIDs = this.collisionDetection();
         for (const id of collidingIDs) {
             if (id !== -1) {
@@ -182,39 +201,44 @@ export class BaseWidget {
             }
         }
 
-        //
+        // Second phase of collision detection
         for (const id of collidingIDs) {
             if (IsColliding(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!)) {
                 this.setPosition(this.lastValidPosition.x, this.lastValidPosition.y);
             }
         }
 
-        //
+        // Snap to the grid position
         SnapToGrid(this);
     }
 
-    // Roate an item
-    private rotate(e: any): Vec2 {
-        this.angle = this.mouseDownPos.getAngleDegrees(new Vec2(e.x as number, e.y as number)) + 180;
+    // // Roate an item
+    // private rotate(e: any): Vec2 {
+    //     this.angle = this.mouseDownPos.getAngleDegrees(new Vec2(e.x as number, e.y as number)) + 180;
+    //     // tslint:disable-next-line:no-console
+    //     console.log(this.angle);
+    //     //
+    //     if (this.angle > 45 && this.angle < 135) {
+    //         return new Vec2(0, 1);
+    //     } else if (this.angle > 135 && this.angle < 225) {
+    //         return new Vec2(1, 0);
+    //     } else if (this.angle > 225 && this.angle < 315) {
+    //         return new Vec2(0, -1);
+    //     } else {
+    //         return new Vec2(-1, 0);
+    //     }
+    // }
 
-        // tslint:disable-next-line:no-console
-        console.log(this.angle);
-
-        //
-        if (this.angle > 45 && this.angle < 135) {
-            return new Vec2(0, 1);
-        } else if (this.angle > 135 && this.angle < 225) {
-            return new Vec2(1, 0);
-        } else if (this.angle > 225 && this.angle < 315) {
-            return new Vec2(0, -1);
-        } else {
-            return new Vec2(-1, 0);
-        }
+    // Update the store
+    private update(): void {
+        Store.dispatch(UpdateWidget(this));
     }
 
     // Delete an item
     private delete(): void {
-        Kitchen.getInstance().removeItem(this.id);
+        if (Kitchen.getInstance().removeItem(this.id)) {
+            Store.dispatch(RemoveWidget(this));
+        }
     }
 
     // Collision detection
@@ -225,12 +249,15 @@ export class BaseWidget {
                 continue;
             }
 
+            // Only matching z indexs and z indexs of '4' collide
             if (this.zIndex === item.zIndex || (this.zIndex === 4 || item.zIndex === 4)) {
                 if (IsColliding(this, item)) {
                     id.push(item.id);
                 }
             }
         }
+
+        // the colliding ids
         return id;
     }
 

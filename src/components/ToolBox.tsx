@@ -1,11 +1,29 @@
 import { Button, Paper, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
-import { DEFUALT_UNIT_DIM, DEFUALT_WALLUNIT_DIM, DEFUALT_WALL_DIM, DEFUALT_WORKTOP_DIM } from '../Defaults';
-import { ItemDetails } from './ItemDetails';
+import {
+    DEFAULT_UNIT_ZINDEX,
+    DEFAULT_WALLUNIT_ZINDEX,
+    DEFAULT_WALL_ZINDEX,
+    DEFAULT_WORKTOP_ZINDEX,
+    DEFUALT_UNIT_DIM,
+    DEFUALT_WALLUNIT_DIM,
+    DEFUALT_WALL_DIM,
+    DEFUALT_WORKTOP_DIM,
+} from '../utilities/Defaults';
+import { GenerateId } from '../engine/WidgetsID';
 import { Kitchen } from '../engine/Kitchen';
+import { Unit } from '../engine/widgets/Unit';
+import { Wall } from '../engine/widgets/Wall';
+import { WallUnit } from '../engine/widgets/WallUnit';
+import { WorkTop } from '../engine/widgets/Worktop';
+import { AddWidget } from '../redux/actions/KitchenActions';
+import { Store } from '../redux/ConfigureStore';
+import { ItemDetails } from './ItemDetails';
 // import { AddItem } from '../engine/Widgets';
+//  AddUnit, AddWall, AddWallunit, AddWorktop;
 
+// Component styling
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         button: {
@@ -27,28 +45,85 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export function ToolBox() {
+// Toolbox react component
+export const ToolBox = () => {
     const style = useStyles();
 
     // Adds a unit to the kitchen
-    function addUnit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        Kitchen.getInstance().addItem(DEFUALT_UNIT_DIM.w, DEFUALT_UNIT_DIM.l, e.clientX, e.clientY, false, true, 'add_unit');
-    }
+    const addUnit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const unit = new Unit(
+            DEFUALT_UNIT_DIM.w,
+            DEFUALT_UNIT_DIM.l,
+            e.clientX,
+            e.clientY,
+            DEFAULT_UNIT_ZINDEX,
+            GenerateId.nextUnitId(),
+            false,
+            true,
+        );
+        unit.isSelected = true;
+        unit.isHeld = true;
+        Kitchen.getInstance().widgets.push(unit);
+        Kitchen.getInstance().sortArrayByZIndex();
+        Store.dispatch(AddWidget(unit));
+    };
 
     // Adds a worktop to the kitchen
-    function addWorktop(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        Kitchen.getInstance().addItem(DEFUALT_WORKTOP_DIM.w, DEFUALT_WORKTOP_DIM.l, e.clientX, e.clientY, true, true, 'add_worktop');
-    }
+    const addWorktop = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const worktop = new WorkTop(
+            DEFUALT_WORKTOP_DIM.w,
+            DEFUALT_WORKTOP_DIM.l,
+            e.clientX,
+            e.clientY,
+            DEFAULT_WORKTOP_ZINDEX,
+            GenerateId.nextWorktopId(),
+            true,
+            true,
+        );
+        worktop.isSelected = true;
+        worktop.isHeld = true;
+        Kitchen.getInstance().widgets.push(worktop);
+        Kitchen.getInstance().sortArrayByZIndex();
+        Store.dispatch(AddWidget(worktop));
+    };
 
     // Adds a wall to the kitchen
-    function addWallunit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        Kitchen.getInstance().addItem(DEFUALT_WALLUNIT_DIM.w, DEFUALT_WALLUNIT_DIM.l, e.clientX, e.clientY, false, true, 'add_wallunit');
-    }
+    const addWallunit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const wallunit = new WallUnit(
+            DEFUALT_WALLUNIT_DIM.w,
+            DEFUALT_WALLUNIT_DIM.l,
+            e.clientX,
+            e.clientY,
+            DEFAULT_WALLUNIT_ZINDEX,
+            GenerateId.nextWallunitId(),
+            false,
+            true,
+        );
+        wallunit.isSelected = true;
+        wallunit.isHeld = true;
+        Kitchen.getInstance().widgets.push(wallunit);
+        Kitchen.getInstance().sortArrayByZIndex();
+        Store.dispatch(AddWidget(wallunit));
+    };
 
     // Adds a wall to the kitchen
-    function addWall(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        Kitchen.getInstance().addItem(DEFUALT_WALL_DIM.w, DEFUALT_WALL_DIM.l, e.clientX, e.clientY, true, true, 'add_wall');
-    }
+    const addWall = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const wall = new Wall(
+            DEFUALT_WALL_DIM.w,
+            DEFUALT_WALL_DIM.l,
+            e.clientX,
+            e.clientY,
+            DEFAULT_WALL_ZINDEX,
+            GenerateId.nextWallId(),
+            true,
+            true,
+        );
+        wall.isSelected = true;
+        wall.isHeld = true;
+        Kitchen.getInstance().widgets.push(wall);
+        Kitchen.getInstance().sortArrayByZIndex();
+        Store.dispatch(AddWidget(wall));
+    };
 
     // Render the jsx
     return (
@@ -80,4 +155,4 @@ export function ToolBox() {
             </Paper>
         </div>
     );
-}
+};

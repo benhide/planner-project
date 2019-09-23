@@ -1,4 +1,4 @@
-import { IRenderable, IRotatable, IScalable, ISelectable } from '../Interfaces';
+import { IRenderable, IRotatable, IScalable, ISelectable } from '../../utilities/Interfaces';
 import { Dimensions, Vec2 } from '../Transform';
 import { BaseWidget } from '../widgets/BaseWidget';
 

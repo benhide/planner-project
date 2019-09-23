@@ -1,4 +1,5 @@
-import { GameEvent } from './EventBus';
+import { GameEvent } from '../engine/EventBus';
+import { BaseWidget } from '../engine/widgets/BaseWidget';
 
 // An event subscription takes an event and a
 // subscription function
@@ -7,6 +8,7 @@ export interface IEventSubscription {
     fn: SubscriptionFn;
 }
 
+// Subscription function
 export type SubscriptionFn = (data: object) => void;
 
 // Can it be rendered
@@ -27,4 +29,19 @@ export interface IScalable {
 // Can it be selected
 export interface ISelectable {
     isSelected: boolean;
+}
+
+// Basket item interface
+export interface IItem {
+    desc: string;
+    qty: number;
+    m2: number;
+    price: number;
+    total: number;
+}
+
+// Redux planner state
+export interface IPlannerState {
+    Widgets: BaseWidget[];
+    Id: string;
 }

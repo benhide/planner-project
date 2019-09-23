@@ -1,4 +1,4 @@
-import * as subscription from './Interfaces';
+import * as subscription from '../utilities/Interfaces';
 
 // Type of event
 export enum GameEvent {

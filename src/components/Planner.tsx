@@ -4,19 +4,18 @@ import { Kitchen } from '../engine/Kitchen';
 
 export const Planner: React.FunctionComponent = () => {
     // Width of the canvas will match width of the screen
-    function sizeCanvas(canvas: HTMLCanvasElement) {
+    const sizeCanvas = (canvas: HTMLCanvasElement) => {
         canvas.width = window.innerWidth * 0.6;
         canvas.height = window.innerHeight * 0.9;
         canvas.style.padding = '0px';
         canvas.style.margin = '0px auto';
         canvas.style.marginTop = '20px';
         canvas.style.display = 'block';
-    }
+    };
 
     // Called from init creates the canvas and adds it to the docuumnet
-    function createCanvas(): HTMLCanvasElement {
+    const createCanvas = (): HTMLCanvasElement => {
         const wrapper = document.getElementById('canvasWrapper');
-
         const canvas = document.createElement('canvas');
         canvas.id = 'canvas';
         if (wrapper) {
@@ -73,10 +72,10 @@ export const Planner: React.FunctionComponent = () => {
         });
 
         return canvas;
-    }
+    };
 
     // Called first initialises the canvas, context and kitchen
-    function init(): void {
+    const init = (): void => {
         const canvas = createCanvas();
         canvas.style.background = 'rgba(110, 110, 110, 0.5)';
 
@@ -95,7 +94,7 @@ export const Planner: React.FunctionComponent = () => {
 
         // Draw called
         draw();
-    }
+    };
 
     // When the dom has loaded initialise!
     window.addEventListener('DOMContentLoaded', () => init());

@@ -5,7 +5,10 @@
     "main": "index.js",
     "scripts": {
         "build": "webpack",
-        "start": "webpack-dev-server --open"
+        "start": "run-p start:dev start:api",
+        "start:dev": "webpack-dev-server --open",
+        "prestart:api": "node tools/createMockDb.js",
+        "start:api": "node tools/apiServer.js"
     },
     "keywords": [],
     "author": "",
@@ -15,6 +18,7 @@
         "@material-ui/icons": "^4.4.1",
         "@types/cors": "^2.8.6",
         "@types/express": "^4.17.1",
+        "@types/json-server": "^0.14.1",
         "@types/material-ui": "^0.21.7",
         "@types/node": "^12.7.4",
         "@types/react": "^16.9.2",
@@ -26,11 +30,15 @@
         "circular-dependency-plugin": "^5.2.0",
         "cors": "^2.8.5",
         "express": "^4.17.1",
+        "immer": "^4.0.0",
+        "json-server": "^0.15.1",
+        "npm-run-all": "^4.1.5",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
         "react-redux": "^7.1.1",
         "react-toastify": "^5.3.2",
-        "redux-immutable-state-invariant": "^2.1.0"
+        "redux-immutable-state-invariant": "^2.1.0",
+        "redux-thunk": "^2.3.0"
     },
     "devDependencies": {
         "@babel/core": "7.3.4",

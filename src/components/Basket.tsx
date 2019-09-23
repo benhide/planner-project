@@ -2,16 +2,19 @@ import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typogr
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { DEFUALT_UNIT_PRICE, DEFUALT_WALLUNIT_PRICE, DEFUALT_WORKTOP_PRICE } from '../Defaults';
+import {
+    DEFUALT_UNIT_PRICE,
+    DEFUALT_WALLUNIT_PRICE,
+    DEFUALT_WORKTOP_PRICE,
+    SHIPPING_RATE,
+    TAX_RATE,
+    UNITS_BASKET_DESC,
+    WALLUNITS_BASKET_DESC,
+    WORKTOP_BASKET_DESC,
+} from '../utilities/Defaults';
+import { IItem, IPlannerState } from '../utilities/Interfaces';
 
-interface IItem {
-    desc: string;
-    qty: number;
-    m2: number;
-    price: number;
-    total: number;
-}
-
+// Styling for the component
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         button: {
@@ -36,63 +39,85 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export function Basket(): JSX.Element {
-    const TAX_RATE = 0.2;
-    const SHIPPING_RATE = 0.25;
-    const itemsArray: IItem[] = [];
+// Basket component
+export const Basket = (): JSX.Element => {
+    // The basket items
+    const basketItems: IItem[] = [];
 
-    const UNITS_ID = 'Units';
-    const WALLUNITS_ID = 'Wall-units';
-    const WORKTOP_ID = 'Worktops';
-
+    // The component styling
     const style = useStyles();
 
-    function currencyFormat(num: number) {
+    // Format the number to currency formatting
+    const currencyFormat = (num: number) => {
         return `${num.toFixed(2)}`;
-    }
+    };
 
-    function createItem(desc: string, m2: number, qty: number, price: number): IItem {
+    // Craete an item in the basket items array
+    const createItem = (desc: string, m2: number, qty: number, price: number): IItem => {
         const total = qty * price;
         return { desc, qty, m2, price, total };
-    }
+    };
 
-    function updateItems(currentItems: object): void {
-        while (itemsArray.length > 0) {
-            itemsArray.pop();
+    // Update the basket
+    const updateBasket = (): void => {
+        // ************************************
+        // CAN BE IMPROVED!!
+        // TODO: ADD TO ARRAY WHEN ID MISSING
+        // ************************************
+        while (basketItems.length > 0) {
+            basketItems.pop();
         }
 
-        const unitCount = Object.values(currentItems)[0].length;
-        const wallunitCount = Object.values(currentItems)[1].length;
-        const worktopCount = Object.values(currentItems)[2].length;
+        // Counts for basket items
+        let unitCount = 0;
+        let worktopCount = 0;
+        let wallunitCount = 0;
 
-        function worktopMetersSquared(): number {
-            const worktops = Object.values(currentItems)[2] as object[];
+        // Count basket items
+        for (const widget of currentState.Widgets) {
+            unitCount = widget.id >= 100 && widget.id < 200 ? (unitCount += 1) : unitCount;
+            worktopCount = widget.id >= 200 && widget.id < 300 ? (worktopCount += 1) : worktopCount;
+            wallunitCount = widget.id >= 300 && widget.id < 400 ? (wallunitCount += 1) : wallunitCount;
+        }
+
+        // Calculate the worktop square meterage
+        const worktopMetersSquared = (): number => {
             let sum = 0;
-            worktops.forEach((i) => {
-                sum += (Object.values(i)[0].w / 100) * (Object.values(i)[0].l / 100);
+            currentState.Widgets.forEach((widget) => {
+                if (widget.id >= 200 && widget.id < 300) {
+                    sum += (widget.dimensions.w / 100) * (widget.dimensions.l / 100);
+                }
             });
             return sum;
-        }
+        };
 
+        // ************************************
+        // CAN BE IMPROVED!!
+        // TODO: ADD TO ARRAY WHEN ID MISSING
+        // ************************************
+        // Push items to the basket
         if (unitCount > 0) {
-            itemsArray.push(createItem(UNITS_ID, 0, unitCount, DEFUALT_UNIT_PRICE));
+            basketItems.push(createItem(UNITS_BASKET_DESC, 0, unitCount, DEFUALT_UNIT_PRICE));
         }
         if (wallunitCount > 0) {
-            itemsArray.push(createItem(WALLUNITS_ID, 0, wallunitCount, DEFUALT_WALLUNIT_PRICE));
+            basketItems.push(createItem(WALLUNITS_BASKET_DESC, 0, wallunitCount, DEFUALT_WALLUNIT_PRICE));
         }
         if (worktopCount > 0) {
-            itemsArray.push(createItem(WORKTOP_ID, worktopMetersSquared(), worktopCount, DEFUALT_WORKTOP_PRICE));
+            basketItems.push(createItem(WORKTOP_BASKET_DESC, worktopMetersSquared(), worktopCount, DEFUALT_WORKTOP_PRICE));
         }
-    }
+    };
 
-    const currentState = useSelector((state) => (state as any) as object);
-    updateItems(currentState);
+    // Get the current state from redux store and update the basket
+    const currentState = useSelector((state) => state as IPlannerState);
+    updateBasket();
 
-    const subtotal = itemsArray.map(({ total }) => total).reduce((sum, i) => sum + i, 0);
+    // Calculate the totals
+    const subtotal = basketItems.map(({ total }) => total).reduce((sum, i) => sum + i, 0);
     const invoiceTaxes = TAX_RATE * subtotal;
     const shippingTotal = SHIPPING_RATE * subtotal;
     const invoiceTotal = subtotal + invoiceTaxes + shippingTotal;
 
+    // Genereate the data for each row
     const row = (item: IItem): JSX.Element => {
         const sqrd = (
             <span>
@@ -100,6 +125,8 @@ export function Basket(): JSX.Element {
                 <sup>2</sup>
             </span>
         );
+
+        // Return the JSX
         return (
             <TableRow key={item.desc}>
                 <TableCell className={style.cell}>{item.desc}</TableCell>
@@ -117,7 +144,7 @@ export function Basket(): JSX.Element {
         );
     };
 
-    // Render the jsx
+    // Render the JSX
     return (
         <div>
             <Paper className={style.root}>
@@ -141,7 +168,7 @@ export function Basket(): JSX.Element {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {itemsArray.map((item) => row(item))}
+                        {basketItems.map((item) => row(item))}
                         <TableRow>
                             <TableCell className={style.cell} rowSpan={4} />
                             <TableCell className={style.cell} colSpan={3}>
@@ -176,4 +203,4 @@ export function Basket(): JSX.Element {
             </Paper>
         </div>
     );
-}
+};

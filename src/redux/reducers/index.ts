@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
-import { Units, Walls, Wallunits, Worktops } from './KitchenReducer';
+import { widgetsReducer, kitchenReducer } from './KitchenReducer';
 
-// const initialState = {
-//     units: 0,
-//     walls: 0,
-//     worktops: 0,
-//     wallunits: 0,
-// };
-
-export const RootReducer = combineReducers({
-    Units,
-    Wallunits,
-    Worktops,
-    Walls,
+// The root reducer
+// **********************************************
+// TODO: LOADING AND SAVING FROM SERVER REDUCER
+// **********************************************
+export const RootReducer = combineReducers<any>({
+    Widgets: widgetsReducer,
+    Kitchen: kitchenReducer,
 });
+
+// Units: unitsReducer,
+// Wallunits: wallunitsReducer,
+// Worktops: worktopsReducer,
+// Walls: wallsReducer,
+
+// unitsReducer, wallsReducer, wallunitsReducer, worktopsReducer,
