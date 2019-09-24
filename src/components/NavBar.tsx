@@ -7,9 +7,9 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { BaseWidget } from '../engine/widgets/BaseWidget';
 import { DeleteKitchen, LoadKitchens, SaveKitchen } from '../redux/actions/KitchenActions';
 import { IPlannerState } from '../redux/reducers/IntialState';
-import { BaseWidget } from '../engine/widgets/BaseWidget';
 
 // Navbar styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,6 +51,7 @@ export const NavBar = () => {
 
     // Get the current state from redux store and update the basket
     const currentState = useSelector((state) => state as IPlannerState);
+    currentState.kitchens.forEach((kitchen) => console.log(kitchen.id));
 
     // Save the current kitchen
     const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
