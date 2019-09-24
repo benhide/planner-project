@@ -12,6 +12,7 @@ const middlewares = jsonServer.defaults({
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
+// server.use(cors());
 
 // To handle POST, PUT and PATCH you need to use a body-parser. Using JSON Server's bodyParser
 server.use(jsonServer.bodyParser);
@@ -21,12 +22,13 @@ server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
     if (req.method === 'POST') {
         req.body.createdAt = Date.now();
+        console.log('POST REQUEST MADE AT ' + req.body.createdAt);
     }
     // Continue to JSON Server router
     next();
 });
 
-server.post('/', function(req, res, next) {
+server.post('/kitchens', function(req, res, next) {
     // const error = validateCourse(req.body);
     // if (error) {
     //     res.status(400).send(error);

@@ -4,9 +4,12 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import * as React from 'react';
-import { useSelector } from 'react-redux';
-import { SaveKitchen } from '../redux/actions/KitchenActions';
-import { IPlannerState } from '../utilities/Interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { DeleteKitchen, LoadKitchens, SaveKitchen } from '../redux/actions/KitchenActions';
+import { IPlannerState } from '../redux/reducers/IntialState';
+import { BaseWidget } from '../engine/widgets/BaseWidget';
 
 // Navbar styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -37,20 +40,36 @@ const useStyles = makeStyles((theme: Theme) =>
 export const NavBar = () => {
     const style = useStyles();
 
-    // React.useEffect(() => {
-    //     LoadKitchen();
-    //     // .catch((error: string) => {
-    //     //     alert('Kitchens failed to load' + error);
-    //     // });
-    // }, []);
+    //
+    const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
+
+    //
+    React.useEffect(() => {
+        dispatch(LoadKitchens());
+        // .catch((error: string) => alert('Kitchens failed to load!\n' + error));
+    }, []);
 
     // Get the current state from redux store and update the basket
-    const currentKitchen = useSelector((state) => state as IPlannerState);
+    const currentState = useSelector((state) => state as IPlannerState);
 
     // Save the current kitchen
     const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        SaveKitchen(currentKitchen);
+        dispatch(SaveKitchen({ id: 0, widgets: new Array<BaseWidget>() }));
+        // .catch((error: string) => alert('Kitchen failed to save!\n' + error));
+    };
+
+    // Load kitchens
+    const loadKitchens = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        dispatch(LoadKitchens());
+        // .catch((error: string) => alert('Kitchens failed to load' + error));
+    };
+
+    const deleteKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        dispatch(DeleteKitchen(currentState.kitchens[0]));
+        // .catch((error: string) => alert('Kitchens failed to load' + error));
     };
 
     // Return the JSX
@@ -64,11 +83,11 @@ export const NavBar = () => {
                     <Button color="inherit" onClick={(e) => saveKitchen(e)}>
                         Save <SaveIcon className={style.rightIcon} />
                     </Button>
-                    <Button color="inherit" onClick={() => alert('load data')}>
+                    <Button color="inherit" onClick={(e) => loadKitchens(e)}>
                         Download
                         <CloudDownloadIcon className={style.rightIcon} />
                     </Button>
-                    <Button color="inherit" onClick={() => alert('delete data')}>
+                    <Button color="inherit" onClick={(e) => deleteKitchen(e)}>
                         Delete
                         <DeleteIcon className={style.rightIcon} />
                     </Button>
@@ -77,6 +96,23 @@ export const NavBar = () => {
         </div>
     );
 };
+
+// function mapStateToProps(state: IPlannerState) {
+//     return {
+//         widgets: state.Widgets,
+//     };
+// }
+
+// function mapDispatchToProps(dispatch: Redux.Dispatch<any>) {
+//     return {
+//         LoadKitchens: () => dispatch(),
+//     };
+// };
+
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps,
+// )(NavBar);
 
 // import MenuIcon from '@material-ui/icons/Menu';
 // import IconButton from '@material-ui/core/IconButton';

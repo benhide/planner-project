@@ -1,6 +1,6 @@
 import { Kitchen } from '../../engine/Kitchen';
 import { RemoveWidget, UpdateWidget } from '../../redux/actions/KitchenActions';
-import { Store } from '../../redux/ConfigureStore';
+import { store } from '../../redux/ConfigureStore';
 import { IsColliding, IsIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
 import { CheckBounding, CollisionSnapping, SnapToGrid, SnapToSize } from '../Snapping';
@@ -231,13 +231,13 @@ export class BaseWidget {
 
     // Update the store
     private update(): void {
-        Store.dispatch(UpdateWidget(this));
+        store.dispatch(UpdateWidget(this));
     }
 
     // Delete an item
     private delete(): void {
         if (Kitchen.getInstance().removeItem(this.id)) {
-            Store.dispatch(RemoveWidget(this));
+            store.dispatch(RemoveWidget(this));
         }
     }
 

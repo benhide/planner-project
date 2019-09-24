@@ -5,12 +5,12 @@ import { Basket } from './components/Basket';
 import { NavBar } from './components/NavBar';
 import { Planner } from './components/Planner';
 import { ToolBox } from './components/ToolBox';
-import { Store } from './redux/ConfigureStore';
+import { store } from './redux/ConfigureStore';
 
 // React render
 ReactDOM.render(
     (
-        <Provider store={Store}>
+        <Provider store={store}>
             <NavBar />
             <ToolBox />
             <Basket />

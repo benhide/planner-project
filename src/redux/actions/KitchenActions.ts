@@ -1,81 +1,145 @@
-import { Dispatch } from 'react';
-import { Action, ActionCreator } from 'redux';
-import { saveKitchen } from '../../api/KitchenApi';
+import { deleteKitchen, loadKitchens, saveKitchen } from '../../api/KitchenApi';
+// import { Action, ActionCreator } from 'redux';
+// import { ThunkAction } from 'redux-thunk';
 import { BaseWidget } from '../../engine/widgets/BaseWidget';
-import { IPlannerState } from '../../utilities/Interfaces';
+import { IKitchen, IPlannerState } from '../reducers/IntialState';
+// import { IPlannerState } from '../../utilities/Interfaces';
 import { KitchenActionTypes, WidgetActionTypes } from './ActionTypes';
+// import { Store } from '../ConfigureStore';
 
-// Interfaces for kitchen actions
-// Widget actions interfaces and types
-// Widget added
-export interface IWidgetAddedAction {
-    type: WidgetActionTypes.WIDGET_ADDED;
-    widget: BaseWidget;
-}
+// // Interfaces for kitchen actions
+// // Widget actions interfaces and types
+// // Widget added
+// export interface IWidgetAddedAction {
+//     type: WidgetActionTypes.WIDGET_ADDED;
+//     widget: BaseWidget;
+// }
 
-// Widget removed
-export interface IWidgetRemovedAction {
-    type: WidgetActionTypes.WIDGET_REMOVED;
-    widget: BaseWidget;
-}
+// // Widget removed
+// export interface IWidgetRemovedAction {
+//     type: WidgetActionTypes.WIDGET_REMOVED;
+//     widget: BaseWidget;
+// }
 
-// Widget updated
-export interface IWidgetUpdatedAction {
-    type: WidgetActionTypes.WIDGET_UPDATED;
-    widget: BaseWidget;
-}
-// Type declarations for the widget actions
-export type WidgetsAction = IWidgetAddedAction | IWidgetRemovedAction | IWidgetUpdatedAction;
+// // Widget updated
+// export interface IWidgetUpdatedAction {
+//     type: WidgetActionTypes.WIDGET_UPDATED;
+//     widget: BaseWidget;
+// }
+// // Type declarations for the widget actions
+// export type WidgetsAction = IWidgetAddedAction | IWidgetRemovedAction | IWidgetUpdatedAction;
 
 // TODO
 export interface IKitchensLoadedAction {
     type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS;
-    kitchen: IPlannerState;
+    kitchens: IKitchen[];
 }
 
 // TODO
 export interface IKitchensSavedAction {
     type: KitchenActionTypes.SAVE_KITCHEN_SUCCESS;
-    kitchen: IPlannerState;
+    kitchen: IKitchen;
 }
 
 // TODO
 export interface IKitchensUpdatedAction {
     type: KitchenActionTypes.UPDATE_KITCHEN_SUCCESS;
-    kitchen: IPlannerState;
+    kitchens: IKitchen[];
 }
 // TODO
-export type KitchenActions = IKitchensSavedAction | IKitchensLoadedAction | IKitchensUpdatedAction;
+export interface IKitchensRemovedAction {
+    type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS;
+    kitchen: IKitchen;
+}
+// TODO
+export type KitchenActions = IKitchensSavedAction | IKitchensLoadedAction | IKitchensUpdatedAction | IKitchensRemovedAction;
 
 // Add widget action creator
-export const AddWidget: ActionCreator<Action> = (widget: BaseWidget) => {
+export const AddWidget = (widget: BaseWidget) => {
     return { type: WidgetActionTypes.WIDGET_ADDED, widget };
 };
 
 // Remove widget action creator
-export function RemoveWidget(widget: BaseWidget) {
+export const RemoveWidget = (widget: BaseWidget) => {
     return { type: WidgetActionTypes.WIDGET_REMOVED, widget };
-}
+};
 
 // Update widget action creator
-export function UpdateWidget(widget: BaseWidget) {
+export const UpdateWidget = (widget: BaseWidget) => {
     return { type: WidgetActionTypes.WIDGET_UPDATED, widget };
-}
+};
 
 // TODO
-export function LoadKitchenSuccess(kitchen: IPlannerState) {
-    return { type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS, kitchen };
-}
+export const LoadKitchenSuccess = (kitchens: IKitchen[]) => {
+    return { type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS, kitchens };
+};
 
 // TODO
-export function SaveKitchenSuccess(kitchen: IPlannerState) {
+export const SaveKitchenSuccess = (kitchen: IKitchen) => {
     return { type: KitchenActionTypes.SAVE_KITCHEN_SUCCESS, kitchen };
+};
+
+// TODO
+export const RemovedKitchenSuccess = (kitchen: IKitchen) => {
+    return { type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS, kitchen };
+};
+
+// TODO
+export function SaveKitchen(kitchen: IKitchen) {
+    return async (dispatch: any) => {
+        try {
+            const savedKitchen = await saveKitchen(kitchen);
+            dispatch(SaveKitchenSuccess(savedKitchen));
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 // TODO
-export function UpdateKitchenSuccess(kitchen: IPlannerState) {
-    return { type: KitchenActionTypes.UPDATE_KITCHEN_SUCCESS, kitchen };
+export function LoadKitchens() {
+    return async (dispatch: any) => {
+        try {
+            const kitchens = await loadKitchens();
+            dispatch(LoadKitchenSuccess(kitchens));
+        } catch (error) {
+            throw error;
+        }
+    };
 }
+
+export function DeleteKitchen(kitchen: IKitchen) {
+    return async (dispatch: any) => {
+        try {
+            dispatch(RemovedKitchenSuccess(kitchen));
+            return deleteKitchen(kitchen.id);
+        } catch (error) {
+            throw error;
+        }
+    };
+}
+
+// export const SaveKitchen: ActionCreator<
+//            ThunkAction<
+//                Promise<IKitchensSavedAction>,
+//                IPostPersonResult,
+//                IPlannerState,
+//                KitchenActions
+//            >
+//        > = (kitchen: IPlannerState) => {
+//            return async (dispatch: Dispatch<KitchenActions>) => {
+//                const postingPersonAction: IPostingPersonAction = {
+//                    type: 'PostingPerson',
+//                };
+//                dispatch(postingPersonAction);
+//                const result = await postPersonFromApi(person);
+//                const postPersonAction: IPostedPersonAction = {
+//                    type: 'PostedPerson',
+//                    result,
+//                };
+//                return dispatch(postPersonAction);
+//            };
+//        };
 
 // // TODO: WHAT THE THUNK!!!
 // export function LoadKitchen() {
@@ -90,17 +154,17 @@ export function UpdateKitchenSuccess(kitchen: IPlannerState) {
 //     };
 // }
 
-// TODO: WHAT THE THUNK!!!
-export const SaveKitchen = (kitchen: IPlannerState) => {
-    return async (dispatch: Dispatch<KitchenActions>) => {
-        try {
-            const savedKitchen = await saveKitchen(kitchen); // API CALL !!!!!!
-            return dispatch(SaveKitchenSuccess(savedKitchen));
-        } catch (error) {
-            throw error;
-        }
-    };
-};
+// // TODO: WHAT THE THUNK!!!
+// export const SaveKitchen = (kitchen: IPlannerState) => {
+//     return async (dispatch: Dispatch<KitchenActions>) => {
+//         try {
+//             const savedKitchen = await saveKitchen(kitchen); // API CALL !!!!!!
+//             return dispatch(SaveKitchenSuccess(savedKitchen));
+//         } catch (error) {
+//             throw error;
+//         }
+//     };
+// };
 
 // // Interfaces for kitchen actions
 // // Unit actions interfaces and types

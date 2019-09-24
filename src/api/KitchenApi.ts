@@ -1,22 +1,26 @@
-import { IPlannerState } from '../utilities/Interfaces';
+import { IKitchen } from '../redux/reducers/IntialState';
 import { handleResponse } from './apiUtils';
-const baseUrl = process.env.API_URL + '/';
+const baseUrl = process.env.API_URL + '/kitchens/';
 
-// export async function getKitchens(): Promise<any> {
-//     try {
-//         const handleRes = await fetch(baseUrl);
-//         return handleResponse(handleRes);
-//     } catch (handleError) {
-//         return handleError(handleError);
-//     }
-// }
-
-export async function saveKitchen(kitchen: IPlannerState): Promise<any> {
+// TODO
+export async function loadKitchens(): Promise<any> {
     try {
-        const handleRes = await fetch(baseUrl + (kitchen.Id || ''), {
-            // method: kitchen.Id ? 'PUT' : 'POST',
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
+        const handleRes = await fetch(baseUrl);
+        return handleResponse(handleRes);
+    } catch (handleError) {
+        return handleError(handleError);
+    }
+}
+
+// TODO
+export async function saveKitchen(kitchen: IKitchen): Promise<any> {
+    try {
+        const handleRes = await fetch(baseUrl + (kitchen.id || ''), {
+            method: kitchen.id ? 'PUT' : 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(kitchen),
         });
         return handleResponse(handleRes);
@@ -25,11 +29,12 @@ export async function saveKitchen(kitchen: IPlannerState): Promise<any> {
     }
 }
 
-// export async function deleteCourse(courseId: string): Promise<any> {
-//     try {
-//         const handleRes = await fetch(baseUrl + courseId, { method: 'DELETE' });
-//         return handleResponse(handleRes);
-//     } catch (handleError) {
-//         return handleError(handleError);
-//     }
-// }
+// TODO
+export async function deleteKitchen(id: number): Promise<any> {
+    try {
+        const handleRes = await fetch(baseUrl + id, { method: 'DELETE' });
+        return handleResponse(handleRes);
+    } catch (handleError) {
+        return handleError(handleError);
+    }
+}

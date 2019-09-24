@@ -1,43 +1,43 @@
-import { KitchenActionTypes, WidgetActionTypes } from '../actions/ActionTypes';
-import { KitchenActions, WidgetsAction } from '../actions/KitchenActions';
+import { KitchenActionTypes } from '../actions/ActionTypes';
+import { KitchenActions } from '../actions/KitchenActions';
 import initialState from './IntialState';
 
-// Reducer for unit actions
-export const widgetsReducer = (state = initialState.Widgets, action: WidgetsAction) => {
-    switch (action.type) {
-        // Add a widget to the store
-        case WidgetActionTypes.WIDGET_ADDED:
-            return [...state, { ...action.widget }];
+// // Reducer for unit actions
+// export const widgetsReducer = (state = initialState, action: WidgetsAction) => {
+//     switch (action.type) {
+//         // Add a widget to the store
+//         case WidgetActionTypes.WIDGET_ADDED:
+//             return [...state.Widgets, { ...action.widget }];
 
-        // Remove a widget from the store
-        case WidgetActionTypes.WIDGET_REMOVED:
-            return state.filter((widget) => widget.id !== action.widget.id);
+//         // Remove a widget from the store
+//         case WidgetActionTypes.WIDGET_REMOVED:
+//             return state.Widgets.filter((widget) => widget.id !== action.widget.id);
 
-        // Update a widget in the store
-        case WidgetActionTypes.WIDGET_UPDATED:
-            return state.map((widget) => {
-                return widget.id !== action.widget.id ? widget : { ...widget, ...action.widget };
-            });
-        // Return default state
-        default:
-            return state;
-    }
-};
+//         // Update a widget in the store
+//         case WidgetActionTypes.WIDGET_UPDATED:
+//             return state.Widgets.map((widget) => {
+//                 return widget.id !== action.widget.id ? widget : { ...widget, ...action.widget };
+//             });
+//         // Return default state
+//         default:
+//             return state;
+//     }
+// };
 
 //
-export const kitchenReducer = (state = initialState, action: KitchenActions) => {
+export const kitchenReducer = (state = initialState.kitchens, action: KitchenActions) => {
     switch (action.type) {
         // Save a kitchen to server
         case KitchenActionTypes.SAVE_KITCHEN_SUCCESS:
-            return [...state.Widgets, { ...action.kitchen.Widgets }];
+            return [...state, { ...action.kitchen }];
 
-        // Load widgets from server
+        // Load kitchens from server
         case KitchenActionTypes.LOAD_KITCHEN_SUCCESS:
-            return action.kitchen.Widgets;
+            return action.kitchens;
 
-        // Update kitchen on the server
-        case KitchenActionTypes.UPDATE_KITCHEN_SUCCESS:
-            return state.Widgets;
+        // Delete kitchen from server
+        case KitchenActionTypes.REMOVED_KITCHEN_SUCCESS:
+            return state.filter((kitchen) => kitchen.id !== action.kitchen.id);
 
         // Return default state
         default:

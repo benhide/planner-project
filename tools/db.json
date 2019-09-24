@@ -1,1 +1,3 @@
-{ "kitchens": [{ "Widgets": [], "Id": "000001" }] }
+{
+  "kitchens": []
+}

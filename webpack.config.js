@@ -3,9 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const webpack = require('webpack');
 
+process.env.NODE_ENV = 'develpoment';
+
 module.exports = {
     entry: './src/index.tsx',
-    devtool: 'source-map',
+    devtool: 'cheap-module-source-map',
     mode: 'development',
     module: {
         rules: [
@@ -42,7 +44,7 @@ module.exports = {
             template: './template.html',
         }),
         new webpack.DefinePlugin({
-            "process.env.API_ENV": JSON.stringify('http://localhost:9001')
+            'process.env.API_URL': JSON.stringify('http://localhost:9001'),
         }),
         new CircularDependencyPlugin({
             // exclude detection of files based on a RegExp

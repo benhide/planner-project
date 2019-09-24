@@ -39,9 +39,3 @@ export interface IItem {
     price: number;
     total: number;
 }
-
-// Redux planner state
-export interface IPlannerState {
-    Widgets: BaseWidget[];
-    Id: string;
-}

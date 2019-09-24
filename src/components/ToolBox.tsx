@@ -18,7 +18,7 @@ import { Wall } from '../engine/widgets/Wall';
 import { WallUnit } from '../engine/widgets/WallUnit';
 import { WorkTop } from '../engine/widgets/Worktop';
 import { AddWidget } from '../redux/actions/KitchenActions';
-import { Store } from '../redux/ConfigureStore';
+import { store } from '../redux/ConfigureStore';
 import { ItemDetails } from './ItemDetails';
 // import { AddItem } from '../engine/Widgets';
 //  AddUnit, AddWall, AddWallunit, AddWorktop;
@@ -65,7 +65,7 @@ export const ToolBox = () => {
         unit.isHeld = true;
         Kitchen.getInstance().widgets.push(unit);
         Kitchen.getInstance().sortArrayByZIndex();
-        Store.dispatch(AddWidget(unit));
+        store.dispatch(AddWidget(unit));
     };
 
     // Adds a worktop to the kitchen
@@ -84,7 +84,7 @@ export const ToolBox = () => {
         worktop.isHeld = true;
         Kitchen.getInstance().widgets.push(worktop);
         Kitchen.getInstance().sortArrayByZIndex();
-        Store.dispatch(AddWidget(worktop));
+        store.dispatch(AddWidget(worktop));
     };
 
     // Adds a wall to the kitchen
@@ -103,7 +103,7 @@ export const ToolBox = () => {
         wallunit.isHeld = true;
         Kitchen.getInstance().widgets.push(wallunit);
         Kitchen.getInstance().sortArrayByZIndex();
-        Store.dispatch(AddWidget(wallunit));
+        store.dispatch(AddWidget(wallunit));
     };
 
     // Adds a wall to the kitchen
@@ -122,7 +122,7 @@ export const ToolBox = () => {
         wall.isHeld = true;
         Kitchen.getInstance().widgets.push(wall);
         Kitchen.getInstance().sortArrayByZIndex();
-        Store.dispatch(AddWidget(wall));
+        store.dispatch(AddWidget(wall));
     };
 
     // Render the jsx
