@@ -9,7 +9,7 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
 import { DeleteKitchen, LoadKitchens, SaveKitchen } from '../redux/actions/KitchenActions';
-import { IPlannerState } from '../redux/reducers/IntialState';
+import { IPlannerState } from '../utilities/Interfaces';
 
 // Navbar styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -37,37 +37,38 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // The navbar react component
-export const NavBar = () => {
+export const NavBar = (): JSX.Element => {
     const style = useStyles();
 
     //
     const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
 
     //
-    React.useEffect(() => {
+    React.useEffect((): void => {
         dispatch(LoadKitchens());
         // .catch((error: string) => alert('Kitchens failed to load!\n' + error));
     }, []);
 
     // Get the current state from redux store and update the basket
     const currentState = useSelector((state) => state as IPlannerState);
+    // tslint:disable-next-line: no-console
     currentState.kitchens.forEach((kitchen) => console.log(kitchen.id));
 
     // Save the current kitchen
-    const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         dispatch(SaveKitchen({ id: 0, widgets: new Array<BaseWidget>() }));
         // .catch((error: string) => alert('Kitchen failed to save!\n' + error));
     };
 
     // Load kitchens
-    const loadKitchens = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const loadKitchens = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         dispatch(LoadKitchens());
         // .catch((error: string) => alert('Kitchens failed to load' + error));
     };
 
-    const deleteKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const deleteKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         dispatch(DeleteKitchen(currentState.kitchens[0]));
         // .catch((error: string) => alert('Kitchens failed to load' + error));
@@ -97,24 +98,3 @@ export const NavBar = () => {
         </div>
     );
 };
-
-// function mapStateToProps(state: IPlannerState) {
-//     return {
-//         widgets: state.Widgets,
-//     };
-// }
-
-// function mapDispatchToProps(dispatch: Redux.Dispatch<any>) {
-//     return {
-//         LoadKitchens: () => dispatch(),
-//     };
-// };
-
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps,
-// )(NavBar);
-
-// import MenuIcon from '@material-ui/icons/Menu';
-// import IconButton from '@material-ui/core/IconButton';
-// import logo from '../images/logo.png';

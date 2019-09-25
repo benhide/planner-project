@@ -1,4 +1,4 @@
-import { IKitchen } from '../redux/reducers/IntialState';
+import { IKitchen } from '../utilities/Interfaces';
 import { handleResponse } from './apiUtils';
 const baseUrl = process.env.API_URL + '/kitchens/';
 

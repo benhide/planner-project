@@ -1,11 +1,7 @@
 import { deleteKitchen, loadKitchens, saveKitchen } from '../../api/KitchenApi';
-// import { Action, ActionCreator } from 'redux';
-// import { ThunkAction } from 'redux-thunk';
 import { BaseWidget } from '../../engine/widgets/BaseWidget';
-import { IKitchen, IPlannerState } from '../reducers/IntialState';
-// import { IPlannerState } from '../../utilities/Interfaces';
 import { KitchenActionTypes, WidgetActionTypes } from './ActionTypes';
-// import { Store } from '../ConfigureStore';
+import { IKitchen } from '../../utilities/Interfaces';
 
 // // Interfaces for kitchen actions
 // // Widget actions interfaces and types

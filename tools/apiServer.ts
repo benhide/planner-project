@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
-const jsonServer = require('json-server');
+import * as jsonServer from 'json-server';
+import * as path from 'path';
 const server = jsonServer.create();
-const path = require('path');
 const router = jsonServer.router(path.join(__dirname, 'db.json'));
+const port = 9001;
 
 // Can pass a limited number of options to this to override (some) defaults. See https://github.com/typicode/json-server#api
 const middlewares = jsonServer.defaults({
@@ -12,7 +12,6 @@ const middlewares = jsonServer.defaults({
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
-// server.use(cors());
 
 // To handle POST, PUT and PATCH you need to use a body-parser. Using JSON Server's bodyParser
 server.use(jsonServer.bodyParser);
@@ -22,13 +21,15 @@ server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
     if (req.method === 'POST') {
         req.body.createdAt = Date.now();
+        // tslint:disable-next-line: no-console
         console.log('POST REQUEST MADE AT ' + req.body.createdAt);
     }
     // Continue to JSON Server router
     next();
 });
 
-server.post('/kitchens', function(req, res, next) {
+// Validation for posting
+server.post('/kitchens', (req, res, next) => {
     // const error = validateCourse(req.body);
     // if (error) {
     //     res.status(400).send(error);
@@ -42,14 +43,13 @@ server.post('/kitchens', function(req, res, next) {
 // Use default router
 server.use(router);
 
-// Start server
-const port = 9001;
+// STart server
 server.listen(port, () => {
+    // tslint:disable-next-line: no-console
     console.log(`JSON Server is running on port ${port}`);
 });
 
 // Centralized logic
-
 // // Returns a URL friendly slug
 // function createSlug(value) {
 //     return value
@@ -57,7 +57,6 @@ server.listen(port, () => {
 //         .replace(/^-|-$/g, '')
 //         .toLowerCase();
 // }
-
 // function validateCourse(course) {
 //     if (!course.title) return 'Title is required.';
 //     if (!course.authorId) return 'Author is required.';

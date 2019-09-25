@@ -11,14 +11,16 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export function SimpleSnackbar() {
+export function SimpleSnackbar(): JSX.Element {
     const style = useStyles();
     const [open, setOpen] = React.useState(false);
 
+    //
     function handleClick() {
         setOpen(true);
     }
 
+    //
     function handleClose(event: React.SyntheticEvent | React.MouseEvent, reason?: string) {
         if (reason === 'clickaway') {
             return;
@@ -27,12 +29,14 @@ export function SimpleSnackbar() {
         setOpen(false);
     }
 
+    //
     const action: JSX.Element = (
         <IconButton key="close" aria-label="close" color="inherit" className={style.close} onClick={handleClose}>
             <CloseIcon />
         </IconButton>
     );
 
+    // Render the JSX
     return (
         <div>
             <Button onClick={handleClick}>Open simple snackbar</Button>

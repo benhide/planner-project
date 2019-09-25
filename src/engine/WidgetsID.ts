@@ -6,28 +6,33 @@ import { UNIT_ID_PREFIX, WALLUNIT_ID_PREFIX, WALL_ID_PREFIX, WORKTOP_ID_PREFIX }
 
 // Generate IDs - IIFE
 export const GenerateId = (() => {
-    // stuff
+    // Starting widget ids
     let UNIT_ID = 1;
     let WORKTOP_ID = 1;
     let WALLUNIT_ID = 1;
     let WALL_ID = 1;
 
-    const nextUnitId = () => {
+    // Get the next widget id
+    const nextUnitId = (): number => {
         return UNIT_ID_PREFIX + UNIT_ID++;
     };
 
-    const nextWorktopId = () => {
+    // Get the next worktop id
+    const nextWorktopId = (): number => {
         return WORKTOP_ID_PREFIX + WORKTOP_ID++;
     };
 
-    const nextWallunitId = () => {
+    // Get the next wallunit id
+    const nextWallunitId = (): number => {
         return WALLUNIT_ID_PREFIX + WALLUNIT_ID++;
     };
 
-    const nextWallId = () => {
+    // Get the next wall id
+    const nextWallId = (): number => {
         return WALL_ID_PREFIX + WALL_ID++;
     };
 
+    // Return the functions (public access)
     return {
         nextUnitId,
         nextWorktopId,
@@ -35,11 +40,6 @@ export const GenerateId = (() => {
         nextWallId,
     };
 })();
-
-// let UNIT_ID = 1;
-// let WORKTOP_ID = 1;
-// let WALLUNIT_ID = 1;
-// let WALL_ID = 1;
 
 // export function generateId(zIndex: number): number {
 //     if (zIndex === 1) {

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { EventBus, GameEvent } from '../engine/EventBus';
 import { Kitchen } from '../engine/Kitchen';
 
+// The planner class initialisation
 export const Planner: React.FunctionComponent = () => {
     // Width of the canvas will match width of the screen
     const sizeCanvas = (canvas: HTMLCanvasElement) => {
@@ -104,5 +105,6 @@ export const Planner: React.FunctionComponent = () => {
     //     sizeCanvas(e.target as HTMLCanvasElement);
     // });
 
+    // Return the canvas wrapper id
     return <div id="canvasWrapper" />;
 };

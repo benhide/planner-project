@@ -21,13 +21,13 @@ export namespace EventBus {
     }
 
     // Unsubscribe from an event
-    export function unsubscribe(id: symbol) {
+    export function unsubscribe(id: symbol): void {
         subscriptions.delete(id);
     }
 
     // Publish the event
     // when an event is publish an x and y are sent
-    export function publish(event: GameEvent, data: object) {
+    export function publish(event: GameEvent, data: object): void {
         [...subscriptions.values()].filter((e: subscription.IEventSubscription) => e.event === event).forEach((e) => e.fn(data));
     }
 }

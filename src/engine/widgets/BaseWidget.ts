@@ -1,21 +1,13 @@
 import { Kitchen } from '../../engine/Kitchen';
 import { RemoveWidget, UpdateWidget } from '../../redux/actions/KitchenActions';
 import { store } from '../../redux/ConfigureStore';
-import { IsColliding, IsIntersecting } from '../CollisionDetection';
+import { isColliding, isIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
-import { CheckBounding, CollisionSnapping, SnapToGrid, SnapToSize } from '../Snapping';
+import { checkBounding, collisionSnapping, snapToGrid, snapToSize } from '../Snapping';
 import { Dimensions, Vec2 } from '../Transform';
 import { DrawWidgets } from '../widgets/DrawWidgets';
 
-//   RemoveUnit,
-//     RemoveWall,
-//     RemoveWallunit,
-//     RemoveWorktop,
-//     UpdateUnit,
-//     UpdateWall,
-//     UpdateWorktop,
-//     UpdateWallunit,
-
+// The basewidget clas which all widgets inherit from
 export class BaseWidget {
     // Booleans for the widget
     public isSelected: boolean = false;
@@ -151,13 +143,13 @@ export class BaseWidget {
         for (const id of collidingIDs) {
             if (id !== -1) {
                 this.isColliding = true;
-                CollisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
+                collisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
                 return;
             }
         }
 
         // Make sure it is side the canvas bounds
-        CheckBounding(this);
+        checkBounding(this);
 
         // Scale the item
         this.dimensions.w = e.x - this.position.x;
@@ -180,7 +172,7 @@ export class BaseWidget {
         }
 
         // Snap to the grid size
-        SnapToSize(this);
+        snapToSize(this);
     }
 
     // Move an item
@@ -190,26 +182,26 @@ export class BaseWidget {
         // The last valid position the object was in without colliding
         this.lastValidPosition = this.position;
         this.setPosition(-offset.x + e.x, -offset.y + e.y);
-        CheckBounding(this);
+        checkBounding(this);
 
         // Collision detection
         const collidingIDs = this.collisionDetection();
         for (const id of collidingIDs) {
             if (id !== -1) {
                 this.isColliding = true;
-                CollisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
+                collisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
             }
         }
 
         // Second phase of collision detection
         for (const id of collidingIDs) {
-            if (IsColliding(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!)) {
+            if (isColliding(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!)) {
                 this.setPosition(this.lastValidPosition.x, this.lastValidPosition.y);
             }
         }
 
         // Snap to the grid position
-        SnapToGrid(this);
+        snapToGrid(this);
     }
 
     // // Roate an item
@@ -251,7 +243,7 @@ export class BaseWidget {
 
             // Only matching z indexs and z indexs of '4' collide
             if (this.zIndex === item.zIndex || (this.zIndex === 4 || item.zIndex === 4)) {
-                if (IsColliding(this, item)) {
+                if (isColliding(this, item)) {
                     id.push(item.id);
                 }
             }
@@ -264,7 +256,7 @@ export class BaseWidget {
     // Should we try to scale the item
     private shouldScale(e: any): void {
         if (this.isScalable) {
-            this.isScaling = IsIntersecting(
+            this.isScaling = isIntersecting(
                 new Vec2(e.x as number, e.y as number),
                 new Vec2(this.position.x + this.dimensions.w - 15, this.position.y + this.dimensions.l - 15),
                 new Dimensions(15, 15),
@@ -274,7 +266,7 @@ export class BaseWidget {
 
     // Should we try to delete the item
     private shouldDelete(e: any) {
-        this.isDeleting = IsIntersecting(
+        this.isDeleting = isIntersecting(
             new Vec2(e.x as number, e.y as number),
             new Vec2(this.position.x, this.position.y),
             new Dimensions(15, 15),
@@ -285,7 +277,7 @@ export class BaseWidget {
     // Should we try to rotate the item
     private shouldRotate(e: any): Vec2 {
         if (this.isRotatable) {
-            this.isRotating = IsIntersecting(
+            this.isRotating = isIntersecting(
                 new Vec2(e.x as number, e.y as number),
                 new Vec2(this.position.x + this.dimensions.w - 15, this.position.y),
                 new Dimensions(20, 20),
@@ -297,7 +289,7 @@ export class BaseWidget {
 
     // Should we try to select the item
     private shouldSelect(e: any): void {
-        this.isSelected = IsIntersecting(new Vec2(e.x as number, e.y as number), this.position, this.dimensions);
+        this.isSelected = isIntersecting(new Vec2(e.x as number, e.y as number), this.position, this.dimensions);
         Kitchen.getInstance().selectTopItem();
     }
 }

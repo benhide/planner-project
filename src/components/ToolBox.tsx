@@ -20,8 +20,6 @@ import { WorkTop } from '../engine/widgets/Worktop';
 import { AddWidget } from '../redux/actions/KitchenActions';
 import { store } from '../redux/ConfigureStore';
 import { ItemDetails } from './ItemDetails';
-// import { AddItem } from '../engine/Widgets';
-//  AddUnit, AddWall, AddWallunit, AddWorktop;
 
 // Component styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -125,7 +123,7 @@ export const ToolBox = () => {
         store.dispatch(AddWidget(wall));
     };
 
-    // Render the jsx
+    // Render the JSX
     return (
         <div>
             <Paper className={style.root}>

@@ -1,12 +1,4 @@
-// import { DEFAULT_UNIT_ZINDEX, DEFAULT_WALLUNIT_ZINDEX, DEFAULT_WALL_ZINDEX, DEFAULT_WORKTOP_ZINDEX } from '../Defaults';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
-// import { Unit } from '../engine/widgets/Unit';
-// import { Wall } from '../engine/widgets/Wall';
-// import { WallUnit } from '../engine/widgets/WallUnit';
-// import { WorkTop } from '../engine/widgets/Worktop';
-// import { AddUnit, AddWall, AddWallunit, AddWorktop, RemoveUnit, RemoveWallunit, RemoveWorktop } from '../redux/actions/KitchenActions';
-// import { Store } from '../redux/ConfigureStore';
-// import { ID } from './ID';
 
 // The kitchen class
 export class Kitchen {
@@ -21,29 +13,32 @@ export class Kitchen {
     private static instance: Kitchen;
 
     // Array of objects of type BaseWidget
-    public widgets = new Array<BaseWidget>();
+    private _widgets = new Array<BaseWidget>();
+
+    // Current kitchen id
+    private _kitchenId = 0;
 
     // The canvas for reference
-    private canvas: HTMLCanvasElement;
-    private ctx: CanvasRenderingContext2D;
+    private _canvas: HTMLCanvasElement;
+    private _ctx: CanvasRenderingContext2D;
 
     // Constructor
     private constructor() {
         // Get the canvas and context for reference
-        this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
-        this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        this._canvas = document.getElementById('canvas') as HTMLCanvasElement;
+        this._ctx = this._canvas.getContext('2d') as CanvasRenderingContext2D;
     }
 
     // Update the objects
     public update(): void {
         let itemBeingScaled = false;
-        this.widgets.forEach((item) => {
+        this._widgets.forEach((item) => {
             if (item.isScaling) {
                 itemBeingScaled = true;
             }
         });
         if (itemBeingScaled) {
-            this.widgets.forEach((item) => {
+            this._widgets.forEach((item) => {
                 item.isSelected = false;
                 item.isHeld = false;
             });
@@ -52,39 +47,42 @@ export class Kitchen {
 
     // Loop through and render objects
     public draw(): void {
-        this.ctx.save();
-        this.ctx.strokeStyle = `rgba(255, 255, 255, 0.5)`;
-        this.ctx.setLineDash([5, 5]);
+        // Draw the grid on the canvas
+        this._ctx.save();
+        this._ctx.strokeStyle = `rgba(255, 255, 255, 0.5)`;
+        this._ctx.setLineDash([5, 5]);
 
-        for (let i = 0; i < this.canvas.width; i += 10) {
-            this.ctx.beginPath();
-            this.ctx.moveTo(i, 0);
-            this.ctx.lineTo(i, this.canvas.height);
-            this.ctx.stroke();
+        for (let i = 0; i < this._canvas.width; i += 10) {
+            this._ctx.beginPath();
+            this._ctx.moveTo(i, 0);
+            this._ctx.lineTo(i, this._canvas.height);
+            this._ctx.stroke();
 
-            this.ctx.beginPath();
-            this.ctx.moveTo(0, i);
-            this.ctx.lineTo(this.canvas.width, i);
-            this.ctx.stroke();
+            this._ctx.beginPath();
+            this._ctx.moveTo(0, i);
+            this._ctx.lineTo(this._canvas.width, i);
+            this._ctx.stroke();
         }
-        this.ctx.restore();
-        this.widgets.forEach((item) => {
-            item.draw(this.ctx);
+        this._ctx.restore();
+
+        // Draw the widget items
+        this._widgets.forEach((item) => {
+            item.draw(this._ctx);
         });
     }
 
     // Only select the top widget
     public selectTopItem(): void {
         let index = -1;
-        if (this.widgets.length > 0) {
-            for (let i = 0; i < this.widgets.length; i++) {
-                if (this.widgets[i].isSelected) {
+        if (this._widgets.length > 0) {
+            for (let i = 0; i < this._widgets.length; i++) {
+                if (this._widgets[i].isSelected) {
                     index = i;
-                    this.widgets[i].isSelected = false;
+                    this._widgets[i].isSelected = false;
                 }
             }
             if (index >= 0) {
-                this.widgets[index].isSelected = true;
+                this._widgets[index].isSelected = true;
             }
         }
     }
@@ -92,24 +90,24 @@ export class Kitchen {
     // Only remove the top widget
     public removeTopItem(): void {
         let index = -1;
-        if (this.widgets.length > 0) {
-            for (let i = 0; i < this.widgets.length; i++) {
-                if (this.widgets[i].isDeleting) {
+        if (this._widgets.length > 0) {
+            for (let i = 0; i < this._widgets.length; i++) {
+                if (this._widgets[i].isDeleting) {
                     index = i;
-                    this.widgets[i].isDeleting = false;
+                    this._widgets[i].isDeleting = false;
                 }
             }
             if (index >= 0) {
-                this.widgets[index].isDeleting = true;
+                this._widgets[index].isDeleting = true;
             }
         }
     }
 
     // Remove an item
     public removeItem(id: number): boolean {
-        for (let i = 0; i < this.widgets.length; i++) {
-            if (this.widgets[i].id === id) {
-                this.widgets.splice(i, 1);
+        for (let i = 0; i < this._widgets.length; i++) {
+            if (this._widgets[i].id === id) {
+                this._widgets.splice(i, 1);
                 return true;
             }
         }
@@ -118,14 +116,29 @@ export class Kitchen {
 
     // Sort the array for what to draw first
     public sortArrayByZIndex(): void {
-        this.widgets.sort((a, b) => (a.zIndex > b.zIndex ? 1 : -1));
+        this._widgets.sort((a, b) => (a.zIndex > b.zIndex ? 1 : -1));
     }
 
     // Canvas dimensions getters
     get canvasWidth(): number {
-        return this.canvas.width;
+        return this._canvas.width;
     }
     get canvasHeight(): number {
-        return this.canvas.height;
+        return this._canvas.height;
+    }
+
+    // Kitchen id getters and setters
+    get kitchenID(): number {
+        return this._kitchenId;
+    }
+    set kitchenID(id: number) {
+        if (id >= 0) {
+            this._kitchenId = id;
+        }
+    }
+
+    // Get access to the widgets array
+    get widgets(): BaseWidget[] {
+        return this._widgets;
     }
 }

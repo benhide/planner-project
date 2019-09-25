@@ -2,7 +2,7 @@ import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typogr
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { IPlannerState } from '../redux/reducers/IntialState';
+import { IPlannerState, IItem } from '../utilities/Interfaces';
 import {
     DEFUALT_UNIT_PRICE,
     DEFUALT_WALLUNIT_PRICE,
@@ -13,7 +13,6 @@ import {
     WALLUNITS_BASKET_DESC,
     WORKTOP_BASKET_DESC,
 } from '../utilities/Defaults';
-import { IItem } from '../utilities/Interfaces';
 
 // Styling for the component
 const useStyles = makeStyles((theme: Theme) =>

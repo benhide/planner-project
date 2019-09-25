@@ -1,4 +1,5 @@
 // Generate IDs - IIFE
+// TODO
 export const GenerateKitchenId = (() => {
     let KITCHEN_ID = 0;
 

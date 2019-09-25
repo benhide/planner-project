@@ -39,3 +39,14 @@ export interface IItem {
     price: number;
     total: number;
 }
+
+// Redux planner state
+export interface IPlannerState {
+    kitchens: IKitchen[];
+}
+
+// TODO
+export interface IKitchen {
+    widgets: BaseWidget[];
+    id: number;
+}

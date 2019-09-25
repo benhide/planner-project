@@ -1,6 +1,6 @@
 import { Dimensions, Vec2 } from '../Transform';
 
-// Draw widget class
+// Draws additional widget detail
 export class DrawWidgets {
     // Draw box for scaling
     public drawScalingBox(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions): void {
