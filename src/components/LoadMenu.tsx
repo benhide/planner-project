@@ -7,14 +7,22 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { getKitchensList } from '../api/KitchenApi';
 import { LoadKitchen } from '../redux/actions/KitchenActions';
-import { IPlannerState, IKitchen } from '../utilities/Interfaces';
+import { IKitchen, IPlannerState } from '../utilities/Interfaces';
+
+interface ILoadMenuItem {
+    id: number;
+    name: string;
+}
 
 // TODO
 export default function LoadMenu(): JSX.Element {
     // Dispatch for thunks
     const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
 
-    getKitchensList().then((result: IKitchen[]) => result.forEach((item: IKitchen) => console.log(item.id)));
+    const loadItems = new Array<ILoadMenuItem>();
+    getKitchensList()
+        .then((result: IKitchen[]) => result.map((item: IKitchen) => loadItems.push({ id: item.id, name: item.name })))
+        .finally();
 
     //
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -37,13 +45,15 @@ export default function LoadMenu(): JSX.Element {
     };
 
     // TODO
-    const menuItems = () => {
-        getKitchensList();
+    const LoadMenuItems = () => {
+        // // getKitchensList();
         // return currentState.kitchens.map((kitchen) => (
         //     <MenuItem key={kitchen.name} onClick={(e) => loadKitchen(e, kitchen.id)}>
         //         {kitchen.name}
         //     </MenuItem>
         // ));
+
+        loadItems.forEach((i) => console.log(i));
     };
 
     return (
@@ -51,8 +61,8 @@ export default function LoadMenu(): JSX.Element {
             <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <CloudDownloadIcon />
             </Button>
-            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => handleClose()}>
-                {/* {menuItems} */}
+            <Menu id="simple-load-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => handleClose()}>
+                {LoadMenuItems}
             </Menu>
         </div>
     );

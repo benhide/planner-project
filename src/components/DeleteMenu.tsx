@@ -51,7 +51,7 @@ export default function DeleteMenu(): JSX.Element {
             <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <DeleteIcon />
             </Button>
-            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+            <Menu id="simple-delete-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                 {/* {menuItems} */}
             </Menu>
         </div>
