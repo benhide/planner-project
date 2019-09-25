@@ -1,4 +1,4 @@
-import { BaseWidget } from '../engine/widgets/BaseWidget';
+import { BaseWidget } from './widgets/BaseWidget';
 
 // The kitchen class
 export class Kitchen {
@@ -16,7 +16,7 @@ export class Kitchen {
     private _widgets = new Array<BaseWidget>();
 
     // Current kitchen id
-    private _kitchenId = 0;
+    private _kitchenId: number = 0;
 
     // The canvas for reference
     private _canvas: HTMLCanvasElement;
@@ -120,25 +120,26 @@ export class Kitchen {
     }
 
     // Canvas dimensions getters
-    get canvasWidth(): number {
+    public get canvasWidth(): number {
         return this._canvas.width;
     }
-    get canvasHeight(): number {
+    public get canvasHeight(): number {
         return this._canvas.height;
     }
 
     // Kitchen id getters and setters
-    get kitchenID(): number {
+    public get kitchenID(): number {
         return this._kitchenId;
     }
-    set kitchenID(id: number) {
+    public set kitchenID(id: number) {
         if (id >= 0) {
             this._kitchenId = id;
         }
+        // console.log('from kitchen id: ' + this._kitchenId);
     }
 
     // Get access to the widgets array
-    get widgets(): BaseWidget[] {
+    public get widgets(): BaseWidget[] {
         return this._widgets;
     }
 }

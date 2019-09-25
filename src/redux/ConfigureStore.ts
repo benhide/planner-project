@@ -2,7 +2,6 @@ import * as Redux from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import { RootReducer } from './reducers';
 import thunk from 'redux-thunk';
-// import initialState from './reducers/IntialState';
 
 // Configure the store
 const ConfigureStore = (initState: any) => {

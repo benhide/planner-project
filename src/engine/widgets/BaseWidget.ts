@@ -1,11 +1,11 @@
-import { Kitchen } from '../../engine/Kitchen';
+import { Kitchen } from '../Kitchen';
 import { RemoveWidget, UpdateWidget } from '../../redux/actions/KitchenActions';
 import { store } from '../../redux/ConfigureStore';
 import { isColliding, isIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
 import { checkBounding, collisionSnapping, snapToGrid, snapToSize } from '../Snapping';
 import { Dimensions, Vec2 } from '../Transform';
-import { DrawWidgets } from '../widgets/DrawWidgets';
+import { DrawWidgets } from './DrawWidgets';
 
 // The basewidget clas which all widgets inherit from
 export class BaseWidget {

@@ -7,5 +7,5 @@
     "jsxSingleQuote": false,
     "jsxBracketSameLine": false,
     "quoteProps": "consistent",
-    "printWidth": 140
+    "printWidth": 240
 }

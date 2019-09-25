@@ -49,4 +49,5 @@ export interface IPlannerState {
 export interface IKitchen {
     widgets: BaseWidget[];
     id: number;
+    name: string;
 }

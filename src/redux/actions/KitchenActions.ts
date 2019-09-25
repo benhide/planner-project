@@ -1,34 +1,40 @@
-import { deleteKitchen, loadKitchens, saveKitchen } from '../../api/KitchenApi';
+import { deleteKitchen, loadKitchens, saveKitchen, loadKitchen } from '../../api/KitchenApi';
 import { BaseWidget } from '../../engine/widgets/BaseWidget';
 import { KitchenActionTypes, WidgetActionTypes } from './ActionTypes';
 import { IKitchen } from '../../utilities/Interfaces';
 
-// // Interfaces for kitchen actions
-// // Widget actions interfaces and types
-// // Widget added
-// export interface IWidgetAddedAction {
-//     type: WidgetActionTypes.WIDGET_ADDED;
-//     widget: BaseWidget;
-// }
+// Interfaces for kitchen actions
+// Widget actions interfaces and types
+// Widget added
+export interface IWidgetAddedAction {
+    type: WidgetActionTypes.WIDGET_ADDED;
+    widget: BaseWidget;
+}
 
-// // Widget removed
-// export interface IWidgetRemovedAction {
-//     type: WidgetActionTypes.WIDGET_REMOVED;
-//     widget: BaseWidget;
-// }
+// Widget removed
+export interface IWidgetRemovedAction {
+    type: WidgetActionTypes.WIDGET_REMOVED;
+    widget: BaseWidget;
+}
 
-// // Widget updated
-// export interface IWidgetUpdatedAction {
-//     type: WidgetActionTypes.WIDGET_UPDATED;
-//     widget: BaseWidget;
-// }
-// // Type declarations for the widget actions
-// export type WidgetsAction = IWidgetAddedAction | IWidgetRemovedAction | IWidgetUpdatedAction;
+// Widget updated
+export interface IWidgetUpdatedAction {
+    type: WidgetActionTypes.WIDGET_UPDATED;
+    widget: BaseWidget;
+}
+// Type declarations for the widget actions
+export type WidgetsAction = IWidgetAddedAction | IWidgetRemovedAction | IWidgetUpdatedAction;
 
 // TODO
 export interface IKitchensLoadedAction {
-    type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS;
+    type: KitchenActionTypes.LOAD_KITCHENS_SUCCESS;
     kitchens: IKitchen[];
+}
+
+// TODO
+export interface IKitchenLoadedAction {
+    type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS;
+    kitchens: IKitchen;
 }
 
 // TODO
@@ -38,17 +44,12 @@ export interface IKitchensSavedAction {
 }
 
 // TODO
-export interface IKitchensUpdatedAction {
-    type: KitchenActionTypes.UPDATE_KITCHEN_SUCCESS;
-    kitchens: IKitchen[];
-}
-// TODO
 export interface IKitchensRemovedAction {
     type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS;
     kitchen: IKitchen;
 }
 // TODO
-export type KitchenActions = IKitchensSavedAction | IKitchensLoadedAction | IKitchensUpdatedAction | IKitchensRemovedAction;
+export type KitchenActions = IKitchensSavedAction | IKitchensLoadedAction | IKitchenLoadedAction | IKitchensRemovedAction;
 
 // Add widget action creator
 export const AddWidget = (widget: BaseWidget) => {
@@ -66,8 +67,13 @@ export const UpdateWidget = (widget: BaseWidget) => {
 };
 
 // TODO
-export const LoadKitchenSuccess = (kitchens: IKitchen[]) => {
-    return { type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS, kitchens };
+export const LoadKitchensSuccess = (kitchens: IKitchen[]) => {
+    return { type: KitchenActionTypes.LOAD_KITCHENS_SUCCESS, kitchens };
+};
+
+// TODO
+export const LoadKitchenSuccess = (kitchen: IKitchen) => {
+    return { type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS, kitchen };
 };
 
 // TODO
@@ -82,7 +88,7 @@ export const RemovedKitchenSuccess = (kitchen: IKitchen) => {
 
 // TODO
 export function SaveKitchen(kitchen: IKitchen) {
-    return async (dispatch: any) => {
+    return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IKitchen; }) => void) => {
         try {
             const savedKitchen = await saveKitchen(kitchen);
             dispatch(SaveKitchenSuccess(savedKitchen));
@@ -94,18 +100,31 @@ export function SaveKitchen(kitchen: IKitchen) {
 
 // TODO
 export function LoadKitchens() {
-    return async (dispatch: any) => {
+    return async (dispatch: (arg0: { type: KitchenActionTypes; kitchens: IKitchen[]; }) => void) => {
         try {
-            const kitchens = await loadKitchens();
-            dispatch(LoadKitchenSuccess(kitchens));
+            const loadedKitchens = await loadKitchens();
+            dispatch(LoadKitchensSuccess(loadedKitchens));
         } catch (error) {
             throw error;
         }
     };
 }
 
+// TODO
+export function LoadKitchen(id: number) {
+    return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IKitchen; }) => void) => {
+        try {
+            const loadedKitchen = await loadKitchen(id);
+            dispatch(LoadKitchenSuccess(loadedKitchen));
+        } catch (error) {
+            throw error;
+        }
+    };
+}
+
+// TODO
 export function DeleteKitchen(kitchen: IKitchen) {
-    return async (dispatch: any) => {
+    return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IKitchen; }) => void) => {
         try {
             dispatch(RemovedKitchenSuccess(kitchen));
             return deleteKitchen(kitchen.id);

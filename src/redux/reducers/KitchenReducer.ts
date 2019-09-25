@@ -32,7 +32,7 @@ export const kitchenReducer = (state = initialState.kitchens, action: KitchenAct
             return [...state, { ...action.kitchen }];
 
         // Load kitchens from server
-        case KitchenActionTypes.LOAD_KITCHEN_SUCCESS:
+        case KitchenActionTypes.LOAD_KITCHENS_SUCCESS:
             return action.kitchens;
 
         // Delete kitchen from server

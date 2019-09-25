@@ -1,6 +1,6 @@
 import { IRenderable, IRotatable, IScalable, ISelectable } from '../../utilities/Interfaces';
 import { Dimensions, Vec2 } from '../Transform';
-import { BaseWidget } from '../../engine/widgets/BaseWidget';
+import { BaseWidget } from './BaseWidget';
 
 // The unit class which inherits from base class BaseWidget
 // can be render and selected

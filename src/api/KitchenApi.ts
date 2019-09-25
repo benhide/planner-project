@@ -13,6 +13,16 @@ export async function loadKitchens(): Promise<any> {
 }
 
 // TODO
+export async function loadKitchen(id: number): Promise<any> {
+    try {
+        const handleRes = await fetch(baseUrl + id);
+        return handleResponse(handleRes);
+    } catch (handleError) {
+        return handleError(handleError);
+    }
+}
+
+// TODO
 export async function saveKitchen(kitchen: IKitchen): Promise<any> {
     try {
         const handleRes = await fetch(baseUrl + (kitchen.id || ''), {
@@ -33,6 +43,16 @@ export async function saveKitchen(kitchen: IKitchen): Promise<any> {
 export async function deleteKitchen(id: number): Promise<any> {
     try {
         const handleRes = await fetch(baseUrl + id, { method: 'DELETE' });
+        return handleResponse(handleRes);
+    } catch (handleError) {
+        return handleError(handleError);
+    }
+}
+
+// TODO
+export async function getKitchensList(): Promise<any> {
+    try {
+        const handleRes = await fetch(baseUrl);
         return handleResponse(handleRes);
     } catch (handleError) {
         return handleError(handleError);

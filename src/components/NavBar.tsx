@@ -1,15 +1,15 @@
-import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SaveIcon from '@material-ui/icons/Save';
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Action } from 'redux';
+import { Kitchen } from '../engine/Kitchen';
+import { SaveKitchen } from '../redux/actions/KitchenActions';
+import DeleteMenu from './DeleteMenu';
+import LoadMenu from './LoadMenu';
+import SaveMenu from './SaveMenu';
+import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { BaseWidget } from '../engine/widgets/BaseWidget';
-import { DeleteKitchen, LoadKitchens, SaveKitchen } from '../redux/actions/KitchenActions';
 import { IPlannerState } from '../utilities/Interfaces';
+import { Action } from 'redux';
 
 // Navbar styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -19,10 +19,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             flexGrow: 1,
-        },
-        menuButton: {
-            marginRight: theme.spacing(2),
-            backgroundColor: '#57B05E',
         },
         button: {
             backgroundColor: '#57B05E',
@@ -40,38 +36,19 @@ const useStyles = makeStyles((theme: Theme) =>
 export const NavBar = (): JSX.Element => {
     const style = useStyles();
 
-    //
+    // Dispatch for thunks
     const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
-
-    //
-    React.useEffect((): void => {
-        dispatch(LoadKitchens());
-        // .catch((error: string) => alert('Kitchens failed to load!\n' + error));
-    }, []);
-
-    // Get the current state from redux store and update the basket
-    const currentState = useSelector((state) => state as IPlannerState);
-    // tslint:disable-next-line: no-console
-    currentState.kitchens.forEach((kitchen) => console.log(kitchen.id));
 
     // Save the current kitchen
     const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
-        dispatch(SaveKitchen({ id: 0, widgets: new Array<BaseWidget>() }));
-        // .catch((error: string) => alert('Kitchen failed to save!\n' + error));
-    };
-
-    // Load kitchens
-    const loadKitchens = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        e.preventDefault();
-        dispatch(LoadKitchens());
-        // .catch((error: string) => alert('Kitchens failed to load' + error));
-    };
-
-    const deleteKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        e.preventDefault();
-        dispatch(DeleteKitchen(currentState.kitchens[0]));
-        // .catch((error: string) => alert('Kitchens failed to load' + error));
+        dispatch(
+            SaveKitchen({
+                id: Kitchen.getInstance().kitchenID,
+                widgets: Kitchen.getInstance().widgets,
+                name: 'Kitchen name' + Math.random() * 10,
+            }),
+        ).catch((error: string) => alert('Kitchen failed to save!\n' + error));
     };
 
     // Return the JSX
@@ -82,19 +59,61 @@ export const NavBar = (): JSX.Element => {
                     <Typography variant="h6" color="inherit" className={style.title}>
                         Wren Kitchen planner
                     </Typography>
-                    <Button color="inherit" onClick={(e) => saveKitchen(e)}>
-                        Save <SaveIcon className={style.rightIcon} />
-                    </Button>
-                    <Button color="inherit" onClick={(e) => loadKitchens(e)}>
-                        Download
-                        <CloudDownloadIcon className={style.rightIcon} />
-                    </Button>
-                    <Button color="inherit" onClick={(e) => deleteKitchen(e)}>
-                        Delete
-                        <DeleteIcon className={style.rightIcon} />
-                    </Button>
+                    <Button onClick={(e) => saveKitchen(e)}>Save</Button>
+                    <SaveMenu />
+                    <LoadMenu />
+                    <DeleteMenu />
                 </Toolbar>
             </AppBar>
         </div>
     );
 };
+
+// // Dispatch for thunks
+// const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
+
+// // Called when redux store changes
+// React.useEffect((): void => {
+//     // dispatch(LoadKitchens());
+//     // .catch((error: string) => alert('Kitchens failed to load!\n' + error));
+// }, []);
+
+// // Get the current state from redux store and update the basket
+// const currentState = useSelector((state) => state as IPlannerState);
+// // // tslint:disable-next-line: no-console
+// // currentState.kitchens.forEach((kitchen) => console.log(kitchen.id));
+
+// // Save the current kitchen
+// const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+//     e.preventDefault();
+//     dispatch(
+//         SaveKitchen({
+//             id: Kitchen.getInstance().kitchenID,
+//             widgets: Kitchen.getInstance().widgets,
+//             name: 'Kitchen name' + Math.random() * 10,
+//         }),
+//     ).catch((error: string) => alert('Kitchen failed to save!\n' + error));
+// };
+
+// // Load all kitchens
+// const loadKitchens = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+//     e.preventDefault();
+//     dispatch(LoadKitchens()).catch((error: string) => alert('Kitchens failed to load!\n' + error));
+// };
+
+// // Load all kitchens
+// const loadKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+//     e.preventDefault();
+//     dispatch(LoadKitchen(1)).catch((error: string) => alert('Kitchen 1 failed to load!\n' + error));
+// };
+
+// // Delete the last kitchen
+// const deleteKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+//     e.preventDefault();
+
+//     if (currentState.kitchens.length > 0) {
+//         dispatch(DeleteKitchen(currentState.kitchens[currentState.kitchens.length - 1])).catch((error: string) =>
+//             alert('Kitchens failed to delete!\n' + error),
+//         );
+//     }
+// };
