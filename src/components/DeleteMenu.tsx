@@ -6,8 +6,9 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { getKitchensList, deleteKitchen } from '../api/KitchenApi';
-import { IKitchen, IPlannerState, IMenuItem } from '../utilities/Interfaces';
+import { deleteKitchen, getKitchensList } from '../api/KitchenApi';
+import { IKitchen, IMenuItem, IPlannerState } from '../utilities/Interfaces';
+import { toast } from 'react-toastify';
 
 // TODO
 export default function DeleteMenu(): JSX.Element {
@@ -37,7 +38,12 @@ export default function DeleteMenu(): JSX.Element {
 
     // Delete selected kitchen
     const removeKitchen = (e: any, id: number): void => {
-        deleteKitchen(id);
+        deleteKitchen(id)
+            .then(() => toast.success('Kitchen has been deleted'))
+            .catch((error: string) => {
+                toast.error('Kitchen failed to delete!');
+                console.log(error);
+            });
         setAnchorEl(null);
         setIsLoading(true);
     };

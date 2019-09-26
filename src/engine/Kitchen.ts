@@ -15,8 +15,9 @@ export class Kitchen {
     // Array of objects of type BaseWidget
     private _widgets = new Array<BaseWidget>();
 
-    // Current kitchen id
+    // Current kitchen id and name
     private _kitchenId: number = 0;
+    private _kitchenName: string = '';
 
     // The canvas for reference
     private _canvas: HTMLCanvasElement;
@@ -135,11 +136,42 @@ export class Kitchen {
         if (id >= 0) {
             this._kitchenId = id;
         }
-        // console.log('from kitchen id: ' + this._kitchenId);
+        // tslint:disable-next-line: no-console
+        console.log('from kitchen id: ' + this._kitchenId);
+    }
+
+    // Kitchen name getters and setters
+    public get kitchenName(): string {
+        return this._kitchenName;
+    }
+    public set kitchenName(name: string) {
+        if (name.length > 0) {
+            this._kitchenName = name;
+        }
+        // tslint:disable-next-line: no-console
+        console.log('from kitchen name: ' + this._kitchenName);
     }
 
     // Get access to the widgets array
     public get widgets(): BaseWidget[] {
         return this._widgets;
+    }
+
+    // Update the widgets array
+    public pushToWidgetsArray(widget: BaseWidget): void {
+        this.widgets.push(widget);
+    }
+    public populateToWidgetsArray(widgets: BaseWidget[]): void {
+        widgets.forEach((widget) => this._widgets.push(widget));
+    }
+    public clearWidgetsArray(): void {
+        this._widgets = [];
+    }
+
+    // Reset the kitchen to defualt values
+    public resetKitchen(): void {
+        this._kitchenId = 0;
+        this._kitchenName = '';
+        this.clearWidgetsArray();
     }
 }

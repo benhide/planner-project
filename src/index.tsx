@@ -6,6 +6,7 @@ import { NavBar } from './components/NavBar';
 import { Planner } from './components/Planner';
 import { ToolBox } from './components/ToolBox';
 import { store } from './redux/ConfigureStore';
+import { ToastContainer } from 'react-toastify';
 
 // React render
 ReactDOM.render(
@@ -15,6 +16,7 @@ ReactDOM.render(
             <ToolBox />
             <Basket />
             <Planner />
+            <ToastContainer />
         </Provider>
     ),
     document.getElementById('App'),

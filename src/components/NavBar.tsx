@@ -1,15 +1,10 @@
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
-import { Kitchen } from '../engine/Kitchen';
-import { SaveKitchen } from '../redux/actions/KitchenActions';
 import DeleteMenu from './DeleteMenu';
 import LoadMenu from './LoadMenu';
 import SaveMenu from './SaveMenu';
-import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { IPlannerState } from '../utilities/Interfaces';
-import { Action } from 'redux';
+import AddMenu from './AddMenu';
 
 // Navbar styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,6 +39,7 @@ export const NavBar = (): JSX.Element => {
                     <Typography variant="h6" color="inherit" className={style.title}>
                         Wren Kitchen planner
                     </Typography>
+                    <AddMenu />
                     <SaveMenu />
                     <LoadMenu />
                     <DeleteMenu />
@@ -53,20 +49,20 @@ export const NavBar = (): JSX.Element => {
     );
 };
 
-    // // Dispatch for thunks
-    // const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
+// // Dispatch for thunks
+// const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
 
-    // // Save the current kitchen
-    // const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-    //     e.preventDefault();
-    //     dispatch(
-    //         SaveKitchen({
-    //             id: Kitchen.getInstance().kitchenID,
-    //             widgets: Kitchen.getInstance().widgets,
-    //             name: 'Kitchen name' + Math.random() * 10,
-    //         }),
-    //     ).catch((error: string) => alert('Kitchen failed to save!\n' + error));
-    // };
+// // Save the current kitchen
+// const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+//     e.preventDefault();
+//     dispatch(
+//         SaveKitchen({
+//             id: Kitchen.getInstance().kitchenID,
+//             widgets: Kitchen.getInstance().widgets,
+//             name: 'Kitchen name' + Math.random() * 10,
+//         }),
+//     ).catch((error: string) => alert('Kitchen failed to save!\n' + error));
+// };
 // // Dispatch for thunks
 // const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
 
