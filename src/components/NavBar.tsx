@@ -36,21 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export const NavBar = (): JSX.Element => {
     const style = useStyles();
 
-    // Dispatch for thunks
-    const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
-
-    // Save the current kitchen
-    const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        e.preventDefault();
-        dispatch(
-            SaveKitchen({
-                id: Kitchen.getInstance().kitchenID,
-                widgets: Kitchen.getInstance().widgets,
-                name: 'Kitchen name' + Math.random() * 10,
-            }),
-        ).catch((error: string) => alert('Kitchen failed to save!\n' + error));
-    };
-
     // Return the JSX
     return (
         <div className={style.root}>
@@ -59,7 +44,6 @@ export const NavBar = (): JSX.Element => {
                     <Typography variant="h6" color="inherit" className={style.title}>
                         Wren Kitchen planner
                     </Typography>
-                    <Button onClick={(e) => saveKitchen(e)}>Save</Button>
                     <SaveMenu />
                     <LoadMenu />
                     <DeleteMenu />
@@ -69,6 +53,20 @@ export const NavBar = (): JSX.Element => {
     );
 };
 
+    // // Dispatch for thunks
+    // const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
+
+    // // Save the current kitchen
+    // const saveKitchen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    //     e.preventDefault();
+    //     dispatch(
+    //         SaveKitchen({
+    //             id: Kitchen.getInstance().kitchenID,
+    //             widgets: Kitchen.getInstance().widgets,
+    //             name: 'Kitchen name' + Math.random() * 10,
+    //         }),
+    //     ).catch((error: string) => alert('Kitchen failed to save!\n' + error));
+    // };
 // // Dispatch for thunks
 // const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
 

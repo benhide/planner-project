@@ -25,19 +25,19 @@ import initialState from './IntialState';
 // };
 
 //
-export const kitchenReducer = (state = initialState.kitchens, action: KitchenActions) => {
+export const kitchenReducer = (state = initialState.kitchen, action: KitchenActions) => {
     switch (action.type) {
-        // Save a kitchen to server
-        case KitchenActionTypes.SAVE_KITCHEN_SUCCESS:
-            return [...state, { ...action.kitchen }];
+        // // Save a kitchen to server
+        // case KitchenActionTypes.SAVE_KITCHEN_SUCCESS:
+        //     return [...state, { ...action.kitchen }];
 
-        // Load kitchens from server
-        case KitchenActionTypes.LOAD_KITCHENS_SUCCESS:
-            return action.kitchens;
+        // Load kitchen from server
+        case KitchenActionTypes.LOAD_KITCHEN_SUCCESS:
+            return action.kitchen;
 
-        // Delete kitchen from server
-        case KitchenActionTypes.REMOVED_KITCHEN_SUCCESS:
-            return state.filter((kitchen) => kitchen.id !== action.kitchen.id);
+        // // Delete kitchen from server
+        // case KitchenActionTypes.REMOVED_KITCHEN_SUCCESS:
+        //     return state.filter((kitchen) => kitchen.id !== action.kitchen.id);
 
         // Return default state
         default:

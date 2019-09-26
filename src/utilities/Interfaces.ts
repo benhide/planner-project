@@ -42,12 +42,18 @@ export interface IItem {
 
 // Redux planner state
 export interface IPlannerState {
-    kitchens: IKitchen[];
+    kitchen: IKitchen;
 }
 
 // TODO
 export interface IKitchen {
     widgets: BaseWidget[];
+    id: number;
+    name: string;
+}
+
+// Menu item
+export interface IMenuItem {
     id: number;
     name: string;
 }
