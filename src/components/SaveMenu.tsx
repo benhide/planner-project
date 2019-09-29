@@ -8,7 +8,8 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Kitchen } from '../engine/Kitchen';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
-import { IPlannerState } from '../utilities/Interfaces';
+import { IPlannerState, IDialogProps, IKitchen } from '../utilities/Interfaces';
+import { store } from '../redux/ConfigureStore';
 
 // Styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,19 +44,16 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-// Interface for save dialog props
-interface ISaveDialogProps {
-    open: boolean;
-    onClose: () => void;
-}
-
 // Interface for the text field state
 interface IState {
     name: string;
 }
 
 //
-export default function SaveMenu() {
+export default function SaveMenu(props: any) {
+    // Props
+    const { setIsLoading } = props;
+
     // Local state
     const [open, setOpen] = React.useState(false);
 
@@ -86,6 +84,7 @@ export default function SaveMenu() {
 
     // When closing the save menu
     const handleClose = () => {
+        setIsLoading(true);
         setOpen(false);
     };
 
@@ -95,21 +94,18 @@ export default function SaveMenu() {
             <Button color="inherit" onClick={(e) => handleClickOpen(e)}>
                 <SaveIcon />
             </Button>
-            <SaveDialog open={open} onClose={handleClose} />
+            <SaveDialog open={open} onClose={handleClose} dispatch={dispatch} />
         </div>
     );
 }
 
 // Save dialog component
-function SaveDialog(props: ISaveDialogProps) {
+export function SaveDialog(props: IDialogProps) {
     // The props
-    const { onClose, open } = props;
+    const { onClose, open, dispatch } = props;
 
     // Styling
     const style = useStyles();
-
-    // Dispatch for thunks
-    const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
 
     // When the dialog box closes
     const handleClose = () => {
@@ -141,8 +137,7 @@ function SaveDialog(props: ISaveDialogProps) {
             )
                 .then(() => {
                     toast.success('Kitchen ' + values.name + ' has been saved');
-                    // tslint:disable-next-line: no-console
-                    console.log('update kitchen number!!!');
+                    const kitchen = store.getState() as IKitchen;
                 })
                 .catch((error: string) => alert('Kitchen ' + values.name + ' failed to save!\n' + error));
         }

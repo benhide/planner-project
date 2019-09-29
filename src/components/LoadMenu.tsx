@@ -6,27 +6,21 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { getKitchensList } from '../api/KitchenApi';
 import { LoadKitchen } from '../redux/actions/KitchenActions';
-import { IKitchen, IMenuItem, IPlannerState } from '../utilities/Interfaces';
+import { IKitchen, IPlannerState } from '../utilities/Interfaces';
 import { Kitchen } from '../engine/Kitchen';
 import { toast } from 'react-toastify';
+import { kitchenReducer } from '../redux/reducers/KitchenReducer';
 
 // The load menu component
-export default function LoadMenu(): JSX.Element {
+export default function LoadMenu(props: any): JSX.Element {
+    const { loadItems, setIsLoading } = props;
+
     // Dispatch for thunks
     const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
 
     // Local state
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [loadItems, setLoadItems] = React.useState<IMenuItem[]>(new Array<IMenuItem>());
-    const [isLoading, setIsLoading] = React.useState<boolean>(true);
-
-    // When component mounted
-    React.useEffect(() => {
-        getKitchensList().then((result: IKitchen[]) => setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))));
-        setIsLoading(false);
-    }, [isLoading]);
 
     // Handle clicks on menu items
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -45,6 +39,7 @@ export default function LoadMenu(): JSX.Element {
             .then(() => {
                 Kitchen.getInstance().kitchenID = id;
                 Kitchen.getInstance().kitchenName = name;
+                // kitchen.getInstance().widgets = widgets;
                 toast.success('Kitchen has been loaded');
             })
             .catch((error: string) => {
@@ -63,7 +58,11 @@ export default function LoadMenu(): JSX.Element {
                 <CloudDownloadIcon />
             </Button>
             <Menu id="simple-load-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => handleClose()}>
-                {loadItems.map((kitchen) => (<MenuItem key={kitchen.name} onClick={(e) => loadKitchen(e, kitchen.id, kitchen.name)}>{kitchen.name}</MenuItem>))}
+                {loadItems.map((kitchen: IKitchen) => (
+                    <MenuItem key={kitchen.name} onClick={(e) => loadKitchen(e, kitchen.id, kitchen.name)}>
+                        {kitchen.name}
+                    </MenuItem>
+                ))}
             </Menu>
         </div>
     );

@@ -1,4 +1,5 @@
 import { BaseWidget } from './widgets/BaseWidget';
+import { store } from '../redux/ConfigureStore';
 
 // The kitchen class
 export class Kitchen {
@@ -173,5 +174,11 @@ export class Kitchen {
         this._kitchenId = 0;
         this._kitchenName = '';
         this.clearWidgetsArray();
+    }
+    public updateKitchenDetails(id: number, name: string, widgets: BaseWidget[]) {
+        // TODO
+        // SET ID
+        // SET NAME
+        // SET WIDGETS
     }
 }
