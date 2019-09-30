@@ -33,3 +33,9 @@ export const UNIT_ID_PREFIX = 100;
 export const WORKTOP_ID_PREFIX = 200;
 export const WALLUNIT_ID_PREFIX = 300;
 export const WALL_ID_PREFIX = 400;
+
+export const DEFAULT_KITCHEN = {
+    id: 0,
+    widgets: [],
+    name: '',
+};

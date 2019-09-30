@@ -1,5 +1,7 @@
 import { GameEvent } from '../engine/EventBus';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
 // An event subscription takes an event and a
 // subscription function
@@ -56,4 +58,11 @@ export interface IKitchen {
 export interface IMenuItem {
     id: number;
     name: string;
+}
+
+// Interface for dialog props
+export interface IDialogProps {
+    open: boolean;
+    onClose: () => void;
+    dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
 }

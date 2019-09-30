@@ -1,12 +1,9 @@
 // Types of actions for redux store
-export enum WidgetActionTypes {
+export enum KitchenActionTypes {
     WIDGET_ADDED = 'WIDGET_ADDED',
     WIDGET_REMOVED = 'WIDGET_REMOVED',
     WIDGET_UPDATED = 'WIDGET_UPDATED',
-}
 
-// Types of actions for redux store
-export enum KitchenActionTypes {
     SAVE_KITCHEN_SUCCESS = 'SAVE_KITCHEN_SUCCESS',
     LOAD_KITCHENS_SUCCESS = 'LOAD_KITCHENS_SUCCESS',
     LOAD_KITCHEN_SUCCESS = 'LOAD_KITCHEN_SUCCESS',

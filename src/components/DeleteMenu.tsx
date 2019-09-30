@@ -1,62 +1,134 @@
-import { MenuItem } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, Dialog, DialogTitle, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { deleteKitchen, getKitchensList } from '../api/KitchenApi';
-import { IKitchen, IMenuItem, IPlannerState } from '../utilities/Interfaces';
+import { IDialogProps, IPlannerState } from '../utilities/Interfaces';
 import { toast } from 'react-toastify';
+import { Kitchen } from '../engine/Kitchen';
+import { deleteKitchen } from '../api/KitchenApi';
+import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import { DeleteKitchen } from '../redux/actions/KitchenActions';
+
+// Styling
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        container: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        textField: {
+            marginLeft: theme.spacing(5),
+            marginRight: theme.spacing(5),
+            width: 400,
+        },
+        deleteButton: {
+            marginLeft: theme.spacing(5),
+            marginRight: theme.spacing(5),
+            marginBottom: theme.spacing(2),
+            marginTop: theme.spacing(2),
+            width: 150,
+            display: 'inline-block',
+            float: 'left' as 'left',
+        },
+        cancelButton: {
+            marginRight: theme.spacing(5),
+            marginLeft: theme.spacing(5),
+            marginBottom: theme.spacing(2),
+            marginTop: theme.spacing(2),
+            width: 150,
+            display: 'inline-block',
+            float: 'right' as 'right',
+        },
+    }),
+);
 
 // TODO
-export default function DeleteMenu(): JSX.Element {
+export default function DeleteMenu(props: any): JSX.Element {
+    // Props
+    const { setIsLoading } = props;
+
+    // Local state
+    const [open, setOpen] = React.useState(false);
+
     // Dispatch for thunks
     const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();
 
-    // Local state
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [deleteItems, setDeleteItems] = React.useState<IMenuItem[]>(new Array<IMenuItem>());
-    const [isLoading, setIsLoading] = React.useState<boolean>(true);
-
-    // When component mounted
-    React.useEffect(() => {
-        getKitchensList().then((result: IKitchen[]) => setDeleteItems(result.map((item) => ({ id: item.id, name: item.name }))));
-        setIsLoading(false);
-    }, [isLoading]);
-
     // Handle clicks on menu items
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpen(true);
     };
 
-    // Handle the menu closing
+    // When closing the save menu
     const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    // Delete selected kitchen
-    const removeKitchen = (e: any, id: number): void => {
-        deleteKitchen(id)
-            .then(() => toast.success('Kitchen has been deleted'))
-            .catch((error: string) => {
-                toast.error('Kitchen failed to delete!');
-                console.log(error);
-            });
-        setAnchorEl(null);
         setIsLoading(true);
+        setOpen(false);
     };
 
     // Rendert the JSX
     return (
         <div>
-            <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <Button color="inherit" onClick={(e) => handleClickDelete(e)}>
                 <DeleteIcon />
             </Button>
-            <Menu id="simple-delete-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-                {deleteItems.map((kitchen) => (<MenuItem key={kitchen.name} onClick={(e) => removeKitchen(e, kitchen.id)}>{kitchen.name}</MenuItem>))}
-            </Menu>
+            <DeleteDialog open={open} onClose={handleClose} dispatch={dispatch} />
         </div>
+    );
+}
+
+// Save dialog component
+function DeleteDialog(props: IDialogProps) {
+    // The props
+    const { onClose, open, dispatch } = props;
+
+    // Styling
+    const style = useStyles();
+
+    // When the dialog box closes
+    const handleClose = () => {
+        onClose();
+    };
+
+    // Delete the current kitchen
+    const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        if (Kitchen.getInstance().kitchenID) {
+            deleteKitchen(Kitchen.getInstance().kitchenID)
+                .then(() => {
+                    toast.success('Kitchen deleted');
+                    Kitchen.getInstance().resetKitchen();
+                    debugger;
+                    dispatch(
+                        DeleteKitchen({
+                            id: Kitchen.getInstance().kitchenID,
+                            widgets: Kitchen.getInstance().widgets,
+                            name: Kitchen.getInstance().kitchenName,
+                        }),
+                    );
+                })
+                .catch((error: string) => {
+                    toast.error('Kitchen failed to delete!');
+                    // tslint:disable-next-line: no-console
+                    console.log(error);
+                });
+        }
+        onClose();
+    };
+
+    // Render the JSX
+    return (
+        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+            <DialogTitle id="save-dialog-title">Delete Kitchen</DialogTitle>
+            <span>
+                <Button className={style.deleteButton} onClick={(e) => handleDelete(e)}>
+                    Delete
+                </Button>
+                <Button className={style.cancelButton} onClick={() => handleClose()}>
+                    Cancel
+                </Button>
+            </span>
+        </Dialog>
     );
 }

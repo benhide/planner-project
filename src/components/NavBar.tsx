@@ -5,6 +5,8 @@ import DeleteMenu from './DeleteMenu';
 import LoadMenu from './LoadMenu';
 import SaveMenu from './SaveMenu';
 import AddMenu from './AddMenu';
+import { getKitchensList } from '../api/KitchenApi';
+import { IKitchen, IMenuItem } from '../utilities/Interfaces';
 
 // Navbar styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,6 +33,15 @@ const useStyles = makeStyles((theme: Theme) =>
 export const NavBar = (): JSX.Element => {
     const style = useStyles();
 
+    const [loadItems, setLoadItems] = React.useState<IMenuItem[]>(new Array<IMenuItem>());
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
+
+    // When component mounted
+    React.useEffect(() => {
+        getKitchensList().then((result: IKitchen[]) => setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))));
+        setIsLoading(false);
+    }, [isLoading]);
+
     // Return the JSX
     return (
         <div className={style.root}>
@@ -39,10 +50,10 @@ export const NavBar = (): JSX.Element => {
                     <Typography variant="h6" color="inherit" className={style.title}>
                         Wren Kitchen planner
                     </Typography>
-                    <AddMenu />
-                    <SaveMenu />
-                    <LoadMenu />
-                    <DeleteMenu />
+                    <AddMenu setIsLoading={setIsLoading} />
+                    <SaveMenu setIsLoading={setIsLoading} />
+                    <LoadMenu loadItems={loadItems} setIsLoading={setIsLoading} />
+                    <DeleteMenu setIsLoading={setIsLoading} />
                 </Toolbar>
             </AppBar>
         </div>
