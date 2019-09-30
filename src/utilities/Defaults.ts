@@ -1,4 +1,5 @@
 import { Dimensions } from '../engine/Transform';
+import { IKitchen } from './Interfaces';
 
 // Module for holding default values for ease of access and reusability
 
@@ -34,7 +35,7 @@ export const WORKTOP_ID_PREFIX = 200;
 export const WALLUNIT_ID_PREFIX = 300;
 export const WALL_ID_PREFIX = 400;
 
-export const DEFAULT_KITCHEN = {
+export const DEFAULT_KITCHEN: IKitchen = {
     id: 0,
     widgets: [],
     name: '',

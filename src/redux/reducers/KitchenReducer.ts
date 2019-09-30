@@ -25,11 +25,11 @@ export const kitchenReducer = (state = initialState.kitchen, action: KitchenActi
         case KitchenActionTypes.WIDGET_REMOVED:
             return state.widgets.filter((widget) => widget.id !== action.widget.id);
 
-        // Update a widget in the store
-        case KitchenActionTypes.WIDGET_UPDATED:
-            return state.widgets.map((widget) => {
-                return widget.id !== action.widget.id ? widget : { ...widget, ...action.widget };
-            });
+        // // Update a widget in the store
+        // case KitchenActionTypes.WIDGET_UPDATED:
+        //     return state.widgets.map((widget) => {
+        //         return widget.id !== action.widget.id ? widget : { ...widget, ...action.widget };
+        //     });
         // Return default state
         default:
             return state;

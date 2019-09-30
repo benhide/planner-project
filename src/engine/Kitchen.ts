@@ -1,5 +1,4 @@
 import { BaseWidget } from './widgets/BaseWidget';
-import { store } from '../redux/ConfigureStore';
 
 // The kitchen class
 export class Kitchen {
@@ -19,6 +18,7 @@ export class Kitchen {
     // Current kitchen id and name
     private _kitchenId: number = 0;
     private _kitchenName: string = '';
+    private _updating: boolean = true;
 
     // The canvas for reference
     private _canvas: HTMLCanvasElement;
@@ -176,9 +176,8 @@ export class Kitchen {
         this.clearWidgetsArray();
     }
     public updateKitchenDetails(id: number, name: string, widgets: BaseWidget[]) {
-        // TODO
-        // SET ID
-        // SET NAME
-        // SET WIDGETS
+        this._kitchenId = id;
+        this._kitchenName = name;
+        this._widgets = widgets;
     }
 }

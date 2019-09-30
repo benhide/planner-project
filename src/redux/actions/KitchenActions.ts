@@ -1,7 +1,9 @@
-import { saveKitchen, loadKitchen } from '../../api/KitchenApi';
+import { loadKitchen, saveKitchen } from '../../api/KitchenApi';
+import { Kitchen } from '../../engine/Kitchen';
 import { BaseWidget } from '../../engine/widgets/BaseWidget';
-import { KitchenActionTypes } from './ActionTypes';
+import { DEFAULT_KITCHEN } from '../../utilities/Defaults';
 import { IKitchen } from '../../utilities/Interfaces';
+import { KitchenActionTypes } from './ActionTypes';
 
 // Interfaces for kitchen actions
 // Widget actions interfaces and types
@@ -36,12 +38,13 @@ export interface IKitchenSavedAction {
 }
 
 // TODO
-export interface IKitchensRemovedAction {
+export interface IKitchenRemovedAction {
     type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS;
     kitchen: IKitchen;
 }
+
 // TODO
-export type KitchenActions = IKitchenSavedAction | IKitchenLoadedAction | IKitchensRemovedAction | IKitchenWidgetAddedAction | IKitchenWidgetRemovedAction | IKitchenWidgetUpdatedAction;
+export type KitchenActions = IKitchenSavedAction | IKitchenLoadedAction | IKitchenRemovedAction | IKitchenWidgetAddedAction | IKitchenWidgetRemovedAction | IKitchenWidgetUpdatedAction;
 
 // Add widget action creator
 export const AddWidget = (widget: BaseWidget) => {
@@ -69,22 +72,30 @@ export const SaveKitchenSuccess = (kitchen: IKitchen) => {
 };
 
 // TODO
-export function SaveKitchen(kitchen: IKitchen) {
+export function SaveKitchen(kitchen: IKitchen, isNewKitchen: boolean) {
     return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IKitchen }) => void) => {
         try {
-            const savedKitchen = await saveKitchen(kitchen);
-            dispatch(SaveKitchenSuccess(savedKitchen));
+            if (!isNewKitchen) {
+                const savedKitchen = (await saveKitchen(kitchen)) as IKitchen;
+                Kitchen.getInstance().updateKitchenDetails(savedKitchen.id, savedKitchen.name, savedKitchen.widgets);
+                dispatch(SaveKitchenSuccess(savedKitchen));
+            } else {
+                await saveKitchen(kitchen);
+                Kitchen.getInstance().resetKitchen();
+                dispatch(DeleteKitchen(DEFAULT_KITCHEN));
+            }
         } catch (error) {
             throw error;
         }
     };
 }
 
-// TODO
+// Load kitchen
 export function LoadKitchen(id: number) {
     return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IKitchen }) => void) => {
         try {
             const loadedKitchen = await loadKitchen(id);
+            Kitchen.getInstance().updateKitchenDetails(loadedKitchen.id, loadedKitchen.name, loadedKitchen.widgets);
             dispatch(LoadKitchenSuccess(loadedKitchen));
         } catch (error) {
             throw error;

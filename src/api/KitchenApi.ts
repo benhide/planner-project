@@ -2,17 +2,7 @@ import { IKitchen } from '../utilities/Interfaces';
 import { handleResponse } from './apiUtils';
 const baseUrl = process.env.API_URL + '/kitchens/';
 
-// TODO
-export async function loadKitchens(): Promise<any> {
-    try {
-        const handleRes = await fetch(baseUrl);
-        return handleResponse(handleRes);
-    } catch (handleError) {
-        return handleError(handleError);
-    }
-}
-
-// TODO
+// Load kitchen fetch/promise
 export async function loadKitchen(id: number): Promise<any> {
     try {
         const handleRes = await fetch(baseUrl + id);
@@ -22,7 +12,7 @@ export async function loadKitchen(id: number): Promise<any> {
     }
 }
 
-// TODO
+// Save kitchen fetch/promise
 export async function saveKitchen(kitchen: IKitchen): Promise<any> {
     try {
         const handleRes = await fetch(baseUrl + (kitchen.id || ''), {
@@ -39,7 +29,7 @@ export async function saveKitchen(kitchen: IKitchen): Promise<any> {
     }
 }
 
-// TODO
+// Delete kitchen fetch/promise
 export async function deleteKitchen(id: number): Promise<any> {
     try {
         const handleRes = await fetch(baseUrl + id, { method: 'DELETE' });
@@ -49,7 +39,7 @@ export async function deleteKitchen(id: number): Promise<any> {
     }
 }
 
-// TODO
+// Get the list of kitchens fetch
 export async function getKitchensList(): Promise<any> {
     try {
         const handleRes = await fetch(baseUrl);

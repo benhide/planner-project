@@ -66,3 +66,8 @@ export interface IDialogProps {
     onClose: () => void;
     dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
 }
+
+// Interface for the text field state
+export interface IState {
+    name: string;
+}

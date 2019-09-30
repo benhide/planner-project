@@ -3,29 +3,11 @@
     {
       "id": 1,
       "widgets": [],
-      "name": "Kitchen name2.185207342558182",
+      "name": "Server Kitchen",
       "createdAt": 1569423198015
     },
     {
       "id": 2,
-      "widgets": [],
-      "name": "Kitchen name4.971027047416943",
-      "createdAt": 1569423199727
-    },
-    {
-      "id": 3,
-      "widgets": [],
-      "name": "Kitchen name4.693398701864087",
-      "createdAt": 1569423199967
-    },
-    {
-      "id": 4,
-      "widgets": [],
-      "name": "Kitchen name2.9924908839008535",
-      "createdAt": 1569423200718
-    },
-    {
-      "id": 5,
       "widgets": [
         {
           "dimensions": {
@@ -33,44 +15,8 @@
             "l": 100
           },
           "position": {
-            "x": 450,
-            "y": 120
-          },
-          "zIndex": 1,
-          "id": 102,
-          "isScalable": false,
-          "isRotatable": true,
-          "isSelected": false,
-          "isHeld": false,
-          "isScaling": false,
-          "isRotating": false,
-          "isColliding": true,
-          "isDeleting": false,
-          "mouseDownPos": {
-            "x": 498.234375,
-            "y": 162
-          },
-          "dirToRotate": {
-            "x": 0,
-            "y": 0
-          },
-          "angle": 0,
-          "drawWidget": {},
-          "defaultWidth": 100,
-          "defaultLength": 100,
-          "lastValidPosition": {
-            "x": 450,
-            "y": 120
-          }
-        },
-        {
-          "dimensions": {
-            "w": 100,
-            "l": 100
-          },
-          "position": {
-            "x": 170,
-            "y": 80
+            "x": 200,
+            "y": 140
           },
           "zIndex": 1,
           "id": 101,
@@ -83,8 +29,8 @@
           "isColliding": false,
           "isDeleting": false,
           "mouseDownPos": {
-            "x": 498.234375,
-            "y": 162
+            "x": 242.359375,
+            "y": 190
           },
           "dirToRotate": {
             "x": 0,
@@ -95,12 +41,13 @@
           "defaultWidth": 100,
           "defaultLength": 100,
           "lastValidPosition": {
-            "x": 170,
-            "y": 80
+            "x": 200,
+            "y": 140
           }
         }
       ],
-      "name": "bkjkbhjlb"
+      "name": "new kitchen",
+      "createdAt": 1569840842180
     }
   ]
 }
