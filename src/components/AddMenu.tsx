@@ -3,9 +3,11 @@ import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 import { Kitchen } from '../engine/Kitchen';
-import { SaveKitchen } from '../redux/actions/KitchenActions';
+import { SaveKitchen, DeleteKitchen } from '../redux/actions/KitchenActions';
 import { IMenuProps } from '../utilities/Interfaces';
 import { SaveDialog } from './SaveDialog';
+import { DEFAULT_KITCHEN } from '../utilities/Defaults';
+import { GenerateId } from '../engine/WidgetsID';
 
 // Menu for creating a new kitchen
 export default function AddMenu(props: IMenuProps): JSX.Element {
@@ -42,6 +44,9 @@ export default function AddMenu(props: IMenuProps): JSX.Element {
     const handleClose = () => {
         setIsLoading(true);
         setOpen(false);
+        Kitchen.getInstance().resetKitchen();
+        GenerateId.resetAllIds();
+        dispatch(DeleteKitchen(DEFAULT_KITCHEN));
     };
 
     // Rendert the JSX

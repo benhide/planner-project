@@ -83,7 +83,7 @@ export const Basket = (): JSX.Element => {
                     sum += (widget.dimensions.w / 100) * (widget.dimensions.l / 100);
                 }
             });
-            return sum;
+            return Math.round(sum * 10) / 10;
         };
 
         // Push items to the basket
@@ -145,16 +145,16 @@ export const Basket = (): JSX.Element => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Desc</TableCell>
-                            <TableCell size="small" align="left">
+                            <TableCell size="small" align="center">
                                 Quanity
                             </TableCell>
-                            <TableCell size="small" align="left">
+                            <TableCell size="small" align="center">
                                 Size
                             </TableCell>
-                            <TableCell size="small" align="left">
+                            <TableCell size="small" align="center">
                                 Price
                             </TableCell>
-                            <TableCell size="small" align="left">
+                            <TableCell size="small" align="center">
                                 Total
                             </TableCell>
                         </TableRow>
@@ -166,26 +166,26 @@ export const Basket = (): JSX.Element => {
                             <TableCell className={style.cell} colSpan={3}>
                                 Subtotal
                             </TableCell>
-                            <TableCell className={style.cell} align="right">{`£${currencyFormat(subtotal)}`}</TableCell>
+                            <TableCell className={style.cell} align="center">{`£${currencyFormat(subtotal)}`}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={style.cell} colSpan={2}>
                                 VAT
                             </TableCell>
-                            <TableCell className={style.cell} align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-                            <TableCell className={style.cell} align="right">{`£${currencyFormat(invoiceTaxes)}`}</TableCell>
+                            <TableCell className={style.cell} align="center">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
+                            <TableCell className={style.cell} align="center">{`£${currencyFormat(invoiceTaxes)}`}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={style.cell} colSpan={3}>
                                 Shipping
                             </TableCell>
-                            <TableCell className={style.cell} align="right">{`£${currencyFormat(shippingTotal)}`}</TableCell>
+                            <TableCell className={style.cell} align="center">{`£${currencyFormat(shippingTotal)}`}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={style.cell} colSpan={3}>
                                 Total
                             </TableCell>
-                            <TableCell className={style.cell} align="right">{`£${currencyFormat(invoiceTotal)}`}</TableCell>
+                            <TableCell className={style.cell} align="center">{`£${currencyFormat(invoiceTotal)}`}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

@@ -1,14 +1,26 @@
-import { MenuItem } from '@material-ui/core';
+import { createStyles, makeStyles, MenuItem, Theme, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import * as React from 'react';
 import { toast } from 'react-toastify';
-import { LoadKitchen, SaveKitchen } from '../redux/actions/KitchenActions';
-import { IPlannerState, ILoadMenuProps, IMenuItem } from '../utilities/Interfaces';
+import { LoadKitchen } from '../redux/actions/KitchenActions';
+import { ILoadMenuProps, IMenuItem } from '../utilities/Interfaces';
+
+// Styling for the component
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        title: {
+            margin: theme.spacing(2),
+        },
+    }),
+);
 
 // The load menu component
 export default function LoadMenu(props: ILoadMenuProps): JSX.Element {
+    // The component styling
+    const style = useStyles();
+
     // Props
     const { loadItems, setIsLoading, dispatch } = props;
 
@@ -41,7 +53,12 @@ export default function LoadMenu(props: ILoadMenuProps): JSX.Element {
                 <CloudDownloadIcon />
             </Button>
             <Menu id="simple-load-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => handleClose()}>
-                {loadItems.map((kitchen: IMenuItem) => (<MenuItem key={kitchen.id} onClick={(e) => loadKitchen(e, kitchen.id, kitchen.name)}>{kitchen.name}</MenuItem>))}
+                <Typography className={style.title}>Choose kitchen to load</Typography>
+                {loadItems.map((kitchen: IMenuItem) => (
+                    <MenuItem key={kitchen.id} onClick={(e) => loadKitchen(e, kitchen.id, kitchen.name)}>
+                        {kitchen.name}
+                    </MenuItem>
+                ))}
             </Menu>
         </div>
     );

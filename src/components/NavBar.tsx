@@ -38,7 +38,7 @@ export const NavBar = (): JSX.Element => {
 
     // When component mounted
     React.useEffect(() => {
-        // Getthe kitcehn list from the server
+        // Getthe kitchen list from the server
         getKitchensList().then((result: IPlannerState[]) => setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))));
         setIsLoading(false);
     }, [isLoading]);

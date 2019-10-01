@@ -28,11 +28,39 @@ export const GenerateId = (() => {
         return WALL_ID_PREFIX + WALL_ID++;
     };
 
+    const resetUnitId = () => {
+        UNIT_ID = 1;
+    };
+
+    const resetWallUnitId = () => {
+        WALLUNIT_ID = 1;
+    };
+
+    const resetWorktopId = () => {
+        WORKTOP_ID = 1;
+    };
+
+    const resetWallId = () => {
+        WALL_ID = 1;
+    };
+
+    const resetAllIds = () => {
+        resetUnitId();
+        resetWallUnitId();
+        resetWorktopId();
+        resetWallId();
+    }
+
     // Return the functions (public access)
     return {
         nextUnitId,
         nextWorktopId,
         nextWallunitId,
         nextWallId,
+        resetAllIds,
+        resetUnitId,
+        resetWallUnitId,
+        resetWorktopId,
+        resetWallId,
     };
 })();

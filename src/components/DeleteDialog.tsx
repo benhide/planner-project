@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import { deleteKitchen } from '../api/KitchenApi';
 import { Kitchen } from '../engine/Kitchen';
 import { DeleteKitchen } from '../redux/actions/KitchenActions';
-import { IDeleteDialogProps } from '../utilities/Interfaces';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
+import { IDeleteDialogProps } from '../utilities/Interfaces';
 
 // Component styling
 const menuStyles = makeStyles((theme: Theme) =>
@@ -59,12 +59,13 @@ export function DeleteKitchenDialog(props: IDeleteDialogProps) {
             deleteKitchen(Kitchen.getInstance().kitchenID)
                 .then(() => {
                     toast.success('Kitchen deleted');
-                    dispatch(
-                        DeleteKitchen(DEFAULT_KITCHEN),
-                    );
+                    dispatch(DeleteKitchen(DEFAULT_KITCHEN));
                     Kitchen.getInstance().resetKitchen();
                 })
                 .catch(() => toast.error('Kitchen failed to delete!'));
+        } else {
+            dispatch(DeleteKitchen(DEFAULT_KITCHEN));
+            Kitchen.getInstance().resetKitchen();
         }
         onClose();
     };
