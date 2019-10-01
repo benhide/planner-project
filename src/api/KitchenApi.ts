@@ -1,4 +1,4 @@
-import { handleResponse } from './apiUtils';
+import { handleResponse } from './ApiUtilities';
 import { IPlannerState } from '../utilities/Interfaces';
 const baseUrl = process.env.API_URL + '/kitchens/';
 

@@ -47,3 +47,6 @@ export const DEFAULT_UNIT_TYPE = 'UNIT';
 export const DEFAULT_WALLUNIT_TYPE = 'WALLUNIT';
 export const DEFAULT_WORKTOP_TYPE = 'WORKTOP';
 export const DEFAULT_WALL_TYPE = 'WALL';
+
+// WRen green colour
+export const WREN_GREEN = '#57B05E';

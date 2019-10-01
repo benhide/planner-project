@@ -5,10 +5,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Kitchen } from '../engine/Kitchen';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
-import { SaveKitchenDialog } from './SaveDialog';
+import { IMenuProps } from '../utilities/Interfaces';
+import { SaveDialog } from './SaveDialog';
 
 // The save menu for kitchens
-export default function SaveMenu(props: any) {
+export default function SaveMenu(props: IMenuProps) {
     // Props
     const { setIsLoading, dispatch } = props;
 
@@ -17,10 +18,12 @@ export default function SaveMenu(props: any) {
 
     // Handle the click on save button
     const handleClickOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
+        // If not already saved it will not have id
         if (!Kitchen.getInstance().kitchenID) {
+            // Open save dialog
             setOpen(true);
         } else {
-            e.preventDefault();
+            // Dispatch action to redux store
             dispatch(
                 SaveKitchen(
                     {
@@ -32,9 +35,7 @@ export default function SaveMenu(props: any) {
                 ),
             )
                 .then(() => toast.success('Kitchen ' + Kitchen.getInstance().kitchenName + ' has been saved'))
-                .catch((error: string) => {
-                    toast.error('Kitchen ' + Kitchen.getInstance().kitchenName + ' failed to save!');
-                });
+                .catch(() => toast.error('Kitchen ' + Kitchen.getInstance().kitchenName + ' failed to save!'));
         }
     };
 
@@ -50,7 +51,7 @@ export default function SaveMenu(props: any) {
             <Button color="inherit" onClick={(e) => handleClickOpen(e)}>
                 <SaveIcon />
             </Button>
-            <SaveKitchenDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={false}/>
+            <SaveDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={false} />
         </div>
     );
 }

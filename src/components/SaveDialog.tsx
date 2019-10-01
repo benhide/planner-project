@@ -1,10 +1,11 @@
-import { Button, Dialog, DialogTitle, TextField, makeStyles, Theme, createStyles, Typography } from '@material-ui/core';
+import { Button, createStyles, Dialog, DialogTitle, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 import { Kitchen } from '../engine/Kitchen';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
-import { IDialogProps, IState } from '../utilities/Interfaces';
+import { ISaveDialogProps, IState } from '../utilities/Interfaces';
 
+// Component styling
 const menuStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
@@ -46,7 +47,7 @@ const menuStyles = makeStyles((theme: Theme) =>
 );
 
 // Save dialog component
-export function SaveKitchenDialog(props: any) {
+export function SaveDialog(props: ISaveDialogProps) {
     // Styling
     const style = menuStyles();
 
@@ -69,11 +70,13 @@ export function SaveKitchenDialog(props: any) {
 
     // Save the current kitchen
     const handleSave = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>) => {
+        // Name needs characters
         if (values.name.length <= 0) {
             toast.error('Kitchen needs a valid name!');
             return;
         } else {
             e.preventDefault();
+            // Dispatch action
             dispatch(
                 SaveKitchen(
                     {
@@ -85,8 +88,9 @@ export function SaveKitchenDialog(props: any) {
                 ),
             )
                 .then(() => toast.success('Kitchen ' + values.name + ' has been saved'))
-                .catch((error: string) => toast.error('Kitchen ' + values.name + ' failed to save!'));
+                .catch(() => toast.error('Kitchen ' + values.name + ' failed to save!'));
         }
+        // Handle closing
         onClose();
     };
 
@@ -96,7 +100,14 @@ export function SaveKitchenDialog(props: any) {
             <DialogTitle id="save-dialog-title">Save Current Kitchen</DialogTitle>
             <Typography className={style.information}>Please enter a name for the kitchen to save...</Typography>
             <form className={style.container} noValidate autoComplete="off" onSubmit={(e) => handleSave(e)}>
-                <TextField id="save-name" label="Enter kitchen name" className={style.textField} value={values.name} onChange={handleChange('name')} margin="normal" />
+                <TextField
+                    id="save-name"
+                    label="Enter kitchen name"
+                    className={style.textField}
+                    value={values.name}
+                    onChange={handleChange('name')}
+                    margin="normal"
+                />
             </form>
             <span>
                 <Button className={style.saveButton} onClick={(e) => handleSave(e)}>

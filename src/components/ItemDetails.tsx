@@ -1,13 +1,14 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
+import { WREN_GREEN } from '../utilities/Defaults';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         card: {
             width: '100%',
             float: 'left' as 'left',
-            color: '#57B05E',
+            color: WREN_GREEN,
             marginTop: '20px',
         },
         media: {

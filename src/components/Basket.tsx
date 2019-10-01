@@ -11,6 +11,7 @@ import {
     UNITS_BASKET_DESC,
     WALLUNITS_BASKET_DESC,
     WORKTOP_BASKET_DESC,
+    WREN_GREEN,
 } from '../utilities/Defaults';
 import { IItem, IPlannerState } from '../utilities/Interfaces';
 
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: theme.spacing(3, 2),
             width: '25%',
             float: 'right' as 'right',
-            color: '#57B05E',
+            color: WREN_GREEN,
             marginTop: '20px',
         },
         cell: {

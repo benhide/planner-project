@@ -1,10 +1,11 @@
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as React from 'react';
+import { IMenuProps } from '../utilities/Interfaces';
 import { DeleteKitchenDialog } from './DeleteDialog';
 
 // Delete the current kitchen from the server
-export default function DeleteMenu(props: any): JSX.Element {
+export default function DeleteMenu(props: IMenuProps): JSX.Element {
     // Props
     const { setIsLoading, dispatch } = props;
 
@@ -13,7 +14,6 @@ export default function DeleteMenu(props: any): JSX.Element {
 
     // Handle clicks on menu items
     const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
         setIsLoading(true);
         setOpen(true);
     };

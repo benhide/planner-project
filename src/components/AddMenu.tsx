@@ -4,10 +4,11 @@ import * as React from 'react';
 import { toast } from 'react-toastify';
 import { Kitchen } from '../engine/Kitchen';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
-import { SaveKitchenDialog } from './SaveDialog';
+import { IMenuProps } from '../utilities/Interfaces';
+import { SaveDialog } from './SaveDialog';
 
 // Menu for creating a new kitchen
-export default function NewKitchenMenu(props: any): JSX.Element {
+export default function AddMenu(props: IMenuProps): JSX.Element {
     // Props
     const { setIsLoading, dispatch } = props;
 
@@ -16,10 +17,12 @@ export default function NewKitchenMenu(props: any): JSX.Element {
 
     // Handle clicks on menu item
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        // If not already saved it will not have id
         if (!Kitchen.getInstance().kitchenID) {
+            // Open save dialog
             setOpen(true);
         } else {
-            e.preventDefault();
+            // Dispatch action to redux store
             dispatch(
                 SaveKitchen(
                     {
@@ -31,7 +34,7 @@ export default function NewKitchenMenu(props: any): JSX.Element {
                 ),
             )
                 .then(() => toast.success('Kitchen ' + Kitchen.getInstance().kitchenName + ' has been saved'))
-                .catch((error: string) => toast.error('Kitchen ' + Kitchen.getInstance().kitchenName + ' failed to save!'));
+                .catch(() => toast.error('Kitchen ' + Kitchen.getInstance().kitchenName + ' failed to save!'));
         }
     };
 
@@ -47,7 +50,7 @@ export default function NewKitchenMenu(props: any): JSX.Element {
             <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <AddIcon />
             </Button>
-            <SaveKitchenDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={true}/>
+            <SaveDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={true} />
         </div>
     );
 }

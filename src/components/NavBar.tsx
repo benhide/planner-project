@@ -1,33 +1,25 @@
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { getKitchensList } from '../api/KitchenApi';
+import { WREN_GREEN } from '../utilities/Defaults';
 import { IMenuItem, IPlannerState } from '../utilities/Interfaces';
-import NewKitchenMenu from './AddMenu';
+import AddMenu from './AddMenu';
 import DeleteMenu from './DeleteMenu';
 import LoadMenu from './LoadMenu';
 import SaveMenu from './SaveMenu';
-import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
 
 // Navbar styling
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
-        root: {
-            flexGrow: 1,
-        },
         title: {
             flexGrow: 1,
         },
-        button: {
-            backgroundColor: '#57B05E',
-        },
-        rightIcon: {
-            marginLeft: theme.spacing(1),
-        },
         bar: {
-            backgroundColor: '#57B05E',
+            backgroundColor: WREN_GREEN,
         },
     }),
 );
@@ -46,19 +38,20 @@ export const NavBar = (): JSX.Element => {
 
     // When component mounted
     React.useEffect(() => {
+        // Getthe kitcehn list from the server
         getKitchensList().then((result: IPlannerState[]) => setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))));
         setIsLoading(false);
     }, [isLoading]);
 
     // Return the JSX
     return (
-        <div className={style.root}>
+        <div>
             <AppBar position="static" className={style.bar}>
                 <Toolbar>
                     <Typography variant="h6" color="inherit" className={style.title}>
                         Wren Kitchen planner
                     </Typography>
-                    <NewKitchenMenu setIsLoading={setIsLoading} dispatch={dispatch} />
+                    <AddMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                     <SaveMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                     <LoadMenu loadItems={loadItems} setIsLoading={setIsLoading} dispatch={dispatch} />
                     <DeleteMenu setIsLoading={setIsLoading} dispatch={dispatch} />

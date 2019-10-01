@@ -11,11 +11,11 @@ import { store } from './redux/ConfigureStore';
 // React render
 ReactDOM.render(
     <Provider store={store}>
-        <NavBar />
-        <ToolBox />
-        <Basket />
-        <Planner />
-        <ToastContainer />
+            <NavBar />
+            <ToolBox />
+            <Basket />
+            <Planner />
+            <ToastContainer />
     </Provider>,
     document.getElementById('App'),
 );

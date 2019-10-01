@@ -100,11 +100,6 @@ export const Planner: React.FunctionComponent = () => {
     // When the dom has loaded initialise!
     window.addEventListener('DOMContentLoaded', () => init());
 
-    // // Resize the canvas when the browser window resizes
-    // window.addEventListener('resize', (e: Event) => {
-    //     sizeCanvas(e.target as HTMLCanvasElement);
-    // });
-
     // Return the canvas wrapper id
     return <div id="canvasWrapper" />;
 };

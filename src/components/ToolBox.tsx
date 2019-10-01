@@ -21,8 +21,8 @@ import {
     DEFUALT_WALLUNIT_DIM,
     DEFUALT_WALL_DIM,
     DEFUALT_WORKTOP_DIM,
+    WREN_GREEN,
 } from '../utilities/Defaults';
-import { ItemDetails } from './ItemDetails';
 import { AddWidget } from '../redux/actions/WidgetActions';
 
 // Component styling
@@ -34,14 +34,11 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: '10px',
             fontSize: '15px',
         },
-        input: {
-            display: 'none',
-        },
         root: {
             padding: theme.spacing(3, 2),
             width: '10%',
             float: 'left' as 'left',
-            color: '#57B05E',
+            color: WREN_GREEN,
             marginTop: '20px',
         },
     }),

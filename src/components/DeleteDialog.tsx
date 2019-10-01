@@ -4,11 +4,11 @@ import { toast } from 'react-toastify';
 import { deleteKitchen } from '../api/KitchenApi';
 import { Kitchen } from '../engine/Kitchen';
 import { DeleteKitchen } from '../redux/actions/KitchenActions';
-import { IDialogProps } from '../utilities/Interfaces';
+import { IDeleteDialogProps } from '../utilities/Interfaces';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
 
-// Styling
-export const menuStyles = makeStyles((theme: Theme) =>
+// Component styling
+const menuStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
             display: 'flex',
@@ -41,7 +41,7 @@ export const menuStyles = makeStyles((theme: Theme) =>
 );
 
 // Delete dialog component
-export function DeleteKitchenDialog(props: IDialogProps) {
+export function DeleteKitchenDialog(props: IDeleteDialogProps) {
     // Styling
     const style = menuStyles();
 
@@ -55,7 +55,6 @@ export function DeleteKitchenDialog(props: IDialogProps) {
 
     // Delete the current kitchen
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
         if (Kitchen.getInstance().kitchenID) {
             deleteKitchen(Kitchen.getInstance().kitchenID)
                 .then(() => {
@@ -65,7 +64,7 @@ export function DeleteKitchenDialog(props: IDialogProps) {
                     );
                     Kitchen.getInstance().resetKitchen();
                 })
-                .catch((error: string) => toast.error('Kitchen failed to delete!'));
+                .catch(() => toast.error('Kitchen failed to delete!'));
         }
         onClose();
     };

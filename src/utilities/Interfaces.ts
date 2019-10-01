@@ -4,6 +4,10 @@ import { GameEvent } from '../engine/EventBus';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
 import { KitchenActionTypes } from '../redux/actions/ActionTypes';
 
+/************************
+ *  EVENTBUS INTERFACES *
+ ************************/
+
 // An event subscription takes an event and a
 // subscription function
 export interface IEventSubscription {
@@ -13,6 +17,10 @@ export interface IEventSubscription {
 
 // Subscription function
 export type SubscriptionFn = (data: object) => void;
+
+/***********************
+ *  WIDGET INTERFACES  *
+ ***********************/
 
 // Can widget be rendered
 export interface IRenderable {
@@ -34,6 +42,10 @@ export interface ISelectable {
     isSelected: boolean;
 }
 
+/************************
+ * COMPONENT INTERFACES *
+ ************************/
+
 // Basket item interface
 export interface IItem {
     desc: string;
@@ -43,23 +55,37 @@ export interface IItem {
     total: number;
 }
 
-// Redux planner state
-export interface IPlannerState {
-    id: number;
-    name: string;
-    widgets: BaseWidget[];
-}
-
 // Menu item
 export interface IMenuItem {
     id: number;
     name: string;
 }
 
-// Interface for dialog props
-export interface IDialogProps {
+// Dialog props
+export interface IDeleteDialogProps {
     open: boolean;
     onClose: () => void;
+    dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
+}
+
+// Save dialog props
+export interface ISaveDialogProps {
+    onClose: () => void;
+    open: boolean;
+    dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
+    isNew: boolean;
+}
+
+// Load menu props
+export interface ILoadMenuProps {
+    loadItems: IMenuItem[];
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
+}
+
+// Add menu props
+export interface IMenuProps {
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
 }
 
@@ -67,6 +93,10 @@ export interface IDialogProps {
 export interface IState {
     name: string;
 }
+
+/**********************
+ *  REDUX INTERFACES
+ **********************/
 
 // Widget added action interface
 export interface IKitchenWidgetAddedAction {
@@ -112,3 +142,10 @@ export type KitchenActions =
     | IKitchenWidgetAddedAction
     | IKitchenWidgetRemovedAction
     | IKitchenWidgetUpdatedAction;
+
+// Redux planner state
+export interface IPlannerState {
+    id: number;
+    name: string;
+    widgets: BaseWidget[];
+}
