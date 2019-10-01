@@ -3,5 +3,5 @@ import { kitchenReducer } from './KitchenReducer';
 
 // The root reducer
 export const RootReducer = combineReducers<any>({
-    kitchens: kitchenReducer,
+    kitchen: kitchenReducer,
 });

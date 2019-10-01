@@ -1,5 +1,5 @@
 import { Dimensions } from '../engine/Transform';
-import { IKitchen } from './Interfaces';
+import { IPlannerState } from './Interfaces';
 
 // Module for holding default values for ease of access and reusability
 
@@ -35,8 +35,15 @@ export const WORKTOP_ID_PREFIX = 200;
 export const WALLUNIT_ID_PREFIX = 300;
 export const WALL_ID_PREFIX = 400;
 
-export const DEFAULT_KITCHEN: IKitchen = {
+// Default kitchen state
+export const DEFAULT_KITCHEN: IPlannerState = {
     id: 0,
     widgets: [],
     name: '',
 };
+
+// Default basewidget types
+export const DEFAULT_UNIT_TYPE = 'UNIT';
+export const DEFAULT_WALLUNIT_TYPE = 'WALLUNIT';
+export const DEFAULT_WORKTOP_TYPE = 'WORKTOP';
+export const DEFAULT_WALL_TYPE = 'WALL';

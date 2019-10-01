@@ -1,7 +1,7 @@
 import * as Redux from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
-import { RootReducer } from './reducers';
 import thunk from 'redux-thunk';
+import { RootReducer } from './reducers';
 
 // Configure the store
 const ConfigureStore = (initState: any) => {
@@ -10,7 +10,4 @@ const ConfigureStore = (initState: any) => {
 };
 
 // The redux store
-// ******************************
-// TODO: PASS IN INITIAL STATE??
-// ******************************
 export const store = ConfigureStore({});

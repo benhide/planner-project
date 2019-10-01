@@ -1,7 +1,8 @@
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { GameEvent } from '../engine/EventBus';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
+import { KitchenActionTypes } from '../redux/actions/ActionTypes';
 
 // An event subscription takes an event and a
 // subscription function
@@ -13,22 +14,22 @@ export interface IEventSubscription {
 // Subscription function
 export type SubscriptionFn = (data: object) => void;
 
-// Can it be rendered
+// Can widget be rendered
 export interface IRenderable {
     draw(ctx: CanvasRenderingContext2D): void;
 }
 
-// Can it be rotated
+// Can widget be rotated
 export interface IRotatable {
     isRotatable: boolean;
 }
 
-// Can it be scaled
+// Can widget be scaled
 export interface IScalable {
     isScalable: boolean;
 }
 
-// Can it be selected
+// Can widget be selected
 export interface ISelectable {
     isSelected: boolean;
 }
@@ -44,14 +45,9 @@ export interface IItem {
 
 // Redux planner state
 export interface IPlannerState {
-    kitchen: IKitchen;
-}
-
-// TODO
-export interface IKitchen {
-    widgets: BaseWidget[];
     id: number;
     name: string;
+    widgets: BaseWidget[];
 }
 
 // Menu item
@@ -71,3 +67,48 @@ export interface IDialogProps {
 export interface IState {
     name: string;
 }
+
+// Widget added action interface
+export interface IKitchenWidgetAddedAction {
+    type: KitchenActionTypes.WIDGET_ADDED;
+    widget: BaseWidget;
+}
+
+// Widget removed action interface
+export interface IKitchenWidgetRemovedAction {
+    type: KitchenActionTypes.WIDGET_REMOVED;
+    widget: BaseWidget;
+}
+
+// Widget updated action interface
+export interface IKitchenWidgetUpdatedAction {
+    type: KitchenActionTypes.WIDGET_UPDATED;
+    widget: BaseWidget;
+}
+
+// Kitchen loaded action interface
+export interface IKitchenLoadedAction {
+    type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS;
+    kitchen: IPlannerState;
+}
+
+// Kitchen saved action interface
+export interface IKitchenSavedAction {
+    type: KitchenActionTypes.SAVE_KITCHEN_SUCCESS;
+    kitchen: IPlannerState;
+}
+
+// Kitchen removed action interface
+export interface IKitchenRemovedAction {
+    type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS;
+    kitchen: IPlannerState;
+}
+
+// Kitchen action type declaration
+export type KitchenActions =
+    | IKitchenSavedAction
+    | IKitchenLoadedAction
+    | IKitchenRemovedAction
+    | IKitchenWidgetAddedAction
+    | IKitchenWidgetRemovedAction
+    | IKitchenWidgetUpdatedAction;

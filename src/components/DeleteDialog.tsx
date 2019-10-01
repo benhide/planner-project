@@ -63,6 +63,7 @@ export function DeleteKitchenDialog(props: IDialogProps) {
                     dispatch(
                         DeleteKitchen(DEFAULT_KITCHEN),
                     );
+                    Kitchen.getInstance().resetKitchen();
                 })
                 .catch((error: string) => toast.error('Kitchen failed to delete!'));
         }

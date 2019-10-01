@@ -123,6 +123,7 @@ export function collisionSnapping(objA: BaseWidget, objB: BaseWidget): void {
     }
 
     // Set position
-    objA.position.x += dir.x;
-    objA.position.y += dir.y;
+    objA.setPosition((objA.position.x += dir.x), (objA.position.y += dir.y));
+    // objA.position.x += dir.x;
+    // objA.position.y += dir.y;
 }

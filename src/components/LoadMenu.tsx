@@ -5,7 +5,7 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 import { LoadKitchen, SaveKitchen } from '../redux/actions/KitchenActions';
-import { IKitchen } from '../utilities/Interfaces';
+import { IPlannerState } from '../utilities/Interfaces';
 
 // The load menu component
 export default function LoadMenu(props: any): JSX.Element {
@@ -42,7 +42,7 @@ export default function LoadMenu(props: any): JSX.Element {
                 <CloudDownloadIcon />
             </Button>
             <Menu id="simple-load-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => handleClose()}>
-                {loadItems.map((kitchen: IKitchen) => (<MenuItem key={kitchen.name} onClick={(e) => loadKitchen(e, kitchen.id, kitchen.name)}>{kitchen.name}</MenuItem>))}
+                {loadItems.map((kitchen: IPlannerState) => (<MenuItem key={kitchen.name} onClick={(e) => loadKitchen(e, kitchen.id, kitchen.name)}>{kitchen.name}</MenuItem>))}
             </Menu>
         </div>
     );

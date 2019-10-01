@@ -78,7 +78,7 @@ export const Planner: React.FunctionComponent = () => {
     // Called first initialises the canvas, context and kitchen
     const init = (): void => {
         const canvas = createCanvas();
-        canvas.style.background = 'rgba(110, 110, 110, 0.5)';
+        canvas.style.border = `1px solid rgba(55, 55, 55, 0.15)`;
 
         const ctx = canvas.getContext('2d');
         const kitchen = Kitchen.getInstance();

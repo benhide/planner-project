@@ -1,5 +1,5 @@
-import { IKitchen } from '../utilities/Interfaces';
 import { handleResponse } from './apiUtils';
+import { IPlannerState } from '../utilities/Interfaces';
 const baseUrl = process.env.API_URL + '/kitchens/';
 
 // Load kitchen fetch/promise
@@ -13,7 +13,7 @@ export async function loadKitchen(id: number): Promise<any> {
 }
 
 // Save kitchen fetch/promise
-export async function saveKitchen(kitchen: IKitchen): Promise<any> {
+export async function saveKitchen(kitchen: IPlannerState): Promise<any> {
     try {
         const handleRes = await fetch(baseUrl + (kitchen.id || ''), {
             method: kitchen.id ? 'PUT' : 'POST',

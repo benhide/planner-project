@@ -1,9 +1,13 @@
 import { KitchenActionTypes } from '../actions/ActionTypes';
-import { KitchenActions } from '../actions/KitchenActions';
 import initialState from './IntialState';
+import { KitchenActions } from '../actions/ActionsInterfaces';
 
-//
-export const kitchenReducer = (state = initialState.kitchen, action: KitchenActions) => {
+// The kitchen reducer
+export const kitchenReducer = (state = initialState, action: KitchenActions) => {
+    const id = state.id;
+    const name = state.name;
+
+    // Switch on action type
     switch (action.type) {
         // Save a kitchen to server
         case KitchenActionTypes.SAVE_KITCHEN_SUCCESS:
@@ -19,18 +23,24 @@ export const kitchenReducer = (state = initialState.kitchen, action: KitchenActi
 
         //  Add a widget to the store
         case KitchenActionTypes.WIDGET_ADDED:
-            return [...state.widgets, { ...action.widget }];
+            return { ...state, id, name, widgets: [...state.widgets, { ...action.widget }] };
 
         // Remove a widget from the store
         case KitchenActionTypes.WIDGET_REMOVED:
-            return state.widgets.filter((widget) => widget.id !== action.widget.id);
+            return { ...state, id, name, widgets: state.widgets.filter((widget) => widget.id !== action.widget.id) };
 
-        // // Update a widget in the store
-        // case KitchenActionTypes.WIDGET_UPDATED:
-        //     return state.widgets.map((widget) => {
-        //         return widget.id !== action.widget.id ? widget : { ...widget, ...action.widget };
-        //     });
-        // Return default state
+        // Update a widget in the store
+        case KitchenActionTypes.WIDGET_UPDATED:
+            return {
+                ...state,
+                id,
+                name,
+                widgets: state.widgets.map((widget) => {
+                    return widget.id !== action.widget.id ? widget : { ...widget, ...action.widget };
+                }),
+            };
+
+        // Return the default state
         default:
             return state;
     }

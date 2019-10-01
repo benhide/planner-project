@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { getKitchensList } from '../api/KitchenApi';
-import { IKitchen, IMenuItem, IPlannerState } from '../utilities/Interfaces';
+import { IMenuItem, IPlannerState } from '../utilities/Interfaces';
 import NewKitchenMenu from './AddMenu';
 import DeleteMenu from './DeleteMenu';
 import LoadMenu from './LoadMenu';
@@ -46,7 +46,7 @@ export const NavBar = (): JSX.Element => {
 
     // When component mounted
     React.useEffect(() => {
-        getKitchensList().then((result: IKitchen[]) => setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))));
+        getKitchensList().then((result: IPlannerState[]) => setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))));
         setIsLoading(false);
     }, [isLoading]);
 

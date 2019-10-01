@@ -1,83 +1,31 @@
 import { loadKitchen, saveKitchen } from '../../api/KitchenApi';
 import { Kitchen } from '../../engine/Kitchen';
 import { BaseWidget } from '../../engine/widgets/BaseWidget';
-import { DEFAULT_KITCHEN } from '../../utilities/Defaults';
-import { IKitchen } from '../../utilities/Interfaces';
+import { Unit } from '../../engine/widgets/Unit';
+import { Wall } from '../../engine/widgets/Wall';
+import { WallUnit } from '../../engine/widgets/WallUnit';
+import { WorkTop } from '../../engine/widgets/Worktop';
+import { DEFAULT_KITCHEN, DEFAULT_UNIT_TYPE, DEFAULT_WALLUNIT_TYPE, DEFAULT_WALL_TYPE, DEFAULT_WORKTOP_TYPE } from '../../utilities/Defaults';
+import { IPlannerState } from '../../utilities/Interfaces';
 import { KitchenActionTypes } from './ActionTypes';
 
-// Interfaces for kitchen actions
-// Widget actions interfaces and types
-// Widget added
-export interface IKitchenWidgetAddedAction {
-    type: KitchenActionTypes.WIDGET_ADDED;
-    widget: BaseWidget;
-}
-
-// Widget removed
-export interface IKitchenWidgetRemovedAction {
-    type: KitchenActionTypes.WIDGET_REMOVED;
-    widget: BaseWidget;
-}
-
-// Widget updated
-export interface IKitchenWidgetUpdatedAction {
-    type: KitchenActionTypes.WIDGET_UPDATED;
-    widget: BaseWidget;
-}
-
-// TODO
-export interface IKitchenLoadedAction {
-    type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS;
-    kitchen: IKitchen;
-}
-
-// TODO
-export interface IKitchenSavedAction {
-    type: KitchenActionTypes.SAVE_KITCHEN_SUCCESS;
-    kitchen: IKitchen;
-}
-
-// TODO
-export interface IKitchenRemovedAction {
-    type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS;
-    kitchen: IKitchen;
-}
-
-// TODO
-export type KitchenActions = IKitchenSavedAction | IKitchenLoadedAction | IKitchenRemovedAction | IKitchenWidgetAddedAction | IKitchenWidgetRemovedAction | IKitchenWidgetUpdatedAction;
-
-// Add widget action creator
-export const AddWidget = (widget: BaseWidget) => {
-    return { type: KitchenActionTypes.WIDGET_ADDED, widget };
-};
-
-// Remove widget action creator
-export const RemoveWidget = (widget: BaseWidget) => {
-    return { type: KitchenActionTypes.WIDGET_REMOVED, widget };
-};
-
-// Update widget action creator
-export const UpdateWidget = (widget: BaseWidget) => {
-    return { type: KitchenActionTypes.WIDGET_UPDATED, widget };
-};
-
-// TODO
-export const LoadKitchenSuccess = (kitchen: IKitchen) => {
+// Load kitchen action
+export const LoadKitchenSuccess = (kitchen: IPlannerState) => {
     return { type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS, kitchen };
 };
 
-// TODO
-export const SaveKitchenSuccess = (kitchen: IKitchen) => {
+// Save kitchen action 
+export const SaveKitchenSuccess = (kitchen: IPlannerState) => {
     return { type: KitchenActionTypes.SAVE_KITCHEN_SUCCESS, kitchen };
 };
 
-// TODO
-export function SaveKitchen(kitchen: IKitchen, isNewKitchen: boolean) {
-    return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IKitchen }) => void) => {
+// Save a kitchen thunk
+export function SaveKitchen(kitchen: IPlannerState, isNewKitchen: boolean) {
+    return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IPlannerState }) => void) => {
         try {
             if (!isNewKitchen) {
-                const savedKitchen = (await saveKitchen(kitchen)) as IKitchen;
-                Kitchen.getInstance().updateKitchenDetails(savedKitchen.id, savedKitchen.name, savedKitchen.widgets);
+                const savedKitchen = (await saveKitchen(kitchen)) as IPlannerState;
+                Kitchen.getInstance().updateKitchenDetails(savedKitchen.id, savedKitchen.name, populateWidgetArray(savedKitchen));
                 dispatch(SaveKitchenSuccess(savedKitchen));
             } else {
                 await saveKitchen(kitchen);
@@ -90,12 +38,12 @@ export function SaveKitchen(kitchen: IKitchen, isNewKitchen: boolean) {
     };
 }
 
-// Load kitchen
+// Load kitchen thunk
 export function LoadKitchen(id: number) {
-    return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IKitchen }) => void) => {
+    return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IPlannerState }) => void) => {
         try {
-            const loadedKitchen = await loadKitchen(id);
-            Kitchen.getInstance().updateKitchenDetails(loadedKitchen.id, loadedKitchen.name, loadedKitchen.widgets);
+            const loadedKitchen = (await loadKitchen(id)) as IPlannerState;
+            Kitchen.getInstance().updateKitchenDetails(loadedKitchen.id, loadedKitchen.name, populateWidgetArray(loadedKitchen));
             dispatch(LoadKitchenSuccess(loadedKitchen));
         } catch (error) {
             throw error;
@@ -103,7 +51,65 @@ export function LoadKitchen(id: number) {
     };
 }
 
-// TODO
-export function DeleteKitchen(kitchen: IKitchen) {
+// Remove kitchen thunk
+export function DeleteKitchen(kitchen: IPlannerState) {
     return { type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS, kitchen };
+}
+
+// Populate the kitchen array
+export function populateWidgetArray(kitchen: IPlannerState): BaseWidget[] {
+    return kitchen.widgets.map((widget) => {
+        if (widget.type === DEFAULT_UNIT_TYPE) {
+            return new Unit(
+                widget.dimensions.w,
+                widget.dimensions.l,
+                widget.position.x,
+                widget.position.y,
+                widget.zIndex,
+                widget.id,
+                widget.isScalable,
+                widget.isRotatable,
+                widget.type,
+            );
+        }
+        if (widget.type === DEFAULT_WALLUNIT_TYPE) {
+            return new WallUnit(
+                widget.dimensions.w,
+                widget.dimensions.l,
+                widget.position.x,
+                widget.position.y,
+                widget.zIndex,
+                widget.id,
+                widget.isScalable,
+                widget.isRotatable,
+                widget.type,
+            );
+        }
+        if (widget.type === DEFAULT_WALL_TYPE) {
+            return new Wall(
+                widget.dimensions.w,
+                widget.dimensions.l,
+                widget.position.x,
+                widget.position.y,
+                widget.zIndex,
+                widget.id,
+                widget.isScalable,
+                widget.isRotatable,
+                widget.type,
+            );
+        }
+        if (widget.type === DEFAULT_WORKTOP_TYPE) {
+            return new WorkTop(
+                widget.dimensions.w,
+                widget.dimensions.l,
+                widget.position.x,
+                widget.position.y,
+                widget.zIndex,
+                widget.id,
+                widget.isScalable,
+                widget.isRotatable,
+                widget.type,
+            );
+        }
+    }) as BaseWidget[];
 }

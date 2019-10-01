@@ -1,3 +1,4 @@
+
 import { BaseWidget } from './widgets/BaseWidget';
 
 // The kitchen class
@@ -18,7 +19,6 @@ export class Kitchen {
     // Current kitchen id and name
     private _kitchenId: number = 0;
     private _kitchenName: string = '';
-    private _updating: boolean = true;
 
     // The canvas for reference
     private _canvas: HTMLCanvasElement;
@@ -51,8 +51,9 @@ export class Kitchen {
     public draw(): void {
         // Draw the grid on the canvas
         this._ctx.save();
-        this._ctx.strokeStyle = `rgba(255, 255, 255, 0.5)`;
-        this._ctx.setLineDash([5, 5]);
+        this._ctx.strokeStyle = `rgba(55, 55, 55, 0.5)`;
+        this._ctx.setLineDash([1, 1]);
+        this._ctx.lineWidth = 0.5;
 
         for (let i = 0; i < this._canvas.width; i += 10) {
             this._ctx.beginPath();
@@ -137,8 +138,6 @@ export class Kitchen {
         if (id >= 0) {
             this._kitchenId = id;
         }
-        // tslint:disable-next-line: no-console
-        console.log('from kitchen id: ' + this._kitchenId);
     }
 
     // Kitchen name getters and setters
@@ -159,21 +158,15 @@ export class Kitchen {
     }
 
     // Update the widgets array
-    public pushToWidgetsArray(widget: BaseWidget): void {
+    public pushToWidgetArray(widget: BaseWidget): void {
         this.widgets.push(widget);
-    }
-    public populateToWidgetsArray(widgets: BaseWidget[]): void {
-        widgets.forEach((widget) => this._widgets.push(widget));
-    }
-    public clearWidgetsArray(): void {
-        this._widgets = [];
     }
 
     // Reset the kitchen to defualt values
     public resetKitchen(): void {
         this._kitchenId = 0;
         this._kitchenName = '';
-        this.clearWidgetsArray();
+        this._widgets = [];
     }
     public updateKitchenDetails(id: number, name: string, widgets: BaseWidget[]) {
         this._kitchenId = id;

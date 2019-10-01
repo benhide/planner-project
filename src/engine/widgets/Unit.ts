@@ -14,8 +14,9 @@ export class Unit extends BaseWidget implements IRenderable, IRotatable, IScalab
         id: number,
         isScalable: boolean,
         isRotatable: boolean,
+        type: string,
     ) {
-        super(new Dimensions(width, length), new Vec2(x, y), zIndex, id, isScalable, isRotatable);
+        super(new Dimensions(width, length), new Vec2(x, y), zIndex, id, isScalable, isRotatable, type);
     }
 
     // Draw the unit

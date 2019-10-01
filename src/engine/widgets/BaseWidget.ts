@@ -1,9 +1,9 @@
-import { Kitchen } from '../Kitchen';
-import { RemoveWidget, UpdateWidget } from '../../redux/actions/KitchenActions';
+import { RemoveWidget, UpdateWidget } from '../../redux/actions/WidgetActions';
 import { store } from '../../redux/ConfigureStore';
 import { isColliding, isIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
-import { checkBounding, collisionSnapping, snapToGrid, snapToSize } from '../Snapping';
+import { Kitchen } from '../Kitchen';
+import { checkBounding, collisionSnapping, snapToGrid } from '../Snapping';
 import { Dimensions, Vec2 } from '../Transform';
 import { DrawWidgets } from './DrawWidgets';
 
@@ -28,6 +28,7 @@ export class BaseWidget {
 
     // The last valid position to place item
     private lastValidPosition: Vec2;
+    private lastValidDimensions: Dimensions;
 
     // Draw functionality
     private drawWidget: DrawWidgets;
@@ -39,6 +40,7 @@ export class BaseWidget {
         public id: number,
         public isScalable: boolean,
         public isRotatable: boolean,
+        public type: string,
     ) {
         // Draw widget class
         this.drawWidget = new DrawWidgets();
@@ -49,7 +51,9 @@ export class BaseWidget {
 
         // Set the initial position
         this.setPosition(position.x, position.y);
+        this.setDimensions(dimensions.w, dimensions.l);
         this.lastValidPosition = position;
+        this.lastValidDimensions = dimensions;
 
         // Subscribe to the events
         EventBus.subscribe(GameEvent.MouseClick, (e: any) => {
@@ -91,6 +95,7 @@ export class BaseWidget {
 
             if (this.isScaling) {
                 this.isScaling = false;
+                this.update();
             }
 
             this.isColliding = false;
@@ -101,15 +106,17 @@ export class BaseWidget {
                 this.delete();
                 this.isDeleting = false;
             }
-
-            // this.dirToRotate.x = 0;
-            // this.dirToRotate.y = 0;
         });
     }
 
     // Can set the position of the item
     public setPosition(x: number, y: number): void {
         this.position = new Vec2(x, y);
+    }
+
+    // Can set the position of the item
+    public setDimensions(w: number, l: number): void {
+        this.dimensions = new Dimensions(w, l);
     }
 
     // Draw function
@@ -139,40 +146,37 @@ export class BaseWidget {
 
     // Scale an item
     private scale(e: any): void {
-        const collidingIDs = this.collisionDetection();
-        for (const id of collidingIDs) {
-            if (id !== -1) {
-                this.isColliding = true;
-                collisionSnapping(this, Kitchen.getInstance().widgets.find((item) => item.id === id)!);
-                return;
-            }
-        }
+        this.lastValidDimensions = this.dimensions;
 
         // Make sure it is side the canvas bounds
         checkBounding(this);
 
+        const collidingIDs = this.collisionDetection();
+        for (const id of collidingIDs) {
+            if (id !== -1) {
+                this.setDimensions(this.lastValidDimensions.w, this.lastValidDimensions.l);
+                return;
+            }
+        }
+
         // Scale the item
-        this.dimensions.w = e.x - this.position.x;
-        this.dimensions.l = e.y - this.position.y;
+        this.setDimensions(e.x - this.position.x, e.y - this.position.y);
 
         // Get the canvas and keep the scaled size inside the canvas bounds (width)
         const cw = Kitchen.getInstance().canvasWidth;
         const ch = Kitchen.getInstance().canvasHeight;
         if (this.dimensions.w < this.defaultWidth) {
-            this.dimensions.w = this.defaultWidth;
+            this.setDimensions(this.defaultWidth, this.dimensions.l);
         } else if (this.dimensions.w > cw) {
-            this.dimensions.w = cw;
+            this.setDimensions(cw, this.dimensions.l);
         }
 
         // Keep the scaled size inside the canvas bounds (length)
         if (this.dimensions.l < this.defaultLength) {
-            this.dimensions.l = this.defaultLength;
+            this.setDimensions(this.dimensions.w, this.defaultLength);
         } else if (this.dimensions.l > ch) {
-            this.dimensions.l = ch;
+            this.setDimensions(this.dimensions.w, ch);
         }
-
-        // Snap to the grid size
-        snapToSize(this);
     }
 
     // Move an item
@@ -199,27 +203,7 @@ export class BaseWidget {
                 this.setPosition(this.lastValidPosition.x, this.lastValidPosition.y);
             }
         }
-
-        // Snap to the grid position
-        snapToGrid(this);
     }
-
-    // // Roate an item
-    // private rotate(e: any): Vec2 {
-    //     this.angle = this.mouseDownPos.getAngleDegrees(new Vec2(e.x as number, e.y as number)) + 180;
-    //     // tslint:disable-next-line:no-console
-    //     console.log(this.angle);
-    //     //
-    //     if (this.angle > 45 && this.angle < 135) {
-    //         return new Vec2(0, 1);
-    //     } else if (this.angle > 135 && this.angle < 225) {
-    //         return new Vec2(1, 0);
-    //     } else if (this.angle > 225 && this.angle < 315) {
-    //         return new Vec2(0, -1);
-    //     } else {
-    //         return new Vec2(-1, 0);
-    //     }
-    // }
 
     // Update the store
     private update(): void {
@@ -266,11 +250,7 @@ export class BaseWidget {
 
     // Should we try to delete the item
     private shouldDelete(e: any) {
-        this.isDeleting = isIntersecting(
-            new Vec2(e.x as number, e.y as number),
-            new Vec2(this.position.x, this.position.y),
-            new Dimensions(15, 15),
-        );
+        this.isDeleting = isIntersecting(new Vec2(e.x as number, e.y as number), new Vec2(this.position.x, this.position.y), new Dimensions(15, 15));
         Kitchen.getInstance().removeTopItem();
     }
 
@@ -293,3 +273,20 @@ export class BaseWidget {
         Kitchen.getInstance().selectTopItem();
     }
 }
+
+// // Roate an item
+// private rotate(e: any): Vec2 {
+//     this.angle = this.mouseDownPos.getAngleDegrees(new Vec2(e.x as number, e.y as number)) + 180;
+//     // tslint:disable-next-line:no-console
+//     console.log(this.angle);
+//     //
+//     if (this.angle > 45 && this.angle < 135) {
+//         return new Vec2(0, 1);
+//     } else if (this.angle > 135 && this.angle < 225) {
+//         return new Vec2(1, 0);
+//     } else if (this.angle > 225 && this.angle < 315) {
+//         return new Vec2(0, -1);
+//     } else {
+//         return new Vec2(-1, 0);
+//     }
+// }

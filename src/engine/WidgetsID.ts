@@ -1,9 +1,5 @@
 import { UNIT_ID_PREFIX, WALLUNIT_ID_PREFIX, WALL_ID_PREFIX, WORKTOP_ID_PREFIX } from '../utilities/Defaults';
 
-// ************************************************
-// TODO: UPDATE WIDGET ITEMS ON REMOVAL OF WIDGET
-// ************************************************
-
 // Generate IDs - IIFE
 export const GenerateId = (() => {
     // Starting widget ids
@@ -40,17 +36,3 @@ export const GenerateId = (() => {
         nextWallId,
     };
 })();
-
-// export function generateId(zIndex: number): number {
-//     if (zIndex === 1) {
-//         return 100 + UNIT_ID++;
-//     } else if (zIndex === 2) {
-//         return 200 + WORKTOP_ID++;
-//     } else if (zIndex === 3) {
-//         return 300 + WALLUNIT_ID++;
-//     } else if (zIndex === 4) {
-//         return 400 + WALL_ID++;
-//     } else {
-//         return -1;
-//     }
-// }

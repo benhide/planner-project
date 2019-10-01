@@ -2,7 +2,6 @@ import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typogr
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { IPlannerState, IItem } from '../utilities/Interfaces';
 import {
     DEFUALT_UNIT_PRICE,
     DEFUALT_WALLUNIT_PRICE,
@@ -13,6 +12,7 @@ import {
     WALLUNITS_BASKET_DESC,
     WORKTOP_BASKET_DESC,
 } from '../utilities/Defaults';
+import { IItem, IPlannerState } from '../utilities/Interfaces';
 
 // Styling for the component
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,56 +60,47 @@ export const Basket = (): JSX.Element => {
 
     // Update the basket
     const updateBasket = (): void => {
-        // // ************************************
-        // // CAN BE IMPROVED!!
-        // // TODO: ADD TO ARRAY WHEN ID MISSING
-        // // ************************************
-        // while (basketItems.length > 0) {
-        //     basketItems.pop();
-        // }
+        while (basketItems.length > 0) {
+            basketItems.pop();
+        }
+        // Counts for basket items
+        let unitCount = 0;
+        let worktopCount = 0;
+        let wallunitCount = 0;
 
-        // // Counts for basket items
-        // let unitCount = 0;
-        // let worktopCount = 0;
-        // let wallunitCount = 0;
+        // Count basket items
+        for (const widget of widgets) {
+            unitCount = widget.id >= 100 && widget.id < 200 ? (unitCount += 1) : unitCount;
+            worktopCount = widget.id >= 200 && widget.id < 300 ? (worktopCount += 1) : worktopCount;
+            wallunitCount = widget.id >= 300 && widget.id < 400 ? (wallunitCount += 1) : wallunitCount;
+        }
+        // Calculate the worktop square meterage
+        const worktopMetersSquared = (): number => {
+            let sum = 0;
+            widgets.forEach((widget) => {
+                if (widget.id >= 200 && widget.id < 300) {
+                    sum += (widget.dimensions.w / 100) * (widget.dimensions.l / 100);
+                }
+            });
+            return sum;
+        };
 
-        // // Count basket items
-        // for (const widget of currentState.widgets) {
-        //     unitCount = widget.id >= 100 && widget.id < 200 ? (unitCount += 1) : unitCount;
-        //     worktopCount = widget.id >= 200 && widget.id < 300 ? (worktopCount += 1) : worktopCount;
-        //     wallunitCount = widget.id >= 300 && widget.id < 400 ? (wallunitCount += 1) : wallunitCount;
-        // }
-
-        // // Calculate the worktop square meterage
-        // const worktopMetersSquared = (): number => {
-        //     let sum = 0;
-        //     currentState.widgets.forEach((widget) => {
-        //         if (widget.id >= 200 && widget.id < 300) {
-        //             sum += (widget.dimensions.w / 100) * (widget.dimensions.l / 100);
-        //         }
-        //     });
-        //     return sum;
-        // };
-
-        // // ************************************
-        // // CAN BE IMPROVED!!
-        // // TODO: ADD TO ARRAY WHEN ID MISSING
-        // // ************************************
-        // // Push items to the basket
-        // if (unitCount > 0) {
-        //     basketItems.push(createItem(UNITS_BASKET_DESC, 0, unitCount, DEFUALT_UNIT_PRICE));
-        // }
-        // if (wallunitCount > 0) {
-        //     basketItems.push(createItem(WALLUNITS_BASKET_DESC, 0, wallunitCount, DEFUALT_WALLUNIT_PRICE));
-        // }
-        // if (worktopCount > 0) {
-        //     basketItems.push(createItem(WORKTOP_BASKET_DESC, worktopMetersSquared(), worktopCount, DEFUALT_WORKTOP_PRICE));
-        // }
+        // Push items to the basket
+        if (unitCount > 0) {
+            basketItems.push(createItem(UNITS_BASKET_DESC, 0, unitCount, DEFUALT_UNIT_PRICE));
+        }
+        if (wallunitCount > 0) {
+            basketItems.push(createItem(WALLUNITS_BASKET_DESC, 0, wallunitCount, DEFUALT_WALLUNIT_PRICE));
+        }
+        if (worktopCount > 0) {
+            basketItems.push(createItem(WORKTOP_BASKET_DESC, worktopMetersSquared(), worktopCount, DEFUALT_WORKTOP_PRICE));
+        }
     };
 
     // Get the current state from redux store and update the basket
-    const currentState = useSelector((state) => state as IPlannerState);
-    // updateBasket();
+    const currentState = useSelector((state) => state as { kitchen: IPlannerState });
+    const widgets = currentState.kitchen.widgets;
+    updateBasket();
 
     // Calculate the totals
     const subtotal = basketItems.map(({ total }) => total).reduce((sum, i) => sum + i, 0);

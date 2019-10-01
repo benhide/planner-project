@@ -1,25 +1,29 @@
 import { Button, Paper, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
+import { Kitchen } from '../engine/Kitchen';
+import { Unit } from '../engine/widgets/Unit';
+import { Wall } from '../engine/widgets/Wall';
+import { WallUnit } from '../engine/widgets/WallUnit';
+import { WorkTop } from '../engine/widgets/Worktop';
+import { GenerateId } from '../engine/WidgetsID';
+import { store } from '../redux/ConfigureStore';
 import {
+    DEFAULT_UNIT_TYPE,
     DEFAULT_UNIT_ZINDEX,
+    DEFAULT_WALLUNIT_TYPE,
     DEFAULT_WALLUNIT_ZINDEX,
+    DEFAULT_WALL_TYPE,
     DEFAULT_WALL_ZINDEX,
+    DEFAULT_WORKTOP_TYPE,
     DEFAULT_WORKTOP_ZINDEX,
     DEFUALT_UNIT_DIM,
     DEFUALT_WALLUNIT_DIM,
     DEFUALT_WALL_DIM,
     DEFUALT_WORKTOP_DIM,
 } from '../utilities/Defaults';
-import { GenerateId } from '../engine/WidgetsID';
-import { Kitchen } from '../engine/Kitchen';
-import { Unit } from '../engine/widgets/Unit';
-import { Wall } from '../engine/widgets/Wall';
-import { WallUnit } from '../engine/widgets/WallUnit';
-import { WorkTop } from '../engine/widgets/Worktop';
-import { AddWidget } from '../redux/actions/KitchenActions';
-import { store } from '../redux/ConfigureStore';
 import { ItemDetails } from './ItemDetails';
+import { AddWidget } from '../redux/actions/WidgetActions';
 
 // Component styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,16 +53,7 @@ export const ToolBox = () => {
 
     // Adds a unit to the kitchen
     const addUnit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const unit = new Unit(
-            DEFUALT_UNIT_DIM.w,
-            DEFUALT_UNIT_DIM.l,
-            e.clientX,
-            e.clientY,
-            DEFAULT_UNIT_ZINDEX,
-            GenerateId.nextUnitId(),
-            false,
-            true,
-        );
+        const unit = new Unit(DEFUALT_UNIT_DIM.w, DEFUALT_UNIT_DIM.l, e.clientX, e.clientY, DEFAULT_UNIT_ZINDEX, GenerateId.nextUnitId(), false, true, DEFAULT_UNIT_TYPE);
         unit.isSelected = true;
         unit.isHeld = true;
         Kitchen.getInstance().widgets.push(unit);
@@ -68,16 +63,7 @@ export const ToolBox = () => {
 
     // Adds a worktop to the kitchen
     const addWorktop = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const worktop = new WorkTop(
-            DEFUALT_WORKTOP_DIM.w,
-            DEFUALT_WORKTOP_DIM.l,
-            e.clientX,
-            e.clientY,
-            DEFAULT_WORKTOP_ZINDEX,
-            GenerateId.nextWorktopId(),
-            true,
-            true,
-        );
+        const worktop = new WorkTop(DEFUALT_WORKTOP_DIM.w, DEFUALT_WORKTOP_DIM.l, e.clientX, e.clientY, DEFAULT_WORKTOP_ZINDEX, GenerateId.nextWorktopId(), true, true, DEFAULT_WORKTOP_TYPE);
         worktop.isSelected = true;
         worktop.isHeld = true;
         Kitchen.getInstance().widgets.push(worktop);
@@ -87,16 +73,7 @@ export const ToolBox = () => {
 
     // Adds a wall to the kitchen
     const addWallunit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const wallunit = new WallUnit(
-            DEFUALT_WALLUNIT_DIM.w,
-            DEFUALT_WALLUNIT_DIM.l,
-            e.clientX,
-            e.clientY,
-            DEFAULT_WALLUNIT_ZINDEX,
-            GenerateId.nextWallunitId(),
-            false,
-            true,
-        );
+        const wallunit = new WallUnit(DEFUALT_WALLUNIT_DIM.w, DEFUALT_WALLUNIT_DIM.l, e.clientX, e.clientY, DEFAULT_WALLUNIT_ZINDEX, GenerateId.nextWallunitId(), false, true, DEFAULT_WALLUNIT_TYPE);
         wallunit.isSelected = true;
         wallunit.isHeld = true;
         Kitchen.getInstance().widgets.push(wallunit);
@@ -106,16 +83,7 @@ export const ToolBox = () => {
 
     // Adds a wall to the kitchen
     const addWall = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const wall = new Wall(
-            DEFUALT_WALL_DIM.w,
-            DEFUALT_WALL_DIM.l,
-            e.clientX,
-            e.clientY,
-            DEFAULT_WALL_ZINDEX,
-            GenerateId.nextWallId(),
-            true,
-            true,
-        );
+        const wall = new Wall(DEFUALT_WALL_DIM.w, DEFUALT_WALL_DIM.l, e.clientX, e.clientY, DEFAULT_WALL_ZINDEX, GenerateId.nextWallId(), true, true, DEFAULT_WALL_TYPE);
         wall.isSelected = true;
         wall.isHeld = true;
         Kitchen.getInstance().widgets.push(wall);
@@ -149,7 +117,7 @@ export const ToolBox = () => {
                 <Button variant="contained" className={style.button}>
                     And Another
                 </Button>
-                <ItemDetails itemSelected={'Items'} itemInfo={'Infomation'} itemImg={'img'} />
+                {/* <ItemDetails itemSelected={'Items'} itemInfo={'Infomation'} itemImg={'img'} /> */}
             </Paper>
         </div>
     );
