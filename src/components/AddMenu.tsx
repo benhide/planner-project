@@ -3,7 +3,7 @@ import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Kitchen } from '../engine/Kitchen';
+import { Widgets } from '../engine/Widgets';
 import { GenerateId } from '../engine/widgets/WidgetsID';
 import { DeleteKitchen, SaveKitchen } from '../redux/actions/KitchenActions';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
@@ -33,7 +33,7 @@ export const AddMenu = (props: IMenuProps): JSX.Element => {
                 SaveKitchen(
                     {
                         id: currentKitchen.id,
-                        widgets: Kitchen.getInstance().widgets,
+                        widgets: currentKitchen.widgets,
                         name: currentKitchen.name,
                     },
                     true,

@@ -21,40 +21,18 @@ export class Unit extends BaseWidget implements IRenderable, IRotatable, IScalab
 
     // Draw the unit
     public draw(ctx: CanvasRenderingContext2D): void {
-        if (this.isRotating) {
-            // tslint:disable-next-line:no-console
-            console.log('draw rotated');
+        ctx.beginPath();
 
-            ctx.save();
-            ctx.translate(this.position.x + this.dimensions.w * 0.5, this.position.y + this.dimensions.l * 0.5);
-            ctx.rotate(this.angle);
+        // Draw unit
+        // If its been selected change color
+        ctx.fillStyle = this.isSelected && this.isHeld ? this.getColour(0.5) : this.getColour(0.9);
+        ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
 
-            // Draw unit
-            // If its been selected change color
-            ctx.fillStyle = this.isSelected && this.isHeld ? this.getColour(0.5) : this.getColour(0.9);
-            ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
-
-            // Just some drawing stuff
-            ctx.fillRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
-            ctx.strokeRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
-
-            // ctx.translate(-(this.position.x + this.dimensions.w * 0.5), -(this.position.y + this.dimensions.l * 0.5));
-
-            ctx.restore();
-        } else {
-            ctx.beginPath();
-
-            // Draw unit
-            // If its been selected change color
-            ctx.fillStyle = this.isSelected && this.isHeld ? this.getColour(0.5) : this.getColour(0.9);
-            ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
-
-            // Just some drawing stuff
-            ctx.fillRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
-            ctx.strokeRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
-            this.drawHandle(ctx, new Vec2(0, 0));
-            super.drawDetails(ctx);
-        }
+        // Just some drawing stuff
+        ctx.fillRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
+        ctx.strokeRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
+        this.drawHandle(ctx, new Vec2(0, 0));
+        super.drawDetails(ctx);
     }
 
     // Just get the colour of te unit
@@ -70,3 +48,26 @@ export class Unit extends BaseWidget implements IRenderable, IRotatable, IScalab
         ctx.stroke();
     }
 }
+
+
+// if (this.isRotating) {
+//     // tslint:disable-next-line:no-console
+//     console.log('draw rotated');
+
+//     ctx.save();
+//     ctx.translate(this.position.x + this.dimensions.w * 0.5, this.position.y + this.dimensions.l * 0.5);
+//     ctx.rotate(this.angle);
+
+//     // Draw unit
+//     // If its been selected change color
+//     ctx.fillStyle = this.isSelected && this.isHeld ? this.getColour(0.5) : this.getColour(0.9);
+//     ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
+
+//     // Just some drawing stuff
+//     ctx.fillRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
+//     ctx.strokeRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
+
+//     // ctx.translate(-(this.position.x + this.dimensions.w * 0.5), -(this.position.y + this.dimensions.l * 0.5));
+
+//     ctx.restore();
+// } else {

@@ -1,42 +1,53 @@
-import { Kitchen } from './Kitchen';
+import { store } from '../redux/ConfigureStore';
+import { IReduxPlannerState } from '../utilities/Interfaces';
+import { Widgets } from './Widgets';
 
 // Only select the top widget
-export const selectTopItem = (): void => {
-    let index = -1;
-    if (Kitchen.getInstance().widgets.length > 0) {
-        for (let i = 0; i < Kitchen.getInstance().widgets.length; i++) {
-            if (Kitchen.getInstance().widgets[i].isSelected) {
-                index = i;
-                Kitchen.getInstance().widgets[i].isSelected = false;
+export const selectTopWidget = (): void => {
+    let top = -1;
+
+    // Widgets from redux store
+    const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
+
+    if (widgets.length > 0) {
+        for (let pos = 0; pos < widgets.length; pos++) {
+            if (Widgets.getInstance().isSelected(pos)) {
+                top = pos;
+                Widgets.getInstance().setSelected(pos, false);
             }
         }
-        if (index >= 0) {
-            Kitchen.getInstance().widgets[index].isSelected = true;
+        if (top >= 0) {
+            Widgets.getInstance().setSelected(top, true);
         }
     }
 };
 
 // Only remove the top widget
-export const removeTopItem = (): void => {
-    let index = -1;
-    if (Kitchen.getInstance().widgets.length > 0) {
-        for (let i = 0; i < Kitchen.getInstance().widgets.length; i++) {
-            if (Kitchen.getInstance().widgets[i].isDeleting) {
-                index = i;
-                Kitchen.getInstance().widgets[i].isDeleting = false;
+export const setTopWidgetAsDeleting = (): void => {
+    let top = -1;
+
+    // Widgets from redux store
+    const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
+
+    if (widgets.length > 0) {
+        for (let pos = 0; pos < widgets.length; pos++) {
+            if (Widgets.getInstance().isDeleting(pos)) {
+                top = pos;
+                Widgets.getInstance().setDeleting(pos, false);
             }
         }
-        if (index >= 0) {
-            Kitchen.getInstance().widgets[index].isDeleting = true;
+        if (top >= 0) {
+            Widgets.getInstance().setDeleting(top, true);
         }
     }
 };
 
-// Remove an item
-export const removeItem = (id: number): boolean => {
-    for (let i = 0; i < Kitchen.getInstance().widgets.length; i++) {
-        if (Kitchen.getInstance().widgets[i].id === id) {
-            Kitchen.getInstance().widgets.splice(i, 1);
+// Remove an widget
+export const canDeleteWidget = (id: number): boolean => {
+    // Widgets from redux store
+    const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
+    for (let pos = 0; pos < widgets.length; pos++) {
+        if (widgets[pos].id === id) {
             return true;
         }
     }

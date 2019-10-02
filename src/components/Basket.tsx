@@ -53,7 +53,7 @@ export const Basket = (): JSX.Element => {
         return `${num.toFixed(2)}`;
     };
 
-    // Craete an item in the basket items array
+    // Create an item in the basket items array
     const createItem = (desc: string, m2: number, qty: number, price: number): IItem => {
         const total = qty * price;
         return { desc, qty, m2, price, total };

@@ -2,7 +2,7 @@ import { Button, createStyles, Dialog, DialogTitle, makeStyles, TextField, Theme
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Kitchen } from '../engine/Kitchen';
+import { Widgets } from '../engine/Widgets';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
 import { IReduxPlannerState, ISaveDialogProps, IState } from '../utilities/Interfaces';
 
@@ -85,7 +85,7 @@ export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {
                 SaveKitchen(
                     {
                         id: currentKitchen.id,
-                        widgets: Kitchen.getInstance().widgets,
+                        widgets: currentKitchen.widgets,
                         name: values.name,
                     },
                     isNew,

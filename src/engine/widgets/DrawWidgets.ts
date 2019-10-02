@@ -68,8 +68,8 @@ export class DrawWidgets {
         ctx.restore();
     }
 
-    // Draw item info
-    public drawItemInfo(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions, id: number): void {
+    // Draw widget info
+    public drawWidgetInfo(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions, id: number): void {
         ctx.fillStyle = BLACK;
         ctx.font = '8px Arial';
         ctx.fillText(id.toString(), position.x + 0.5 * dimensions.w - 5, position.y + 0.5 * dimensions.l);

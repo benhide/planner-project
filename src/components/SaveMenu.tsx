@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Kitchen } from '../engine/Kitchen';
+import { Widgets } from '../engine/Widgets';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
 import { IMenuProps, IReduxPlannerState } from '../utilities/Interfaces';
 import { SaveDialog } from './SaveDialog';
@@ -32,7 +32,7 @@ export const SaveMenu = (props: IMenuProps): JSX.Element => {
                 SaveKitchen(
                     {
                         id: currentKitchen.id,
-                        widgets: Kitchen.getInstance().widgets,
+                        widgets: currentKitchen.widgets,
                         name: currentKitchen.name,
                     },
                     false,

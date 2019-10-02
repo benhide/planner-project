@@ -9,13 +9,13 @@ import { KitchenActionTypes } from '../redux/actions/ActionTypes';
  ************************/
 
 // An event subscription takes an event and a
-// subscription function
+// subscription function interface
 export interface IEventSubscription {
     event: GameEvent;
     fn: SubscriptionFn;
 }
 
-// Event bus data object
+// Event bus data object interface
 export interface IEventBusData {
     x: number;
     y: number;
@@ -28,22 +28,22 @@ export type SubscriptionFn = (data: IEventBusData) => void;
  *  WIDGET INTERFACES  *
  ***********************/
 
-// Can widget be rendered
+// Can widget be rendered interface
 export interface IRenderable {
     draw(ctx: CanvasRenderingContext2D): void;
 }
 
-// Can widget be rotated
+// Can widget be rotated interface
 export interface IRotatable {
     isRotatable: boolean;
 }
 
-// Can widget be scaled
+// Can widget be scaled interface
 export interface IScalable {
     isScalable: boolean;
 }
 
-// Can widget be selected
+// Can widget be selected interface
 export interface ISelectable {
     isSelected: boolean;
 }
@@ -61,20 +61,20 @@ export interface IItem {
     total: number;
 }
 
-// Menu item
+// Menu item interface
 export interface IMenuItem {
     id: number;
     name: string;
 }
 
-// Dialog props
+// Dialog props interface
 export interface IDeleteDialogProps {
     open: boolean;
     onClose: () => void;
     dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
 }
 
-// Save dialog props
+// Save dialog props interface
 export interface ISaveDialogProps {
     onClose: () => void;
     open: boolean;
@@ -82,14 +82,14 @@ export interface ISaveDialogProps {
     isNew: boolean;
 }
 
-// Load menu props
+// Load menu props interface
 export interface ILoadMenuProps {
     loadItems: IMenuItem[];
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
 }
 
-// Add menu props
+// Add menu props interface
 export interface IMenuProps {
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;
@@ -157,14 +157,14 @@ export type KitchenActions =
     | IKitchenWidgetRemovedAction
     | IKitchenWidgetUpdatedAction;
 
-// Planner state
+// Planner state interface
 export interface IPlannerState {
     id: number;
     name: string;
     widgets: BaseWidget[];
 }
 
-// Redux planner state
+// Redux planner state interface
 export interface IReduxPlannerState {
     kitchen: IPlannerState;
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { EventBus, GameEvent } from '../engine/EventBus';
-import { Kitchen } from '../engine/Kitchen';
+import { Widgets } from '../engine/Widgets';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
 
 // The planner class initialisation
@@ -84,7 +84,7 @@ export const Planner: React.FunctionComponent = () => {
         canvas.style.border = `1px solid rgba(55, 55, 55, 0.15)`;
 
         const ctx = canvas.getContext('2d');
-        const kitchen = Kitchen.getInstance();
+        const kitchen = Widgets.getInstance();
 
         // Draw function
         const draw = () => {

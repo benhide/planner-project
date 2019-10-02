@@ -1,5 +1,5 @@
 import { loadKitchen, saveKitchen } from '../../api/KitchenApi';
-import { Kitchen } from '../../engine/Kitchen';
+import { Widgets } from '../../engine/Widgets';
 import { BaseWidget } from '../../engine/widgets/BaseWidget';
 import { Unit } from '../../engine/widgets/Unit';
 import { Wall } from '../../engine/widgets/Wall';
@@ -11,13 +11,13 @@ import { KitchenActionTypes } from './ActionTypes';
 
 // Load kitchen action
 export const LoadKitchenSuccess = (kitchen: IPlannerState) => {
-    Kitchen.getInstance().updateWidgets(populateWidgetArray(kitchen));
+    Widgets.getInstance().updateWidgets(populateWidgetArray(kitchen));
     return { type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS, kitchen };
 };
 
 // Save kitchen action
 export const SaveKitchenSuccess = (kitchen: IPlannerState) => {
-    Kitchen.getInstance().updateWidgets(populateWidgetArray(kitchen));
+    Widgets.getInstance().updateWidgets(populateWidgetArray(kitchen));
     return { type: KitchenActionTypes.SAVE_KITCHEN_SUCCESS, kitchen };
 };
 
@@ -52,7 +52,7 @@ export function LoadKitchen(id: number) {
 
 // Remove kitchen thunk
 export function DeleteKitchen(kitchen: IPlannerState) {
-    Kitchen.getInstance().resetWidgets();
+    Widgets.getInstance().resetWidgets();
     return { type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS, kitchen };
 }
 

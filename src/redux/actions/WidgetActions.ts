@@ -1,15 +1,16 @@
+import { Widgets } from '../../engine/Widgets';
 import { BaseWidget } from '../../engine/widgets/BaseWidget';
 import { KitchenActionTypes } from './ActionTypes';
-import { Kitchen } from '../../engine/Kitchen';
 
 // Add widget action creator
 export const AddWidget = (widget: BaseWidget) => {
-    Kitchen.getInstance().pushToWidgetArray(widget);
+    Widgets.getInstance().addWidget(widget);
     return { type: KitchenActionTypes.WIDGET_ADDED, widget };
 };
 
 // Remove widget action creator
 export const RemoveWidget = (widget: BaseWidget) => {
+    Widgets.getInstance().removeWidget(widget);
     return { type: KitchenActionTypes.WIDGET_REMOVED, widget };
 };
 
