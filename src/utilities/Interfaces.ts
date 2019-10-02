@@ -15,8 +15,14 @@ export interface IEventSubscription {
     fn: SubscriptionFn;
 }
 
-// Subscription function
-export type SubscriptionFn = (data: object) => void;
+// Event bus data object
+export interface IEventBusData {
+    x: number;
+    y: number;
+}
+
+// Type declaration for subscription function
+export type SubscriptionFn = (data: IEventBusData) => void;
 
 /***********************
  *  WIDGET INTERFACES  *
@@ -143,9 +149,14 @@ export type KitchenActions =
     | IKitchenWidgetRemovedAction
     | IKitchenWidgetUpdatedAction;
 
-// Redux planner state
+// Planner state
 export interface IPlannerState {
     id: number;
     name: string;
     widgets: BaseWidget[];
+}
+
+// Redux planner state
+export interface IReduxPlannerState {
+    kitchen: IPlannerState;
 }

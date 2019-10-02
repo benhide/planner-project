@@ -11,6 +11,6 @@ export async function handleResponse(response: Response): Promise<any> {
 }
 
 // An error occured during api call
-export function handleError(error: string) {
+export const handleError = (error: string): never => {
     throw error;
 }

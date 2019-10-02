@@ -48,5 +48,8 @@ export const DEFAULT_WALLUNIT_TYPE = 'WALLUNIT';
 export const DEFAULT_WORKTOP_TYPE = 'WORKTOP';
 export const DEFAULT_WALL_TYPE = 'WALL';
 
-// WRen green colour
+// Defualt colours
 export const WREN_GREEN = '#57B05E';
+export const GREY = '#808080';
+export const BLACK = '#000000';
+export const WHITE = '#FFFFFF'

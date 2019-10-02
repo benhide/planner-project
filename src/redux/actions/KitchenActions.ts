@@ -11,25 +11,25 @@ import { KitchenActionTypes } from './ActionTypes';
 
 // Load kitchen action
 export const LoadKitchenSuccess = (kitchen: IPlannerState) => {
+    Kitchen.getInstance().updateWidgets(populateWidgetArray(kitchen));
     return { type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS, kitchen };
 };
 
-// Save kitchen action 
+// Save kitchen action
 export const SaveKitchenSuccess = (kitchen: IPlannerState) => {
+    Kitchen.getInstance().updateWidgets(populateWidgetArray(kitchen));
     return { type: KitchenActionTypes.SAVE_KITCHEN_SUCCESS, kitchen };
 };
 
 // Save a kitchen thunk
-export function SaveKitchen(kitchen: IPlannerState, isNewKitchen: boolean) {
+export const SaveKitchen = (kitchen: IPlannerState, isNewKitchen: boolean) => {
     return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IPlannerState }) => void) => {
         try {
             if (!isNewKitchen) {
                 const savedKitchen = (await saveKitchen(kitchen)) as IPlannerState;
-                Kitchen.getInstance().updateKitchenDetails(savedKitchen.id, savedKitchen.name, populateWidgetArray(savedKitchen));
                 dispatch(SaveKitchenSuccess(savedKitchen));
             } else {
                 await saveKitchen(kitchen);
-                Kitchen.getInstance().resetKitchen();
                 dispatch(DeleteKitchen(DEFAULT_KITCHEN));
             }
         } catch (error) {
@@ -43,7 +43,6 @@ export function LoadKitchen(id: number) {
     return async (dispatch: (arg0: { type: KitchenActionTypes; kitchen: IPlannerState }) => void) => {
         try {
             const loadedKitchen = (await loadKitchen(id)) as IPlannerState;
-            Kitchen.getInstance().updateKitchenDetails(loadedKitchen.id, loadedKitchen.name, populateWidgetArray(loadedKitchen));
             dispatch(LoadKitchenSuccess(loadedKitchen));
         } catch (error) {
             throw error;
@@ -53,11 +52,12 @@ export function LoadKitchen(id: number) {
 
 // Remove kitchen thunk
 export function DeleteKitchen(kitchen: IPlannerState) {
+    Kitchen.getInstance().resetWidgets();
     return { type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS, kitchen };
 }
 
 // Populate the kitchen array
-export function populateWidgetArray(kitchen: IPlannerState): BaseWidget[] {
+const populateWidgetArray = (kitchen: IPlannerState): BaseWidget[] => {
     return kitchen.widgets.map((widget) => {
         if (widget.type === DEFAULT_UNIT_TYPE) {
             return new Unit(

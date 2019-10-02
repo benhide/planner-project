@@ -1,9 +1,10 @@
 import { Button, createStyles, Dialog, DialogTitle, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Kitchen } from '../engine/Kitchen';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
-import { ISaveDialogProps, IState } from '../utilities/Interfaces';
+import { IReduxPlannerState, ISaveDialogProps, IState } from '../utilities/Interfaces';
 
 // Component styling
 const menuStyles = makeStyles((theme: Theme) =>
@@ -47,7 +48,7 @@ const menuStyles = makeStyles((theme: Theme) =>
 );
 
 // Save dialog component
-export function SaveDialog(props: ISaveDialogProps) {
+export const SaveDialog = (props: ISaveDialogProps) => {
     // Styling
     const style = menuStyles();
 
@@ -56,6 +57,9 @@ export function SaveDialog(props: ISaveDialogProps) {
 
     // Local state
     const [values, setValues] = React.useState<IState>({ name: '' });
+
+    // Redux store
+    const currentKitchen = useSelector((state) => (state as IReduxPlannerState).kitchen);
 
     // When the dialog box closes
     const handleClose = () => {
@@ -80,7 +84,7 @@ export function SaveDialog(props: ISaveDialogProps) {
             dispatch(
                 SaveKitchen(
                     {
-                        id: Kitchen.getInstance().kitchenID,
+                        id: currentKitchen.id,
                         widgets: Kitchen.getInstance().widgets,
                         name: values.name,
                     },

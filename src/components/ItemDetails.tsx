@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { WREN_GREEN } from '../utilities/Defaults';
 
-const style = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         card: {
             width: '100%',
@@ -24,7 +24,7 @@ interface IItemDetailsProps {
 }
 
 export const ItemDetails: React.FunctionComponent<IItemDetailsProps> = (props) => {
-    const style = style();
+    const style = useStyles();
 
     return (
         <Card className={style.card}>

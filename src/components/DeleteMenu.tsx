@@ -5,7 +5,7 @@ import { IMenuProps } from '../utilities/Interfaces';
 import { DeleteKitchenDialog } from './DeleteDialog';
 
 // Delete the current kitchen from the server
-export default function DeleteMenu(props: IMenuProps): JSX.Element {
+export const DeleteMenu = (props: IMenuProps): JSX.Element => {
     // Props
     const { setIsLoading, dispatch } = props;
 

@@ -6,6 +6,9 @@ import { Kitchen } from '../Kitchen';
 import { checkBounding, collisionSnapping, snapToGrid } from '../Snapping';
 import { Dimensions, Vec2 } from '../Transform';
 import { DrawWidgets } from './DrawWidgets';
+import * as subscription from '../../utilities/Interfaces';
+import { removeItem, removeTopItem, selectTopItem } from '../ZIndexControls';
+import { canvasWidth, canvasHeight } from '../CanvasReferences';
 
 // The basewidget clas which all widgets inherit from
 export class BaseWidget {
@@ -56,11 +59,11 @@ export class BaseWidget {
         this.lastValidDimensions = dimensions;
 
         // Subscribe to the events
-        EventBus.subscribe(GameEvent.MouseClick, (e: any) => {
+        EventBus.subscribe(GameEvent.MouseClick, (e: subscription.IEventBusData) => {
             return;
         });
 
-        EventBus.subscribe(GameEvent.MouseMove, (e: any) => {
+        EventBus.subscribe(GameEvent.MouseMove, (e: subscription.IEventBusData) => {
             if (this.isSelected && this.isHeld) {
                 this.move(e);
             }
@@ -72,7 +75,7 @@ export class BaseWidget {
             }
         });
 
-        EventBus.subscribe(GameEvent.MouseDown, (e: any) => {
+        EventBus.subscribe(GameEvent.MouseDown, (e: subscription.IEventBusData) => {
             this.shouldSelect(e);
             this.shouldScale(e);
             this.shouldDelete(e);
@@ -86,7 +89,7 @@ export class BaseWidget {
             }
         });
 
-        EventBus.subscribe(GameEvent.MouseUp, (e: any) => {
+        EventBus.subscribe(GameEvent.MouseUp, (e: subscription.IEventBusData) => {
             if (this.isSelected) {
                 this.isHeld = false;
                 this.isSelected = false;
@@ -145,7 +148,7 @@ export class BaseWidget {
     }
 
     // Scale an item
-    private scale(e: any): void {
+    private scale(e: { x:number, y:number }): void {
         this.lastValidDimensions = this.dimensions;
 
         // Make sure it is side the canvas bounds
@@ -163,8 +166,8 @@ export class BaseWidget {
         this.setDimensions(e.x - this.position.x, e.y - this.position.y);
 
         // Get the canvas and keep the scaled size inside the canvas bounds (width)
-        const cw = Kitchen.getInstance().canvasWidth;
-        const ch = Kitchen.getInstance().canvasHeight;
+        const cw = canvasWidth();
+        const ch = canvasHeight();
         if (this.dimensions.w < this.defaultWidth) {
             this.setDimensions(this.defaultWidth, this.dimensions.l);
         } else if (this.dimensions.w > cw) {
@@ -180,7 +183,7 @@ export class BaseWidget {
     }
 
     // Move an item
-    private move(e: any): void {
+    private move(e: subscription.IEventBusData): void {
         const offset = new Vec2(this.dimensions.w * 0.5, this.dimensions.l * 0.5);
 
         // The last valid position the object was in without colliding
@@ -212,7 +215,7 @@ export class BaseWidget {
 
     // Delete an item
     private delete(): void {
-        if (Kitchen.getInstance().removeItem(this.id)) {
+        if (removeItem(this.id)) {
             store.dispatch(RemoveWidget(this));
         }
     }
@@ -238,7 +241,7 @@ export class BaseWidget {
     }
 
     // Should we try to scale the item
-    private shouldScale(e: any): void {
+    private shouldScale(e: subscription.IEventBusData): void {
         if (this.isScalable) {
             this.isScaling = isIntersecting(
                 new Vec2(e.x as number, e.y as number),
@@ -249,13 +252,13 @@ export class BaseWidget {
     }
 
     // Should we try to delete the item
-    private shouldDelete(e: any) {
+    private shouldDelete(e: subscription.IEventBusData): void {
         this.isDeleting = isIntersecting(new Vec2(e.x as number, e.y as number), new Vec2(this.position.x, this.position.y), new Dimensions(15, 15));
-        Kitchen.getInstance().removeTopItem();
+        removeTopItem();
     }
 
     // Should we try to rotate the item
-    private shouldRotate(e: any): Vec2 {
+    private shouldRotate(e: subscription.IEventBusData): Vec2 {
         if (this.isRotatable) {
             this.isRotating = isIntersecting(
                 new Vec2(e.x as number, e.y as number),
@@ -268,14 +271,14 @@ export class BaseWidget {
     }
 
     // Should we try to select the item
-    private shouldSelect(e: any): void {
+    private shouldSelect(e: subscription.IEventBusData): void {
         this.isSelected = isIntersecting(new Vec2(e.x as number, e.y as number), this.position, this.dimensions);
-        Kitchen.getInstance().selectTopItem();
+        selectTopItem();
     }
 }
 
 // // Roate an item
-// private rotate(e: any): Vec2 {
+// private rotate(e): Vec2 {
 //     this.angle = this.mouseDownPos.getAngleDegrees(new Vec2(e.x as number, e.y as number)) + 180;
 //     // tslint:disable-next-line:no-console
 //     console.log(this.angle);

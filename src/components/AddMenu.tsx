@@ -4,23 +4,27 @@ import * as React from 'react';
 import { toast } from 'react-toastify';
 import { Kitchen } from '../engine/Kitchen';
 import { SaveKitchen, DeleteKitchen } from '../redux/actions/KitchenActions';
-import { IMenuProps } from '../utilities/Interfaces';
+import { IMenuProps, IPlannerState, IReduxPlannerState } from '../utilities/Interfaces';
 import { SaveDialog } from './SaveDialog';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
-import { GenerateId } from '../engine/WidgetsID';
+import { GenerateId } from '../engine/widgets/WidgetsID';
+import { useSelector } from 'react-redux';
 
 // Menu for creating a new kitchen
-export default function AddMenu(props: IMenuProps): JSX.Element {
+export const AddMenu = (props: IMenuProps): JSX.Element => {
     // Props
     const { setIsLoading, dispatch } = props;
 
     // Local state
     const [open, setOpen] = React.useState(false);
 
+    // Redux store
+    const currentKitchen = useSelector((state) => (state as IReduxPlannerState).kitchen);
+
     // Handle clicks on menu item
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         // If not already saved it will not have id
-        if (!Kitchen.getInstance().kitchenID) {
+        if (!currentKitchen.id) {
             // Open save dialog
             setOpen(true);
         } else {
@@ -28,15 +32,15 @@ export default function AddMenu(props: IMenuProps): JSX.Element {
             dispatch(
                 SaveKitchen(
                     {
-                        id: Kitchen.getInstance().kitchenID,
+                        id: currentKitchen.id,
                         widgets: Kitchen.getInstance().widgets,
-                        name: Kitchen.getInstance().kitchenName,
+                        name: currentKitchen.name,
                     },
                     true,
                 ),
             )
-                .then(() => toast.success('Kitchen ' + Kitchen.getInstance().kitchenName + ' has been saved'))
-                .catch(() => toast.error('Kitchen ' + Kitchen.getInstance().kitchenName + ' failed to save!'));
+                .then(() => toast.success('Kitchen ' + currentKitchen.name + ' has been saved'))
+                .catch(() => toast.error('Kitchen ' + currentKitchen.name + ' failed to save!'));
         }
     };
 
@@ -44,7 +48,6 @@ export default function AddMenu(props: IMenuProps): JSX.Element {
     const handleClose = () => {
         setIsLoading(true);
         setOpen(false);
-        Kitchen.getInstance().resetKitchen();
         GenerateId.resetAllIds();
         dispatch(DeleteKitchen(DEFAULT_KITCHEN));
     };

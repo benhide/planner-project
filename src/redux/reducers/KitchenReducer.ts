@@ -21,9 +21,11 @@ export const kitchenReducer = (state = initialState, action: KitchenActions) => 
         case KitchenActionTypes.REMOVED_KITCHEN_SUCCESS:
             return action.kitchen;
 
-        //  Add a widget to the store
+        // Add a widget to the store
         case KitchenActionTypes.WIDGET_ADDED:
-            return { ...state, id, name, widgets: [...state.widgets, { ...action.widget }] };
+            const currentState = { ...state, id, name, widgets: [...state.widgets, { ...action.widget }] };
+            currentState.widgets.sort((a, b) => (a.zIndex > b.zIndex ? 1 : -1));
+            return { ...state, ...currentState };
 
         // Remove a widget from the store
         case KitchenActionTypes.WIDGET_REMOVED:

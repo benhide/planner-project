@@ -1,4 +1,5 @@
 import { Dimensions, Vec2 } from '../Transform';
+import { GREY, BLACK, WHITE } from '../../utilities/Defaults';
 
 // Draws additional widget detail
 export class DrawWidgets {
@@ -13,8 +14,8 @@ export class DrawWidgets {
 
     // Draw box for scaling
     public drawRemoveBox(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions): void {
-        ctx.fillStyle = `rgba(255, 255, 255, 1)`;
-        ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
+        ctx.fillStyle = WHITE;;
+        ctx.strokeStyle = BLACK;
 
         ctx.fillRect(position.x, position.y, 10, 10);
         ctx.strokeRect(position.x, position.y, 10, 10);
@@ -31,8 +32,8 @@ export class DrawWidgets {
 
     // Draw the rotating box
     public drawRotatingBox(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions): void {
-        ctx.fillStyle = `rgba(255, 255, 255, 1)`;
-        ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
+        ctx.fillStyle = WHITE;
+        ctx.strokeStyle = BLACK;
 
         ctx.fillRect(position.x + dimensions.w - 10, position.y, 10, 10);
         ctx.strokeRect(position.x + dimensions.w - 10, position.y, 10, 10);
@@ -47,7 +48,7 @@ export class DrawWidgets {
         dimensions: Dimensions,
     ): void {
         ctx.save();
-        ctx.strokeStyle = `rgba(255, 255, 255, 1)`;
+        ctx.strokeStyle = GREY;
 
         ctx.setLineDash([5, 3]);
         ctx.beginPath();
@@ -75,7 +76,7 @@ export class DrawWidgets {
 
     // Draw item info
     public drawItemInfo(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions, id: number): void {
-        ctx.fillStyle = `rgba(0, 0, 0, 1)`;
+        ctx.fillStyle = BLACK;
         ctx.font = '8px Arial';
         ctx.fillText(id.toString(), position.x + 0.5 * dimensions.w - 5, position.y + 0.5 * dimensions.l);
 

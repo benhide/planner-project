@@ -2,7 +2,7 @@ import { Vec2 } from './Transform';
 import { BaseWidget } from './widgets/BaseWidget';
 
 // Snap to grid
-export function snapToGrid(obj: BaseWidget): void {
+export const snapToGrid = (obj: BaseWidget): void => {
     if (obj.position.x % 10 !== 0) {
         obj.position.x = Math.ceil(obj.position.x / 10) * 10;
     }
@@ -12,7 +12,7 @@ export function snapToGrid(obj: BaseWidget): void {
 }
 
 // Snap to size
-export function snapToSize(obj: BaseWidget): void {
+export const snapToSize = (obj: BaseWidget): void => {
     if (obj.dimensions.w % 10 !== 0) {
         obj.dimensions.w = Math.ceil(obj.dimensions.w / 10) * 10;
     }
@@ -22,7 +22,7 @@ export function snapToSize(obj: BaseWidget): void {
 }
 
 // Keep obj in bounds
-export function checkBounding(obj: BaseWidget): void {
+export const checkBounding = (obj: BaseWidget): void => {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     obj.position.x = obj.position.x < 0 ? 0 : obj.position.x;
     obj.position.y = obj.position.y < 0 ? 0 : obj.position.y;
@@ -31,7 +31,7 @@ export function checkBounding(obj: BaseWidget): void {
 }
 
 // Snap units together
-export function collisionSnapping(objA: BaseWidget, objB: BaseWidget): void {
+export const collisionSnapping = (objA: BaseWidget, objB: BaseWidget): void => {
     const objACenter = new Vec2(objA.position.x + objA.dimensions.w * 0.5, objA.position.y + objA.dimensions.l * 0.5);
     const objBCenter = new Vec2(objB.position.x + objB.dimensions.w * 0.5, objB.position.y + objB.dimensions.l * 0.5);
 

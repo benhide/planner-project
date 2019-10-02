@@ -5,7 +5,8 @@ import { deleteKitchen } from '../api/KitchenApi';
 import { Kitchen } from '../engine/Kitchen';
 import { DeleteKitchen } from '../redux/actions/KitchenActions';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
-import { IDeleteDialogProps } from '../utilities/Interfaces';
+import { IDeleteDialogProps, IReduxPlannerState } from '../utilities/Interfaces';
+import { useSelector } from 'react-redux';
 
 // Component styling
 const menuStyles = makeStyles((theme: Theme) =>
@@ -41,12 +42,15 @@ const menuStyles = makeStyles((theme: Theme) =>
 );
 
 // Delete dialog component
-export function DeleteKitchenDialog(props: IDeleteDialogProps) {
+export const DeleteKitchenDialog = (props: IDeleteDialogProps) => {
     // Styling
     const style = menuStyles();
 
     // The props
     const { onClose, open, dispatch } = props;
+
+    // Redux store
+    const currentKitchen = useSelector((state) => (state as IReduxPlannerState).kitchen);
 
     // When the dialog box closes
     const handleClose = () => {
@@ -55,17 +59,15 @@ export function DeleteKitchenDialog(props: IDeleteDialogProps) {
 
     // Delete the current kitchen
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (Kitchen.getInstance().kitchenID) {
-            deleteKitchen(Kitchen.getInstance().kitchenID)
+        if (currentKitchen.id) {
+            deleteKitchen(currentKitchen.id)
                 .then(() => {
                     toast.success('Kitchen deleted');
                     dispatch(DeleteKitchen(DEFAULT_KITCHEN));
-                    Kitchen.getInstance().resetKitchen();
                 })
                 .catch(() => toast.error('Kitchen failed to delete!'));
         } else {
             dispatch(DeleteKitchen(DEFAULT_KITCHEN));
-            Kitchen.getInstance().resetKitchen();
         }
         onClose();
     };

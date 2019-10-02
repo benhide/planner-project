@@ -1,3 +1,133 @@
 {
-  "kitchens": []
+  "kitchens": [
+    {
+      "id": 1,
+      "widgets": [
+        {
+          "dimensions": {
+            "w": 100,
+            "l": 100
+          },
+          "position": {
+            "x": 525.984375,
+            "y": 351
+          },
+          "zIndex": 1,
+          "id": 103,
+          "isScalable": false,
+          "isRotatable": true,
+          "type": "UNIT",
+          "isSelected": false,
+          "isHeld": false,
+          "isScaling": false,
+          "isRotating": false,
+          "isColliding": false,
+          "isDeleting": false,
+          "mouseDownPos": {
+            "x": 575.984375,
+            "y": 401
+          },
+          "dirToRotate": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0,
+          "drawWidget": {},
+          "defaultWidth": 100,
+          "defaultLength": 100,
+          "lastValidPosition": {
+            "x": 524.984375,
+            "y": 350
+          },
+          "lastValidDimensions": {
+            "w": 100,
+            "l": 100
+          }
+        },
+        {
+          "dimensions": {
+            "w": 100,
+            "l": 100
+          },
+          "position": {
+            "x": 196.984375,
+            "y": 185
+          },
+          "zIndex": 1,
+          "id": 101,
+          "isScalable": false,
+          "isRotatable": true,
+          "type": "UNIT",
+          "isSelected": false,
+          "isHeld": false,
+          "isScaling": false,
+          "isRotating": false,
+          "isColliding": false,
+          "isDeleting": false,
+          "mouseDownPos": {
+            "x": 575.984375,
+            "y": 401
+          },
+          "dirToRotate": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0,
+          "drawWidget": {},
+          "defaultWidth": 100,
+          "defaultLength": 100,
+          "lastValidPosition": {
+            "x": 196.984375,
+            "y": 184
+          },
+          "lastValidDimensions": {
+            "w": 100,
+            "l": 100
+          }
+        },
+        {
+          "dimensions": {
+            "w": 100,
+            "l": 100
+          },
+          "position": {
+            "x": 422.984375,
+            "y": 103
+          },
+          "zIndex": 1,
+          "id": 102,
+          "isScalable": false,
+          "isRotatable": true,
+          "type": "UNIT",
+          "isSelected": false,
+          "isHeld": false,
+          "isScaling": false,
+          "isRotating": false,
+          "isColliding": false,
+          "isDeleting": false,
+          "mouseDownPos": {
+            "x": 575.984375,
+            "y": 401
+          },
+          "dirToRotate": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0,
+          "drawWidget": {},
+          "defaultWidth": 100,
+          "defaultLength": 100,
+          "lastValidPosition": {
+            "x": 421.984375,
+            "y": 103
+          },
+          "lastValidDimensions": {
+            "w": 100,
+            "l": 100
+          }
+        }
+      ],
+      "name": "new kitchen"
+    }
+  ]
 }

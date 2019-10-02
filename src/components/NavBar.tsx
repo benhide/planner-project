@@ -7,10 +7,10 @@ import { ThunkDispatch } from 'redux-thunk';
 import { getKitchensList } from '../api/KitchenApi';
 import { WREN_GREEN } from '../utilities/Defaults';
 import { IMenuItem, IPlannerState } from '../utilities/Interfaces';
-import AddMenu from './AddMenu';
-import DeleteMenu from './DeleteMenu';
-import LoadMenu from './LoadMenu';
-import SaveMenu from './SaveMenu';
+import { AddMenu } from './AddMenu';
+import { DeleteMenu } from './DeleteMenu';
+import { LoadMenu } from './LoadMenu';
+import { SaveMenu } from './SaveMenu';
 
 // Navbar styling
 const useStyles = makeStyles(() =>

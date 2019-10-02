@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // The load menu component
-export default function LoadMenu(props: ILoadMenuProps): JSX.Element {
+export const LoadMenu = (props: ILoadMenuProps): JSX.Element => {
     // The component styling
     const style = useStyles();
 
@@ -28,17 +28,17 @@ export default function LoadMenu(props: ILoadMenuProps): JSX.Element {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     // Handle clicks on menu items
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         setAnchorEl(e.currentTarget);
     };
 
     // Handle the menu closing
-    const handleClose = () => {
+    const handleClose = (): void => {
         setAnchorEl(null);
     };
 
     // Load kitchen
-    const loadKitchen = (e: any, id: number, name: string): void => {
+    const loadKitchen = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, id: number, name: string): void => {
         dispatch(LoadKitchen(id))
             .then(() => toast.success('Kitchen ' + name + ' has been loaded'))
             .catch(() => toast.error('Kitchen ' + name + ' failed to load!'));

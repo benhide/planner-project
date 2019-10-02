@@ -1,9 +1,10 @@
 import { BaseWidget } from '../../engine/widgets/BaseWidget';
-import { IPlannerState } from '../../utilities/Interfaces';
 import { KitchenActionTypes } from './ActionTypes';
+import { Kitchen } from '../../engine/Kitchen';
 
 // Add widget action creator
 export const AddWidget = (widget: BaseWidget) => {
+    Kitchen.getInstance().pushToWidgetArray(widget);
     return { type: KitchenActionTypes.WIDGET_ADDED, widget };
 };
 
