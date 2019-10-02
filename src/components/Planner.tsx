@@ -5,7 +5,6 @@ import { BaseWidget } from '../engine/widgets/BaseWidget';
 
 // The planner class initialisation
 export const Planner: React.FunctionComponent = () => {
-    let widgets = new Array<BaseWidget>();
 
     // Width of the canvas will match width of the screen
     const sizeCanvas = (canvas: HTMLCanvasElement) => {
@@ -14,6 +13,7 @@ export const Planner: React.FunctionComponent = () => {
         canvas.style.padding = '0px';
         canvas.style.margin = '0px auto';
         canvas.style.marginTop = '20px';
+        canvas.style.zIndex = '-10'
         canvas.style.display = 'block';
     };
 

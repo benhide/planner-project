@@ -101,7 +101,7 @@ export interface IState {
 }
 
 // Interface for item details props
-export interface IWidgetDeatilsProps {
+export interface IItemDetailsProps {
     itemSelected: string;
     itemInfo: string;
     itemImg: string;

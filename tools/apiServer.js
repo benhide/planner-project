@@ -22,7 +22,7 @@ server.use(jsonServer.bodyParser);
 // Add createdAt to all POSTS
 server.use((req, res, next) => {
     if (req.method === 'POST') {
-        req.body.createdAt = Date.now();
+        req.body.createdAt = Date(Date.now());
         // tslint:disable-next-line: no-console
         console.log('POST REQUEST MADE AT ' + req.body.createdAt);
     }

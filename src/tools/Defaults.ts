@@ -22,12 +22,12 @@ export const DEFUALT_WORKTOP_PRICE: number = 40.99;
 
 // Widgets descriptions
 export const UNITS_BASKET_DESC = 'Units';
-export const WALLUNITS_BASKET_DESC = 'Wallunits';
+export const WALLUNITS_BASKET_DESC = 'Wall-units';
 export const WORKTOP_BASKET_DESC = 'Worktops';
 
 // Basket component rates
 export const TAX_RATE = 0.2;
-export const SHIPPING_RATE = 0.15;
+export const SHIPPING_RATE = 0.25;
 
 // Widget ids prefixs
 export const UNIT_ID_PREFIX = 100;

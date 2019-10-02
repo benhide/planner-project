@@ -4,309 +4,309 @@ import { IEventBusData, IReduxPlannerState } from '../../utilities/Interfaces';
 import { canvasHeight, canvasWidth } from '../CanvasReferences';
 import { isColliding, isIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
-import { checkBounding, collisionSnapping } from '../Snapping';
+import { checkBounding, collisionSnapping, snapToGrid, snapToSize } from '../Snapping';
 import { Dimensions, Vec2 } from '../Transform';
-import { canDeleteWidget, setTopWidgetAsDeleting, selectTopWidget } from '../ZIndexControls';
+import { canDeleteWidget, selectTopWidget, setTopWidgetAsDeleting } from '../ZIndexControls';
 import { DrawWidgets } from './DrawWidgets';
 
 // The basewidget clas which all widgets inherit from
 export class BaseWidget {
-           // Booleans for the widget
-           private _isSelected: boolean = false;
-           private _isHeld: boolean = false;
-           private _isScaling: boolean = false;
-           private _isRotating: boolean = false;
-           private _isDeleting: boolean = false;
+    // Booleans for the widget
+    private _isSelected: boolean = false;
+    private _isHeld: boolean = false;
+    private _isScaling: boolean = false;
+    private _isRotating: boolean = false;
+    private _isDeleting: boolean = false;
 
-           // Catch the defualt width and height
-           private _defaultWidth: number;
-           private _defaultLength: number;
+    // Catch the defualt width and height
+    private _defaultWidth: number;
+    private _defaultLength: number;
 
-           // The last valid position to place widget
-           private _lastValidPosition: Vec2;
-           private _lastValidDimensions: Dimensions;
+    // The last valid position to place widget
+    private _lastValidPosition: Vec2;
+    private _lastValidDimensions: Dimensions;
 
-           // Draw functionality
-           private _drawWidget: DrawWidgets;
+    // Draw functionality
+    private _drawWidget: DrawWidgets;
 
-           constructor(
-               public dimensions: Dimensions,
-               public position: Vec2,
-               public zIndex: number,
-               public id: number,
-               public isScalable: boolean,
-               public isRotatable: boolean,
-               public type: string,
-           ) {
-               // Draw widget class
-               this._drawWidget = new DrawWidgets();
+    constructor(
+        public dimensions: Dimensions,
+        public position: Vec2,
+        public zIndex: number,
+        public id: number,
+        public isScalable: boolean,
+        public isRotatable: boolean,
+        public type: string,
+    ) {
+        // Draw widget class
+        this._drawWidget = new DrawWidgets();
 
-               // Catch the original dimensions
-               this._defaultWidth = this.dimensions.w;
-               this._defaultLength = this.dimensions.l;
+        // Catch the original dimensions
+        this._defaultWidth = this.dimensions.w;
+        this._defaultLength = this.dimensions.l;
 
-               // Set the initial position
-               this.setPosition(position.x, position.y);
-               this.setDimensions(dimensions.w, dimensions.l);
-               this._lastValidPosition = position;
-               this._lastValidDimensions = dimensions;
+        // Set the initial position
+        this.setPosition(position.x, position.y);
+        this.setDimensions(dimensions.w, dimensions.l);
+        this._lastValidPosition = position;
+        this._lastValidDimensions = dimensions;
 
-               // Subscribe to the events
-               EventBus.subscribe(GameEvent.MouseClick, (e: IEventBusData) => {
-                   return;
-               });
+        // Subscribe to the events
+        EventBus.subscribe(GameEvent.MouseClick, (e: IEventBusData) => {
+            return;
+        });
 
-               EventBus.subscribe(GameEvent.MouseMove, (e: IEventBusData) => {
-                   if (this._isSelected && this._isHeld) {
-                       this.move(e);
-                   }
-                   if (this.isScalable && this._isScaling) {
-                       this.scale(e);
-                   }
-                   if (this.isRotatable && this._isRotating) {
-                       // this.rotate(e);
-                   }
-               });
+        EventBus.subscribe(GameEvent.MouseMove, (e: IEventBusData) => {
+            if (this._isSelected && this._isHeld) {
+                this.move(e);
+            }
+            if (this.isScalable && this._isScaling) {
+                this.scale(e);
+            }
+            if (this.isRotatable && this._isRotating) {
+                // this.rotate(e);
+            }
+        });
 
-               EventBus.subscribe(GameEvent.MouseDown, (e: IEventBusData) => {
-                   this.shouldSelect(e);
-                   this.shouldScale(e);
-                   this.shouldDelete(e);
-                   this.shouldRotate(e);
+        EventBus.subscribe(GameEvent.MouseDown, (e: IEventBusData) => {
+            this.shouldSelect(e);
+            this.shouldScale(e);
+            this.shouldDelete(e);
+            this.shouldRotate(e);
 
-                   if (this._isScaling || this._isRotating) {
-                       this._isSelected = false;
-                   }
-                   if (this._isSelected) {
-                       this._isHeld = true;
-                   }
-               });
+            if (this._isScaling || this._isRotating) {
+                this._isSelected = false;
+            }
+            if (this._isSelected) {
+                this._isHeld = true;
+            }
+        });
 
-               EventBus.subscribe(GameEvent.MouseUp, (e: IEventBusData) => {
-                   if (this._isSelected) {
-                       this._isHeld = false;
-                       this._isSelected = false;
-                       this.update();
-                   }
+        EventBus.subscribe(GameEvent.MouseUp, (e: IEventBusData) => {
+            if (this._isSelected) {
+                this._isHeld = false;
+                this._isSelected = false;
+                this.update();
+            }
 
-                   if (this._isScaling) {
-                       this._isScaling = false;
-                       this.update();
-                   }
-                   this._isRotating = false;
+            if (this._isScaling) {
+                this._isScaling = false;
+                this.update();
+            }
+            this._isRotating = false;
 
-                   // Only remove the top widget
-                   if (this._isDeleting) {
-                       this.delete();
-                       this._isDeleting = false;
-                   }
-               });
-           }
+            // Only remove the top widget
+            if (this._isDeleting) {
+                this.delete();
+                this._isDeleting = false;
+            }
+        });
+    }
 
-           // Can set the position of the widget
-           public setPosition(x: number, y: number): void {
-               this.position = new Vec2(x, y);
-           }
+    // Can set the position of the widget
+    public setPosition(x: number, y: number): void {
+        this.position = new Vec2(x, y);
+    }
 
-           // Can set the position of the widget
-           public setDimensions(w: number, l: number): void {
-               this.dimensions = new Dimensions(w, l);
-           }
+    // Can set the position of the widget
+    public setDimensions(w: number, l: number): void {
+        this.dimensions = new Dimensions(w, l);
+    }
 
-           // Getters and setters for deleting
-           public get isDeleting() {
-               return this._isDeleting;
-           }
-           public set isDeleting(isDeleting) {
-               this._isDeleting = isDeleting;
-           }
+    // Getters and setters for deleting
+    public get isDeleting() {
+        return this._isDeleting;
+    }
+    public set isDeleting(isDeleting) {
+        this._isDeleting = isDeleting;
+    }
 
-           // Getters and setters for selected
-           public get isSelected() {
-               return this._isSelected;
-           }
-           public set isSelected(isSelected) {
-               this._isSelected = isSelected;
-           }
+    // Getters and setters for selected
+    public get isSelected() {
+        return this._isSelected;
+    }
+    public set isSelected(isSelected) {
+        this._isSelected = isSelected;
+    }
 
-           // Getters and setters for held
-           public get isHeld() {
-               return this._isHeld;
-           }
-           public set isHeld(isHeld) {
-               this._isHeld = isHeld;
-           }
+    // Getters and setters for held
+    public get isHeld() {
+        return this._isHeld;
+    }
+    public set isHeld(isHeld) {
+        this._isHeld = isHeld;
+    }
 
-           // Getters and setters for scaling
-           public get isScaling() {
-               return this._isScaling;
-           }
-           public set isScaling(isScaling) {
-               this._isScaling = isScaling;
-           }
+    // Getters and setters for scaling
+    public get isScaling() {
+        return this._isScaling;
+    }
+    public set isScaling(isScaling) {
+        this._isScaling = isScaling;
+    }
 
-           // Draw function
-           public draw(ctx: CanvasRenderingContext2D): void {
-               // Call the child class draw
-               this.draw(ctx);
-           }
+    // Draw function
+    public draw(ctx: CanvasRenderingContext2D): void {
+        // Call the child class draw
+        this.draw(ctx);
+    }
 
-           // Draw other widget details
-           public drawDetails(ctx: CanvasRenderingContext2D): void {
-               // Get the canvas and context for reference
-               const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    // Draw other widget details
+    public drawDetails(ctx: CanvasRenderingContext2D): void {
+        // Get the canvas and context for reference
+        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
-               // Draw object items if needed
-               if (this.isRotatable) {
-                   this._drawWidget.drawRotatingBox(ctx, this.position, this.dimensions);
-               }
-               if (this.isScalable) {
-                   this._drawWidget.drawScalingBox(ctx, this.position, this.dimensions);
-               }
-               if (this._isScaling || this._isSelected) {
-                   this._drawWidget.drawLines(ctx, canvas.width, canvas.height, this.position, this.dimensions);
-               }
-               this._drawWidget.drawWidgetInfo(ctx, this.position, this.dimensions, this.id);
-               this._drawWidget.drawRemoveBox(ctx, this.position, this.dimensions);
-           }
+        // Draw object items if needed
+        if (this.isRotatable) {
+            this._drawWidget.drawRotatingBox(ctx, this.position, this.dimensions);
+        }
+        if (this.isScalable) {
+            this._drawWidget.drawScalingBox(ctx, this.position, this.dimensions);
+        }
+        if (this._isScaling || this._isSelected) {
+            this._drawWidget.drawLines(ctx, canvas.width, canvas.height, this.position, this.dimensions);
+        }
+        this._drawWidget.drawWidgetInfo(ctx, this.position, this.dimensions, this.id);
+        this._drawWidget.drawRemoveBox(ctx, this.position, this.dimensions);
+    }
 
-           // Scale an widget
-           private scale(e: IEventBusData): void {
-               this._lastValidDimensions = this.dimensions;
+    // Scale an widget
+    private scale(e: IEventBusData): void {
+        this._lastValidDimensions = this.dimensions;
 
-               // Make sure it is side the canvas bounds
-               checkBounding(this);
+        // Make sure it is side the canvas bounds
+        checkBounding(this);
 
-               const collidingIDs = this.collisionDetection();
-               for (const id of collidingIDs) {
-                   if (id !== -1) {
-                       this.setDimensions(this._lastValidDimensions.w, this._lastValidDimensions.l);
-                       return;
-                   }
-               }
+        const collidingIDs = this.collisionDetection();
+        for (const id of collidingIDs) {
+            if (id !== -1) {
+                this.setDimensions(this._lastValidDimensions.w, this._lastValidDimensions.l);
+                return;
+            }
+        }
 
-               // Scale the widget
-               this.setDimensions(e.x - this.position.x, e.y - this.position.y);
+        // Scale the widget
+        this.setDimensions(e.x - this.position.x, e.y - this.position.y);
 
-               // Get the canvas and keep the scaled size inside the canvas bounds (width)
-               const cw = canvasWidth();
-               const ch = canvasHeight();
-               if (this.dimensions.w < this._defaultWidth) {
-                   this.setDimensions(this._defaultWidth, this.dimensions.l);
-               } else if (this.dimensions.w > cw) {
-                   this.setDimensions(cw, this.dimensions.l);
-               }
+        // Get the canvas and keep the scaled size inside the canvas bounds (width)
+        const cw = canvasWidth();
+        const ch = canvasHeight();
+        if (this.dimensions.w < this._defaultWidth) {
+            this.setDimensions(this._defaultWidth, this.dimensions.l);
+        } else if (this.dimensions.w > cw) {
+            this.setDimensions(cw, this.dimensions.l);
+        }
 
-               // Keep the scaled size inside the canvas bounds (length)
-               if (this.dimensions.l < this._defaultLength) {
-                   this.setDimensions(this.dimensions.w, this._defaultLength);
-               } else if (this.dimensions.l > ch) {
-                   this.setDimensions(this.dimensions.w, ch);
-               }
-           }
+        // Keep the scaled size inside the canvas bounds (length)
+        if (this.dimensions.l < this._defaultLength) {
+            this.setDimensions(this.dimensions.w, this._defaultLength);
+        } else if (this.dimensions.l > ch) {
+            this.setDimensions(this.dimensions.w, ch);
+        }
 
-           // Move an widget
-           private move(e: IEventBusData): void {
-               const offset = new Vec2(this.dimensions.w * 0.5, this.dimensions.l * 0.5);
+        snapToSize(this);
+    }
 
-               // The last valid position the object was in without colliding
-               this._lastValidPosition = this.position;
-               this.setPosition(-offset.x + e.x, -offset.y + e.y);
-               checkBounding(this);
+    // Move an widget
+    private move(e: IEventBusData): void {
+        const offset = new Vec2(this.dimensions.w * 0.5, this.dimensions.l * 0.5);
 
-               // Widgets from redux store
-               const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
+        // The last valid position the object was in without colliding
+        this._lastValidPosition = this.position;
+        this.setPosition(-offset.x + e.x, -offset.y + e.y);
+        checkBounding(this);
 
-               // Collision detection
-               const collidingIDs = this.collisionDetection();
-               for (const id of collidingIDs) {
-                   if (id !== -1) {
-                       collisionSnapping(this, widgets.find((widget) => widget.id === id)!);
-                   }
-               }
+        // Widgets from redux store
+        const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
 
-               // Second phase of collision detection
-               for (const id of collidingIDs) {
-                   if (isColliding(this, widgets.find((widget) => widget.id === id)!)) {
-                       this.setPosition(this._lastValidPosition.x, this._lastValidPosition.y);
-                   }
-               }
-           }
+        // Collision detection
+        const collidingIDs = this.collisionDetection();
+        for (const id of collidingIDs) {
+            if (id !== -1) {
+                collisionSnapping(this, widgets.find((widget) => widget.id === id)!);
+            }
+        }
 
-           // Update the store
-           private update(): void {
-               store.dispatch(UpdateWidget(this));
-           }
+        // Second phase of collision detection
+        for (const id of collidingIDs) {
+            if (isColliding(this, widgets.find((widget) => widget.id === id)!)) {
+                this.setPosition(this._lastValidPosition.x, this._lastValidPosition.y);
+            }
+        }
 
-           // Delete an widget
-           private delete(): void {
-               if (canDeleteWidget(this.id)) {
-                   store.dispatch(RemoveWidget(this));
-               }
-           }
+        snapToGrid(this);
+    }
 
-           // Collision detection
-           private collisionDetection(): number[] {
-               const id = [];
-               const kitchen = (store.getState() as IReduxPlannerState).kitchen;
+    // Update the store
+    private update(): void {
+        store.dispatch(UpdateWidget(this));
+    }
 
-               for (const widget of kitchen.widgets.values()) {
-                   if (this.id === widget.id) {
-                       continue;
-                   }
+    // Delete an widget
+    private delete(): void {
+        if (canDeleteWidget(this.id)) {
+            store.dispatch(RemoveWidget(this));
+        }
+    }
 
-                   // Only matching z indexs and z indexs of '4' collide
-                   if (this.zIndex === widget.zIndex || (this.zIndex === 4 || widget.zIndex === 4)) {
-                       if (isColliding(this, widget)) {
-                           id.push(widget.id);
-                       }
-                   }
-               }
+    // Collision detection
+    private collisionDetection(): number[] {
+        const id = [];
+        const kitchen = (store.getState() as IReduxPlannerState).kitchen;
 
-               // the colliding ids
-               return id;
-           }
+        for (const widget of kitchen.widgets.values()) {
+            if (this.id === widget.id) {
+                continue;
+            }
 
-           // Should we try to scale the widget
-           private shouldScale(e: IEventBusData): void {
-               if (this.isScalable) {
-                   this._isScaling = isIntersecting(
-                       new Vec2(e.x as number, e.y as number),
-                       new Vec2(this.position.x + this.dimensions.w - 15, this.position.y + this.dimensions.l - 15),
-                       new Dimensions(15, 15),
-                   );
-               }
-           }
+            // Only matching z indexs and z indexs of '4' collide
+            if (this.zIndex === widget.zIndex || (this.zIndex === 4 || widget.zIndex === 4)) {
+                if (isColliding(this, widget)) {
+                    id.push(widget.id);
+                }
+            }
+        }
 
-           // Should we try to delete the widget
-           private shouldDelete(e: IEventBusData): void {
-               this._isDeleting = isIntersecting(
-                   new Vec2(e.x as number, e.y as number),
-                   new Vec2(this.position.x, this.position.y),
-                   new Dimensions(15, 15),
-               );
-               setTopWidgetAsDeleting();
-           }
+        // the colliding ids
+        return id;
+    }
 
-           // Should we try to rotate the widget
-           private shouldRotate(e: IEventBusData): Vec2 {
-               if (this.isRotatable) {
-                   this._isRotating = isIntersecting(
-                       new Vec2(e.x as number, e.y as number),
-                       new Vec2(this.position.x + this.dimensions.w - 15, this.position.y),
-                       new Dimensions(20, 20),
-                   );
-                   return new Vec2(e.x as number, e.y as number);
-               }
-               return new Vec2(0, 0);
-           }
+    // Should we try to scale the widget
+    private shouldScale(e: IEventBusData): void {
+        if (this.isScalable) {
+            this._isScaling = isIntersecting(
+                new Vec2(e.x as number, e.y as number),
+                new Vec2(this.position.x + this.dimensions.w - 15, this.position.y + this.dimensions.l - 15),
+                new Dimensions(15, 15),
+            );
+        }
+    }
 
-           // Should we try to select the widget
-           private shouldSelect(e: IEventBusData): void {
-               this._isSelected = isIntersecting(new Vec2(e.x as number, e.y as number), this.position, this.dimensions);
-               selectTopWidget();
-           }
-       }
+    // Should we try to delete the widget
+    private shouldDelete(e: IEventBusData): void {
+        this._isDeleting = isIntersecting(new Vec2(e.x as number, e.y as number), new Vec2(this.position.x, this.position.y), new Dimensions(15, 15));
+        setTopWidgetAsDeleting();
+    }
+
+    // Should we try to rotate the widget
+    private shouldRotate(e: IEventBusData): Vec2 {
+        if (this.isRotatable) {
+            this._isRotating = isIntersecting(
+                new Vec2(e.x as number, e.y as number),
+                new Vec2(this.position.x + this.dimensions.w - 15, this.position.y),
+                new Dimensions(20, 20),
+            );
+            return new Vec2(e.x as number, e.y as number);
+        }
+        return new Vec2(0, 0);
+    }
+
+    // Should we try to select the widget
+    private shouldSelect(e: IEventBusData): void {
+        this._isSelected = isIntersecting(new Vec2(e.x as number, e.y as number), this.position, this.dimensions);
+        selectTopWidget();
+    }
+}
 
 // // Roate an widget
 // private rotate(e): Vec2 {

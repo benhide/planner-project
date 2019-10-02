@@ -2,6 +2,7 @@ import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typogr
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
     DEFUALT_UNIT_PRICE,
     DEFUALT_WALLUNIT_PRICE,
@@ -13,7 +14,7 @@ import {
     WORKTOP_BASKET_DESC,
     WREN_GREEN,
 } from '../utilities/Defaults';
-import { IItem, IPlannerState } from '../utilities/Interfaces';
+import { IItem, IReduxPlannerState } from '../utilities/Interfaces';
 
 // Styling for the component
 const useStyles = makeStyles((theme: Theme) =>
@@ -55,7 +56,7 @@ export const Basket = (): JSX.Element => {
 
     // Create an item in the basket items array
     const createItem = (desc: string, m2: number, qty: number, price: number): IItem => {
-        const total = qty * price;
+        const total = m2 === 0 ? qty * price : m2 * qty * price;
         return { desc, qty, m2, price, total };
     };
 
@@ -99,11 +100,12 @@ export const Basket = (): JSX.Element => {
     };
 
     // Get the current state from redux store and update the basket
-    const currentState = useSelector((state) => state as { kitchen: IPlannerState });
+    const currentState = useSelector((state) => state as IReduxPlannerState);
     const widgets = currentState.kitchen.widgets;
     updateBasket();
 
     // Calculate the totals
+    console.log('here');
     const subtotal = basketItems.map(({ total }) => total).reduce((sum, i) => sum + i, 0);
     const invoiceTaxes = TAX_RATE * subtotal;
     const shippingTotal = SHIPPING_RATE * subtotal;
@@ -189,7 +191,13 @@ export const Basket = (): JSX.Element => {
                         </TableRow>
                     </TableBody>
                 </Table>
-                <Button variant="contained" className={style.button} onClick={() => ({})}>
+                <Button
+                    variant="contained"
+                    className={style.button}
+                    onClick={() => {
+                        invoiceTotal > 0 ? toast.success('Your new kitchen has been ordered!') : toast.warn('Your kitchen is empty!');
+                    }}
+                >
                     Buy Now
                 </Button>
             </Paper>

@@ -23,6 +23,7 @@ import {
     DEFUALT_WORKTOP_DIM,
     WREN_GREEN,
 } from '../utilities/Defaults';
+import { WidgetDetails } from './WidgetDetails';
 
 // Styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -145,7 +146,7 @@ export const ToolBox = (): JSX.Element => {
                 <Button variant="contained" className={style.button}>
                     And Another
                 </Button>
-                {/* <ItemDetails itemSelected={'Items'} itemInfo={'Infomation'} itemImg={'img'} /> */}
+                <WidgetDetails itemSelected={'Items'} itemInfo={'Information'} itemImg={'img'} />
             </Paper>
         </div>
     );
