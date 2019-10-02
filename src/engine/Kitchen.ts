@@ -1,6 +1,5 @@
-
+import { canvasHeight, canvasWidth, getCtx } from './CanvasReferences';
 import { BaseWidget } from './widgets/BaseWidget';
-import { getCtx, canvasWidth, canvasHeight } from './CanvasReferences';
 
 // The kitchen class
 export class Kitchen {

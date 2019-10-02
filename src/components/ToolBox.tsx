@@ -24,7 +24,7 @@ import {
     WREN_GREEN,
 } from '../utilities/Defaults';
 
-// Component styling
+// Styling
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         button: {
@@ -44,11 +44,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // Toolbox react component
-export const ToolBox = () => {
+export const ToolBox = (): JSX.Element => {
     const style = useStyles();
 
     // Adds a unit to the kitchen
-    const addUnit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const addUnit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         const unit = new Unit(
             DEFUALT_UNIT_DIM.w,
             DEFUALT_UNIT_DIM.l,
@@ -66,7 +66,7 @@ export const ToolBox = () => {
     };
 
     // Adds a worktop to the kitchen
-    const addWorktop = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const addWorktop = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         const worktop = new WorkTop(
             DEFUALT_WORKTOP_DIM.w,
             DEFUALT_WORKTOP_DIM.l,
@@ -84,7 +84,7 @@ export const ToolBox = () => {
     };
 
     // Adds a wall to the kitchen
-    const addWallunit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const addWallunit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         const wallunit = new WallUnit(
             DEFUALT_WALLUNIT_DIM.w,
             DEFUALT_WALLUNIT_DIM.l,
@@ -102,7 +102,7 @@ export const ToolBox = () => {
     };
 
     // Adds a wall to the kitchen
-    const addWall = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const addWall = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         const wall = new Wall(
             DEFUALT_WALL_DIM.w,
             DEFUALT_WALL_DIM.l,

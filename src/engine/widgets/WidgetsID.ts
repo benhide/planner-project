@@ -49,7 +49,7 @@ export const GenerateId = (() => {
         resetWallUnitId();
         resetWorktopId();
         resetWallId();
-    }
+    };
 
     // Return the functions (public access)
     return {

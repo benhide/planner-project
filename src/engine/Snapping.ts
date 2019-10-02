@@ -9,7 +9,7 @@ export const snapToGrid = (obj: BaseWidget): void => {
     if (obj.position.y % 10 !== 0) {
         obj.position.y = Math.ceil(obj.position.y / 10) * 10;
     }
-}
+};
 
 // Snap to size
 export const snapToSize = (obj: BaseWidget): void => {
@@ -19,7 +19,7 @@ export const snapToSize = (obj: BaseWidget): void => {
     if (obj.dimensions.l % 10 !== 0) {
         obj.dimensions.l = Math.ceil(obj.dimensions.l / 10) * 10;
     }
-}
+};
 
 // Keep obj in bounds
 export const checkBounding = (obj: BaseWidget): void => {
@@ -28,7 +28,7 @@ export const checkBounding = (obj: BaseWidget): void => {
     obj.position.y = obj.position.y < 0 ? 0 : obj.position.y;
     obj.position.x = obj.position.x + obj.dimensions.w > canvas.width ? canvas.width - obj.dimensions.w : obj.position.x;
     obj.position.y = obj.position.y + obj.dimensions.l > canvas.height ? canvas.height - obj.dimensions.l : obj.position.y;
-}
+};
 
 // Snap units together
 export const collisionSnapping = (objA: BaseWidget, objB: BaseWidget): void => {
@@ -43,20 +43,14 @@ export const collisionSnapping = (objA: BaseWidget, objB: BaseWidget): void => {
     const dir = new Vec2(0, 0);
 
     // left collision - / right collision +
-    if (
-        objA.position.x + objA.dimensions.w > objB.position.x &&
-        objA.position.x + objA.dimensions.w < objB.position.x + objB.dimensions.w
-    ) {
+    if (objA.position.x + objA.dimensions.w > objB.position.x && objA.position.x + objA.dimensions.w < objB.position.x + objB.dimensions.w) {
         left = objB.position.x - (objA.position.x + objA.dimensions.w);
     } else if (objA.position.x < objB.position.x + objB.dimensions.w && objA.position.x >= objB.position.x) {
         right = objB.position.x + objB.dimensions.w - objA.position.x;
     }
 
     // top collision - / bottom collision +
-    if (
-        objA.position.y + objA.dimensions.l > objB.position.y &&
-        objA.position.y + objA.dimensions.l < objB.position.y + objB.dimensions.l
-    ) {
+    if (objA.position.y + objA.dimensions.l > objB.position.y && objA.position.y + objA.dimensions.l < objB.position.y + objB.dimensions.l) {
         top = objB.position.y - (objA.position.y + objA.dimensions.l);
     } else if (objA.position.y < objB.position.y + objB.dimensions.l && objA.position.y >= objB.position.y) {
         bottom = objB.position.y + objB.dimensions.l - objA.position.y;
@@ -126,4 +120,4 @@ export const collisionSnapping = (objA: BaseWidget, objB: BaseWidget): void => {
     objA.setPosition((objA.position.x += dir.x), (objA.position.y += dir.y));
     // objA.position.x += dir.x;
     // objA.position.y += dir.y;
-}
+};

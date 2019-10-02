@@ -1,5 +1,5 @@
-import { handleResponse } from './ApiUtilities';
 import { IPlannerState } from '../utilities/Interfaces';
+import { handleResponse } from './ApiUtilities';
 const baseUrl = process.env.API_URL + '/kitchens/';
 
 // Load kitchen fetch/promise

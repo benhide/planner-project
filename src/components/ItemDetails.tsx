@@ -2,7 +2,9 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mater
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { WREN_GREEN } from '../utilities/Defaults';
+import { IItemDetailsProps } from '../utilities/Interfaces';
 
+// Styling
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         card: {
@@ -17,28 +19,23 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-interface IItemDetailsProps {
-    itemSelected: string;
-    itemInfo: string;
-    itemImg: string;
-}
+// Itemdetails component
+export const ItemDetails = (props: IItemDetailsProps): JSX.Element => {
+           const style = useStyles();
 
-export const ItemDetails: React.FunctionComponent<IItemDetailsProps> = (props) => {
-    const style = useStyles();
-
-    return (
-        <Card className={style.card}>
-            <CardActionArea onClick={() => ({})}>
-                <CardMedia className={style.media} image={props.itemInfo} />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {props.itemSelected}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {props.itemInfo}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
-    );
-};
+           return (
+               <Card className={style.card}>
+                   <CardActionArea onClick={() => ({})}>
+                       <CardMedia className={style.media} image={props.itemInfo} />
+                       <CardContent>
+                           <Typography gutterBottom variant="h5" component="h2">
+                               {props.itemSelected}
+                           </Typography>
+                           <Typography variant="body2" color="textSecondary" component="p">
+                               {props.itemInfo}
+                           </Typography>
+                       </CardContent>
+                   </CardActionArea>
+               </Card>
+           );
+       };

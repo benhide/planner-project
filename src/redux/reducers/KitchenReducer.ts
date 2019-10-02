@@ -1,6 +1,6 @@
-import { KitchenActionTypes } from '../actions/ActionTypes';
-import initialState from './IntialState';
 import { KitchenActions } from '../../utilities/Interfaces';
+import { KitchenActionTypes } from '../actions/ActionTypes';
+import { initialState } from './IntialState';
 
 // The kitchen reducer
 export const kitchenReducer = (state = initialState, action: KitchenActions) => {

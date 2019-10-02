@@ -8,7 +8,7 @@ export const isIntersecting = (posToChck: Vec2, objPos: Vec2, objDim: Dimensions
     } else {
         return false;
     }
-}
+};
 
 // Simple AABB collision detection returns true/false? if colliding
 export const isColliding = (objA: BaseWidget, objB: BaseWidget): boolean => {
@@ -22,4 +22,4 @@ export const isColliding = (objA: BaseWidget, objB: BaseWidget): boolean => {
     } else {
         return false;
     }
-}
+};

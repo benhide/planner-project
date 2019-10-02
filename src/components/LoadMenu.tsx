@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { LoadKitchen } from '../redux/actions/KitchenActions';
 import { ILoadMenuProps, IMenuItem } from '../utilities/Interfaces';
 
-// Styling for the component
+// Styling
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
@@ -62,4 +62,4 @@ export const LoadMenu = (props: ILoadMenuProps): JSX.Element => {
             </Menu>
         </div>
     );
-}
+};

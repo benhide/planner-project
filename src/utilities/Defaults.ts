@@ -52,4 +52,4 @@ export const DEFAULT_WALL_TYPE = 'WALL';
 export const WREN_GREEN = '#57B05E';
 export const GREY = '#808080';
 export const BLACK = '#000000';
-export const WHITE = '#FFFFFF'
+export const WHITE = '#FFFFFF';

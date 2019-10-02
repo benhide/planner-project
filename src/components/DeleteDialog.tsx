@@ -1,12 +1,11 @@
 import { Button, createStyles, Dialog, DialogTitle, makeStyles, Theme, Typography } from '@material-ui/core';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { deleteKitchen } from '../api/KitchenApi';
-import { Kitchen } from '../engine/Kitchen';
 import { DeleteKitchen } from '../redux/actions/KitchenActions';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
 import { IDeleteDialogProps, IReduxPlannerState } from '../utilities/Interfaces';
-import { useSelector } from 'react-redux';
 
 // Component styling
 const menuStyles = makeStyles((theme: Theme) =>
@@ -42,7 +41,7 @@ const menuStyles = makeStyles((theme: Theme) =>
 );
 
 // Delete dialog component
-export const DeleteKitchenDialog = (props: IDeleteDialogProps) => {
+export const DeleteKitchenDialog = (props: IDeleteDialogProps): JSX.Element => {
     // Styling
     const style = menuStyles();
 
@@ -53,12 +52,12 @@ export const DeleteKitchenDialog = (props: IDeleteDialogProps) => {
     const currentKitchen = useSelector((state) => (state as IReduxPlannerState).kitchen);
 
     // When the dialog box closes
-    const handleClose = () => {
+    const handleClose = (): void => {
         onClose();
     };
 
     // Delete the current kitchen
-    const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         if (currentKitchen.id) {
             deleteKitchen(currentKitchen.id)
                 .then(() => {
@@ -87,4 +86,4 @@ export const DeleteKitchenDialog = (props: IDeleteDialogProps) => {
             </span>
         </Dialog>
     );
-}
+};

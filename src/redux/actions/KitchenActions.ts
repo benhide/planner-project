@@ -36,7 +36,7 @@ export const SaveKitchen = (kitchen: IPlannerState, isNewKitchen: boolean) => {
             throw error;
         }
     };
-}
+};
 
 // Load kitchen thunk
 export function LoadKitchen(id: number) {
@@ -112,4 +112,4 @@ const populateWidgetArray = (kitchen: IPlannerState): BaseWidget[] => {
             );
         }
     }) as BaseWidget[];
-}
+};

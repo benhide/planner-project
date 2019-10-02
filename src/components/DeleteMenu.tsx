@@ -4,7 +4,7 @@ import * as React from 'react';
 import { IMenuProps } from '../utilities/Interfaces';
 import { DeleteKitchenDialog } from './DeleteDialog';
 
-// Delete the current kitchen from the server
+// Delete menu component
 export const DeleteMenu = (props: IMenuProps): JSX.Element => {
     // Props
     const { setIsLoading, dispatch } = props;
@@ -13,13 +13,13 @@ export const DeleteMenu = (props: IMenuProps): JSX.Element => {
     const [open, setOpen] = React.useState(false);
 
     // Handle clicks on menu items
-    const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>): void => {
         setIsLoading(true);
         setOpen(true);
     };
 
     // When closing the save menu
-    const handleClose = () => {
+    const handleClose = (): void => {
         setIsLoading(true);
         setOpen(false);
     };
@@ -33,4 +33,4 @@ export const DeleteMenu = (props: IMenuProps): JSX.Element => {
             <DeleteKitchenDialog open={open} onClose={handleClose} dispatch={dispatch} />
         </div>
     );
-}
+};

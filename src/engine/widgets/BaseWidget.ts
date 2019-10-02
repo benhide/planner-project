@@ -1,14 +1,14 @@
 import { RemoveWidget, UpdateWidget } from '../../redux/actions/WidgetActions';
 import { store } from '../../redux/ConfigureStore';
+import * as subscription from '../../utilities/Interfaces';
+import { canvasHeight, canvasWidth } from '../CanvasReferences';
 import { isColliding, isIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
 import { Kitchen } from '../Kitchen';
-import { checkBounding, collisionSnapping, snapToGrid } from '../Snapping';
+import { checkBounding, collisionSnapping } from '../Snapping';
 import { Dimensions, Vec2 } from '../Transform';
-import { DrawWidgets } from './DrawWidgets';
-import * as subscription from '../../utilities/Interfaces';
 import { removeItem, removeTopItem, selectTopItem } from '../ZIndexControls';
-import { canvasWidth, canvasHeight } from '../CanvasReferences';
+import { DrawWidgets } from './DrawWidgets';
 
 // The basewidget clas which all widgets inherit from
 export class BaseWidget {
@@ -148,7 +148,7 @@ export class BaseWidget {
     }
 
     // Scale an item
-    private scale(e: { x:number, y:number }): void {
+    private scale(e: { x: number; y: number }): void {
         this.lastValidDimensions = this.dimensions;
 
         // Make sure it is side the canvas bounds

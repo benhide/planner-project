@@ -1,5 +1,5 @@
+import { BLACK, GREY, WHITE } from '../../utilities/Defaults';
 import { Dimensions, Vec2 } from '../Transform';
-import { GREY, BLACK, WHITE } from '../../utilities/Defaults';
 
 // Draws additional widget detail
 export class DrawWidgets {
@@ -14,7 +14,7 @@ export class DrawWidgets {
 
     // Draw box for scaling
     public drawRemoveBox(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions): void {
-        ctx.fillStyle = WHITE;;
+        ctx.fillStyle = WHITE;
         ctx.strokeStyle = BLACK;
 
         ctx.fillRect(position.x, position.y, 10, 10);
@@ -40,13 +40,7 @@ export class DrawWidgets {
     }
 
     // Draw the guide lines
-    public drawLines(
-        ctx: CanvasRenderingContext2D,
-        canvasWidth: number,
-        canvasHeight: number,
-        position: Vec2,
-        dimensions: Dimensions,
-    ): void {
+    public drawLines(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, position: Vec2, dimensions: Dimensions): void {
         ctx.save();
         ctx.strokeStyle = GREY;
 

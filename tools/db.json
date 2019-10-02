@@ -9,49 +9,8 @@
             "l": 100
           },
           "position": {
-            "x": 525.984375,
-            "y": 351
-          },
-          "zIndex": 1,
-          "id": 103,
-          "isScalable": false,
-          "isRotatable": true,
-          "type": "UNIT",
-          "isSelected": false,
-          "isHeld": false,
-          "isScaling": false,
-          "isRotating": false,
-          "isColliding": false,
-          "isDeleting": false,
-          "mouseDownPos": {
-            "x": 575.984375,
-            "y": 401
-          },
-          "dirToRotate": {
-            "x": 0,
-            "y": 0
-          },
-          "angle": 0,
-          "drawWidget": {},
-          "defaultWidth": 100,
-          "defaultLength": 100,
-          "lastValidPosition": {
-            "x": 524.984375,
-            "y": 350
-          },
-          "lastValidDimensions": {
-            "w": 100,
-            "l": 100
-          }
-        },
-        {
-          "dimensions": {
-            "w": 100,
-            "l": 100
-          },
-          "position": {
-            "x": 196.984375,
-            "y": 185
+            "x": 220.359375,
+            "y": 98
           },
           "zIndex": 1,
           "id": 101,
@@ -65,8 +24,8 @@
           "isColliding": false,
           "isDeleting": false,
           "mouseDownPos": {
-            "x": 575.984375,
-            "y": 401
+            "x": 0,
+            "y": 0
           },
           "dirToRotate": {
             "x": 0,
@@ -77,8 +36,8 @@
           "defaultWidth": 100,
           "defaultLength": 100,
           "lastValidPosition": {
-            "x": 196.984375,
-            "y": 184
+            "x": 220.359375,
+            "y": 98
           },
           "lastValidDimensions": {
             "w": 100,
@@ -91,8 +50,8 @@
             "l": 100
           },
           "position": {
-            "x": 422.984375,
-            "y": 103
+            "x": 429.359375,
+            "y": 230
           },
           "zIndex": 1,
           "id": 102,
@@ -106,8 +65,8 @@
           "isColliding": false,
           "isDeleting": false,
           "mouseDownPos": {
-            "x": 575.984375,
-            "y": 401
+            "x": 0,
+            "y": 0
           },
           "dirToRotate": {
             "x": 0,
@@ -118,16 +77,139 @@
           "defaultWidth": 100,
           "defaultLength": 100,
           "lastValidPosition": {
-            "x": 421.984375,
-            "y": 103
+            "x": 429.359375,
+            "y": 230
           },
           "lastValidDimensions": {
             "w": 100,
             "l": 100
           }
+        },
+        {
+          "dimensions": {
+            "w": 628.359375,
+            "l": 218
+          },
+          "position": {
+            "x": 186.1796875,
+            "y": 79
+          },
+          "zIndex": 2,
+          "id": 201,
+          "isScalable": true,
+          "isRotatable": true,
+          "type": "WORKTOP",
+          "isSelected": false,
+          "isHeld": false,
+          "isScaling": false,
+          "isRotating": false,
+          "isColliding": false,
+          "isDeleting": false,
+          "mouseDownPos": {
+            "x": 0,
+            "y": 0
+          },
+          "dirToRotate": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0,
+          "drawWidget": {},
+          "defaultWidth": 628.359375,
+          "defaultLength": 218,
+          "lastValidPosition": {
+            "x": 186.1796875,
+            "y": 79
+          },
+          "lastValidDimensions": {
+            "w": 628.359375,
+            "l": 218
+          }
+        },
+        {
+          "dimensions": {
+            "w": 100,
+            "l": 50
+          },
+          "position": {
+            "x": 528.359375,
+            "y": 154
+          },
+          "zIndex": 3,
+          "id": 301,
+          "isScalable": false,
+          "isRotatable": true,
+          "type": "WALLUNIT",
+          "isSelected": false,
+          "isHeld": false,
+          "isScaling": false,
+          "isRotating": false,
+          "isColliding": false,
+          "isDeleting": false,
+          "mouseDownPos": {
+            "x": 0,
+            "y": 0
+          },
+          "dirToRotate": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0,
+          "drawWidget": {},
+          "defaultWidth": 100,
+          "defaultLength": 50,
+          "lastValidPosition": {
+            "x": 528.359375,
+            "y": 154
+          },
+          "lastValidDimensions": {
+            "w": 100,
+            "l": 50
+          }
+        },
+        {
+          "dimensions": {
+            "w": 40,
+            "l": 40
+          },
+          "position": {
+            "x": 105.359375,
+            "y": 283
+          },
+          "zIndex": 4,
+          "id": 401,
+          "isScalable": true,
+          "isRotatable": true,
+          "type": "WALL",
+          "isSelected": false,
+          "isHeld": false,
+          "isScaling": false,
+          "isRotating": false,
+          "isColliding": false,
+          "isDeleting": false,
+          "mouseDownPos": {
+            "x": 0,
+            "y": 0
+          },
+          "dirToRotate": {
+            "x": 0,
+            "y": 0
+          },
+          "angle": 0,
+          "drawWidget": {},
+          "defaultWidth": 40,
+          "defaultLength": 40,
+          "lastValidPosition": {
+            "x": 105.359375,
+            "y": 283
+          },
+          "lastValidDimensions": {
+            "w": 40,
+            "l": 40
+          }
         }
       ],
-      "name": "new kitchen"
+      "name": "test"
     }
   ]
 }

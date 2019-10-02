@@ -1,15 +1,7 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 import { EventBus, GameEvent } from '../engine/EventBus';
 import { Kitchen } from '../engine/Kitchen';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
-import { Unit } from '../engine/widgets/Unit';
-import { Wall } from '../engine/widgets/Wall';
-import { WallUnit } from '../engine/widgets/WallUnit';
-import { WorkTop } from '../engine/widgets/Worktop';
-import { DEFAULT_UNIT_TYPE, DEFAULT_WALLUNIT_TYPE, DEFAULT_WALL_TYPE, DEFAULT_WORKTOP_TYPE } from '../utilities/Defaults';
-import { IPlannerState, IReduxPlannerState } from '../utilities/Interfaces';
-import { store } from '../redux/ConfigureStore';
 
 // The planner class initialisation
 export const Planner: React.FunctionComponent = () => {
@@ -84,65 +76,6 @@ export const Planner: React.FunctionComponent = () => {
         });
 
         return canvas;
-    };
-
-    // Populate the kitchen array
-    const populateWidgetArray = (kitchen: IPlannerState): BaseWidget[] => {
-        // console.log(kitchen);
-        return kitchen.widgets.map((widget) => {
-            if (widget.type === DEFAULT_UNIT_TYPE) {
-                return new Unit(
-                    widget.dimensions.w,
-                    widget.dimensions.l,
-                    widget.position.x,
-                    widget.position.y,
-                    widget.zIndex,
-                    widget.id,
-                    widget.isScalable,
-                    widget.isRotatable,
-                    widget.type,
-                );
-            }
-            if (widget.type === DEFAULT_WALLUNIT_TYPE) {
-                return new WallUnit(
-                    widget.dimensions.w,
-                    widget.dimensions.l,
-                    widget.position.x,
-                    widget.position.y,
-                    widget.zIndex,
-                    widget.id,
-                    widget.isScalable,
-                    widget.isRotatable,
-                    widget.type,
-                );
-            }
-            if (widget.type === DEFAULT_WALL_TYPE) {
-                return new Wall(
-                    widget.dimensions.w,
-                    widget.dimensions.l,
-                    widget.position.x,
-                    widget.position.y,
-                    widget.zIndex,
-                    widget.id,
-                    widget.isScalable,
-                    widget.isRotatable,
-                    widget.type,
-                );
-            }
-            if (widget.type === DEFAULT_WORKTOP_TYPE) {
-                return new WorkTop(
-                    widget.dimensions.w,
-                    widget.dimensions.l,
-                    widget.position.x,
-                    widget.position.y,
-                    widget.zIndex,
-                    widget.id,
-                    widget.isScalable,
-                    widget.isRotatable,
-                    widget.type,
-                );
-            }
-        }) as BaseWidget[];
     };
 
     // Called first initialises the canvas, context and kitchen

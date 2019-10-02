@@ -49,7 +49,7 @@ export const Basket = (): JSX.Element => {
     const style = useStyles();
 
     // Format the number to currency formatting
-    const currencyFormat = (num: number) => {
+    const currencyFormat = (num: number): string => {
         return `${num.toFixed(2)}`;
     };
 

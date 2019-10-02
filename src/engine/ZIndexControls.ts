@@ -1,4 +1,4 @@
-import { Kitchen } from "./Kitchen";
+import { Kitchen } from './Kitchen';
 
 // Only select the top widget
 export const selectTopItem = (): void => {
@@ -14,7 +14,7 @@ export const selectTopItem = (): void => {
             Kitchen.getInstance().widgets[index].isSelected = true;
         }
     }
-}
+};
 
 // Only remove the top widget
 export const removeTopItem = (): void => {
@@ -30,7 +30,7 @@ export const removeTopItem = (): void => {
             Kitchen.getInstance().widgets[index].isDeleting = true;
         }
     }
-}
+};
 
 // Remove an item
 export const removeItem = (id: number): boolean => {
@@ -41,4 +41,4 @@ export const removeItem = (id: number): boolean => {
         }
     }
     return false;
-}
+};

@@ -1,14 +1,14 @@
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Kitchen } from '../engine/Kitchen';
-import { SaveKitchen, DeleteKitchen } from '../redux/actions/KitchenActions';
-import { IMenuProps, IPlannerState, IReduxPlannerState } from '../utilities/Interfaces';
-import { SaveDialog } from './SaveDialog';
-import { DEFAULT_KITCHEN } from '../utilities/Defaults';
 import { GenerateId } from '../engine/widgets/WidgetsID';
-import { useSelector } from 'react-redux';
+import { DeleteKitchen, SaveKitchen } from '../redux/actions/KitchenActions';
+import { DEFAULT_KITCHEN } from '../utilities/Defaults';
+import { IMenuProps, IReduxPlannerState } from '../utilities/Interfaces';
+import { SaveDialog } from './SaveDialog';
 
 // Menu for creating a new kitchen
 export const AddMenu = (props: IMenuProps): JSX.Element => {
@@ -61,4 +61,4 @@ export const AddMenu = (props: IMenuProps): JSX.Element => {
             <SaveDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={true} />
         </div>
     );
-}
+};

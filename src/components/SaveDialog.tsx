@@ -48,7 +48,7 @@ const menuStyles = makeStyles((theme: Theme) =>
 );
 
 // Save dialog component
-export const SaveDialog = (props: ISaveDialogProps) => {
+export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {
     // Styling
     const style = menuStyles();
 
@@ -62,18 +62,18 @@ export const SaveDialog = (props: ISaveDialogProps) => {
     const currentKitchen = useSelector((state) => (state as IReduxPlannerState).kitchen);
 
     // When the dialog box closes
-    const handleClose = () => {
+    const handleClose = (): void => {
         setValues({ ...values, [name]: '' });
         onClose();
     };
 
     // When the values in the text field change
-    const handleChange = (name: keyof IState) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (name: keyof IState) => (e: React.ChangeEvent<HTMLInputElement>): void => {
         setValues({ ...values, [name]: e.target.value });
     };
 
     // Save the current kitchen
-    const handleSave = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>) => {
+    const handleSave = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>): void => {
         // Name needs characters
         if (values.name.length <= 0) {
             toast.error('Kitchen needs a valid name!');
@@ -123,4 +123,4 @@ export const SaveDialog = (props: ISaveDialogProps) => {
             </span>
         </Dialog>
     );
-}
+};

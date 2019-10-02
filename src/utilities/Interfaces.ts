@@ -100,6 +100,14 @@ export interface IState {
     name: string;
 }
 
+// Interface for item details props
+export interface IItemDetailsProps {
+    itemSelected: string;
+    itemInfo: string;
+    itemImg: string;
+}
+
+
 /**********************
  *  REDUX INTERFACES
  **********************/
