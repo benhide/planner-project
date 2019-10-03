@@ -1,46 +1,19 @@
-import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { basketStyle, ColorButton } from '../style/Styles';
 import {
-    DEFUALT_UNIT_PRICE,
-    DEFUALT_WALLUNIT_PRICE,
-    DEFUALT_WORKTOP_PRICE,
+    DEFAULT_UNIT_PRICE,
+    DEFAULT_WALLUNIT_PRICE,
+    DEFAULT_WORKTOP_PRICE,
     SHIPPING_RATE,
     TAX_RATE,
     UNITS_BASKET_DESC,
     WALLUNITS_BASKET_DESC,
     WORKTOP_BASKET_DESC,
-    WREN_GREEN,
 } from '../utilities/Defaults';
 import { IItem, IReduxPlannerState } from '../utilities/Interfaces';
-
-// Styling for the component
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        button: {
-            marginTop: '20px',
-            fontSize: '15px',
-            margin: theme.spacing(1),
-            float: 'right' as 'right',
-        },
-        input: {
-            display: 'none',
-        },
-        root: {
-            padding: theme.spacing(1, 1),
-            width: '20%',
-            float: 'right' as 'right',
-            color: WREN_GREEN,
-            marginTop: '20px',
-        },
-        cell: {
-            fontSize: '12px',
-            padding: theme.spacing(1, 1),
-        },
-    }),
-);
 
 // Basket component
 export const Basket = (): JSX.Element => {
@@ -48,7 +21,7 @@ export const Basket = (): JSX.Element => {
     const basketItems: IItem[] = [];
 
     // The component styling
-    const style = useStyles();
+    const style = basketStyle();
 
     // Format the number to currency formatting
     const currencyFormat = (num: number): string => {
@@ -90,13 +63,13 @@ export const Basket = (): JSX.Element => {
 
         // Push items to the basket
         if (unitCount > 0) {
-            basketItems.push(createItem(UNITS_BASKET_DESC, 0, unitCount, DEFUALT_UNIT_PRICE));
+            basketItems.push(createItem(UNITS_BASKET_DESC, 0, unitCount, DEFAULT_UNIT_PRICE));
         }
         if (wallunitCount > 0) {
-            basketItems.push(createItem(WALLUNITS_BASKET_DESC, 0, wallunitCount, DEFUALT_WALLUNIT_PRICE));
+            basketItems.push(createItem(WALLUNITS_BASKET_DESC, 0, wallunitCount, DEFAULT_WALLUNIT_PRICE));
         }
         if (worktopCount > 0) {
-            basketItems.push(createItem(WORKTOP_BASKET_DESC, worktopMetersSquared(), worktopCount, DEFUALT_WORKTOP_PRICE));
+            basketItems.push(createItem(WORKTOP_BASKET_DESC, worktopMetersSquared(), worktopCount, DEFAULT_WORKTOP_PRICE));
         }
     };
 
@@ -106,7 +79,6 @@ export const Basket = (): JSX.Element => {
     updateBasket();
 
     // Calculate the totals
-    console.log('here');
     const subtotal = basketItems.map(({ total }) => total).reduce((sum, i) => sum + i, 0);
     const invoiceTaxes = TAX_RATE * subtotal;
     const shippingTotal = SHIPPING_RATE * subtotal;
@@ -192,7 +164,7 @@ export const Basket = (): JSX.Element => {
                         </TableRow>
                     </TableBody>
                 </Table>
-                <Button
+                <ColorButton
                     variant="contained"
                     className={style.button}
                     onClick={() => {
@@ -200,7 +172,7 @@ export const Basket = (): JSX.Element => {
                     }}
                 >
                     Buy Now
-                </Button>
+                </ColorButton>
             </Paper>
         </>
     );

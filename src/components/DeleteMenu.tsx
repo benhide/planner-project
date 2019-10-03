@@ -1,6 +1,6 @@
-import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as React from 'react';
+import { ColorButton } from '../style/Styles';
 import { IMenuProps } from '../utilities/Interfaces';
 import { DeleteKitchenDialog } from './DeleteDialog';
 
@@ -13,23 +13,23 @@ export const DeleteMenu = (props: IMenuProps): JSX.Element => {
     const [open, setOpen] = React.useState(false);
 
     // Handle clicks on menu items
-    const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>): void => {
-        setIsLoading(true);
+    const handleClickDelete = (): void => {
         setOpen(true);
+        setIsLoading(true);
     };
 
     // When closing the save menu
     const handleClose = (): void => {
-        setIsLoading(true);
         setOpen(false);
+        setIsLoading(true);
     };
 
     // Rendert the JSX
     return (
         <>
-            <Button color="inherit" onClick={(e) => handleClickDelete(e)}>
+            <ColorButton color="inherit" onClick={() => handleClickDelete()}>
                 <DeleteIcon />
-            </Button>
+            </ColorButton>
             <DeleteKitchenDialog open={open} onClose={handleClose} dispatch={dispatch} />
         </>
     );

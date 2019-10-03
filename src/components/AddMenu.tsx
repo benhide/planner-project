@@ -1,11 +1,10 @@
-import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Widgets } from '../engine/Widgets';
 import { GenerateId } from '../engine/widgets/WidgetsID';
 import { DeleteKitchen, SaveKitchen } from '../redux/actions/KitchenActions';
+import { ColorButton } from '../style/Styles';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
 import { IMenuProps, IReduxPlannerState } from '../utilities/Interfaces';
 import { SaveDialog } from './SaveDialog';
@@ -22,7 +21,7 @@ export const AddMenu = (props: IMenuProps): JSX.Element => {
     const currentKitchen = useSelector((state) => (state as IReduxPlannerState).kitchen);
 
     // Handle clicks on menu item
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = () => {
         // If not already saved it will not have id
         if (!currentKitchen.id) {
             // Open save dialog
@@ -42,22 +41,23 @@ export const AddMenu = (props: IMenuProps): JSX.Element => {
                 .then(() => toast.success('Kitchen ' + currentKitchen.name + ' has been saved'))
                 .catch(() => toast.error('Kitchen ' + currentKitchen.name + ' failed to save!'));
         }
+        setIsLoading(true);
     };
 
     // When closing the save menu
     const handleClose = () => {
-        setIsLoading(true);
         setOpen(false);
         GenerateId.resetAllIds();
         dispatch(DeleteKitchen(DEFAULT_KITCHEN));
+        setIsLoading(true);
     };
 
     // Rendert the JSX
     return (
         <>
-            <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <ColorButton color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <AddIcon />
-            </Button>
+            </ColorButton>
             <SaveDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={true} />
         </>
     );

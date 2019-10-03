@@ -1,10 +1,10 @@
 import { createStyles, makeStyles, MenuItem, Theme, Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 import { LoadKitchen } from '../redux/actions/KitchenActions';
+import { ColorButton } from '../style/Styles';
 import { ILoadMenuProps, IMenuItem } from '../utilities/Interfaces';
 
 // Styling
@@ -38,24 +38,24 @@ export const LoadMenu = (props: ILoadMenuProps): JSX.Element => {
     };
 
     // Load kitchen
-    const loadKitchen = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, id: number, name: string): void => {
+    const loadKitchen = (id: number, name: string): void => {
         dispatch(LoadKitchen(id))
             .then(() => toast.success('Kitchen ' + name + ' has been loaded'))
             .catch(() => toast.error('Kitchen ' + name + ' failed to load!'));
         setAnchorEl(null);
-        setIsLoading(false);
+        setIsLoading(true);
     };
 
     // Render the JSX
     return (
         <>
-            <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <ColorButton color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <CloudDownloadIcon />
-            </Button>
+            </ColorButton>
             <Menu id="simple-load-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => handleClose()}>
                 <Typography className={style.title}>Choose kitchen to load</Typography>
                 {loadItems.map((kitchen: IMenuItem) => (
-                    <MenuItem key={kitchen.id} onClick={(e) => loadKitchen(e, kitchen.id, kitchen.name)}>
+                    <MenuItem key={kitchen.id} onClick={() => loadKitchen(kitchen.id, kitchen.name)}>
                         {kitchen.name}
                     </MenuItem>
                 ))}

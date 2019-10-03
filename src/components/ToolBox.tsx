@@ -1,5 +1,4 @@
-import { Button, Paper, Typography } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Paper, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { Unit } from '../engine/widgets/Unit';
 import { Wall } from '../engine/widgets/Wall';
@@ -8,55 +7,40 @@ import { GenerateId } from '../engine/widgets/WidgetsID';
 import { WorkTop } from '../engine/widgets/Worktop';
 import { AddWidget } from '../redux/actions/WidgetActions';
 import { store } from '../redux/ConfigureStore';
+import { ColorButton, toolBoxStyle } from '../style/Styles';
 import {
+    DEFAULT_UNIT_DIM,
+    DEFAULT_UNIT_INFO,
     DEFAULT_UNIT_TYPE,
     DEFAULT_UNIT_ZINDEX,
+    DEFAULT_WALLUNIT_DIM,
+    DEFAULT_WALLUNIT_INFO,
     DEFAULT_WALLUNIT_TYPE,
     DEFAULT_WALLUNIT_ZINDEX,
+    DEFAULT_WALL_DIM,
     DEFAULT_WALL_TYPE,
     DEFAULT_WALL_ZINDEX,
+    DEFAULT_WORKTOP_DIM,
+    DEFAULT_WORKTOP_INFO,
     DEFAULT_WORKTOP_TYPE,
     DEFAULT_WORKTOP_ZINDEX,
-    DEFUALT_UNIT_DIM,
-    DEFUALT_WALLUNIT_DIM,
-    DEFUALT_WALL_DIM,
-    DEFUALT_WORKTOP_DIM,
-    WREN_GREEN,
 } from '../utilities/Defaults';
 import { IWidgetInfo } from '../utilities/Interfaces';
 import { WidgetDetails } from './WidgetDetails';
 
-// Styling
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        button: {
-            width: '47%',
-            margin: theme.spacing(0.5),
-            fontSize: '12px',
-        },
-        root: {
-            padding: theme.spacing(1, 1),
-            width: '15%',
-            float: 'left' as 'left',
-            color: WREN_GREEN,
-            marginTop: '20px',
-        },
-    }),
-);
-
 // Toolbox react component
 export const ToolBox = (): JSX.Element => {
     // Styling
-    const style = useStyles();
+    const style = toolBoxStyle();
 
     // Local state
-    const [widgetInfo, setWidgetInfo] = React.useState<IWidgetInfo>({ type: '', description: '', colour: '', price: 0, image: '' });
+    const [widgetInfo, setWidgetInfo] = React.useState<IWidgetInfo>({ type: '', shortDesc: '', longDesc: '', colour: '', price: 0, image: '' });
 
     // Adds a unit to the kitchen
     const addUnit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         const unit = new Unit(
-            DEFUALT_UNIT_DIM.w,
-            DEFUALT_UNIT_DIM.l,
+            DEFAULT_UNIT_DIM.w,
+            DEFAULT_UNIT_DIM.l,
             e.clientX,
             e.clientY,
             DEFAULT_UNIT_ZINDEX,
@@ -64,7 +48,7 @@ export const ToolBox = (): JSX.Element => {
             false,
             true,
             DEFAULT_UNIT_TYPE,
-            { type: 'Unit', description: 'This is a unit', colour: '', price: 0, image: '' },
+            DEFAULT_UNIT_INFO,
         );
         unit.isSelected = true;
         unit.isHeld = true;
@@ -75,8 +59,8 @@ export const ToolBox = (): JSX.Element => {
     // Adds a worktop to the kitchen
     const addWorktop = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         const worktop = new WorkTop(
-            DEFUALT_WORKTOP_DIM.w,
-            DEFUALT_WORKTOP_DIM.l,
+            DEFAULT_WORKTOP_DIM.w,
+            DEFAULT_WORKTOP_DIM.l,
             e.clientX,
             e.clientY,
             DEFAULT_WORKTOP_ZINDEX,
@@ -84,7 +68,7 @@ export const ToolBox = (): JSX.Element => {
             true,
             true,
             DEFAULT_WORKTOP_TYPE,
-            { type: 'Worktop', description: 'This is a worktop', colour: '', price: 0, image: '' },
+            DEFAULT_WORKTOP_INFO,
         );
         worktop.isSelected = true;
         worktop.isHeld = true;
@@ -95,8 +79,8 @@ export const ToolBox = (): JSX.Element => {
     // Adds a wall to the kitchen
     const addWallunit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         const wallunit = new WallUnit(
-            DEFUALT_WALLUNIT_DIM.w,
-            DEFUALT_WALLUNIT_DIM.l,
+            DEFAULT_WALLUNIT_DIM.w,
+            DEFAULT_WALLUNIT_DIM.l,
             e.clientX,
             e.clientY,
             DEFAULT_WALLUNIT_ZINDEX,
@@ -104,7 +88,7 @@ export const ToolBox = (): JSX.Element => {
             false,
             true,
             DEFAULT_WALLUNIT_TYPE,
-            { type: 'Wallunit', description: 'This is a wall unit', colour: '', price: 0, image: '' },
+            DEFAULT_WALLUNIT_INFO,
         );
         wallunit.isSelected = true;
         wallunit.isHeld = true;
@@ -115,8 +99,8 @@ export const ToolBox = (): JSX.Element => {
     // Adds a wall to the kitchen
     const addWall = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         const wall = new Wall(
-            DEFUALT_WALL_DIM.w,
-            DEFUALT_WALL_DIM.l,
+            DEFAULT_WALL_DIM.w,
+            DEFAULT_WALL_DIM.l,
             e.clientX,
             e.clientY,
             DEFAULT_WALL_ZINDEX,
@@ -124,7 +108,7 @@ export const ToolBox = (): JSX.Element => {
             true,
             true,
             DEFAULT_WALL_TYPE,
-            { type: '', description: '', colour: '', price: 0, image: '' },
+            { type: '', shortDesc: '', longDesc: '', colour: '', price: 0, image: '' },
         );
         wall.isSelected = true;
         wall.isHeld = true;
@@ -137,25 +121,47 @@ export const ToolBox = (): JSX.Element => {
         <>
             <Paper className={style.root}>
                 <Typography variant="h4">Tool Box</Typography>
-                <Button variant="contained" className={style.button} onClick={(e) => addUnit(e)}>
-                    Add Unit
-                </Button>
-                <Button variant="contained" className={style.button} onClick={(e) => addWorktop(e)}>
-                    Add Worktop
-                </Button>
-                <Button variant="contained" className={style.button} onClick={(e) => addWallunit(e)}>
-                    Add Wall Unit
-                </Button>
-                <Button variant="contained" className={style.button} onClick={(e) => addWall(e)}>
-                    Add Wall
-                </Button>
-                <Button variant="contained" className={style.button}>
-                    Another
-                </Button>
-                <Button variant="contained" className={style.button}>
-                    And Another
-                </Button>
-                <WidgetDetails widgetInfo={widgetInfo} />
+                <ColorButton className={style.button} variant="contained" onClick={(e) => addUnit(e)}>
+                    Add
+                    <br />
+                    Unit
+                </ColorButton>
+                <ColorButton className={style.button} variant="contained" onClick={(e) => addWorktop(e)}>
+                    Add
+                    <br />
+                    Worktop
+                </ColorButton>
+                <ColorButton className={style.button} variant="contained" onClick={(e) => addWallunit(e)}>
+                    Add
+                    <br />
+                    Wall Unit
+                </ColorButton>
+                <ColorButton className={style.button} variant="contained" onClick={(e) => addWall(e)}>
+                    Add
+                    <br />
+                    Wall
+                </ColorButton>
+                <ColorButton className={style.button} variant="contained">
+                    Add
+                    <br />
+                    Sink
+                </ColorButton>
+                <ColorButton className={style.button} variant="contained">
+                    Add
+                    <br />
+                    Cooker
+                </ColorButton>
+                <ColorButton className={style.button} variant="contained">
+                    Add
+                    <br />
+                    Fridge
+                </ColorButton>
+                <ColorButton className={style.button} variant="contained">
+                    And
+                    <br />
+                    Dishwasher
+                </ColorButton>
+                {widgetInfo.type ? <WidgetDetails widgetInfo={widgetInfo} /> : null}
             </Paper>
         </>
     );

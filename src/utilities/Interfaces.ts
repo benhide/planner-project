@@ -51,7 +51,8 @@ export interface ISelectable {
 // Widget info interface
 export interface IWidgetInfo {
     type: string;
-    description: string;
+    shortDesc: string;
+    longDesc: string;
     colour: string;
     price: number;
     image: any;
@@ -113,7 +114,6 @@ export interface IState {
 export interface IWidgetDeatilsProps {
     widgetInfo: IWidgetInfo;
 }
-
 
 /**********************
  *  REDUX INTERFACES

@@ -1,13 +1,12 @@
-import { Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Widgets } from '../engine/Widgets';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
 import { IMenuProps, IReduxPlannerState } from '../utilities/Interfaces';
 import { SaveDialog } from './SaveDialog';
+import { ColorButton } from '../style/Styles';
 
 // The save menu for kitchens
 export const SaveMenu = (props: IMenuProps): JSX.Element => {
@@ -21,7 +20,7 @@ export const SaveMenu = (props: IMenuProps): JSX.Element => {
     const currentKitchen = useSelector((state) => (state as IReduxPlannerState).kitchen);
 
     // Handle the click on save button
-    const handleClickOpen = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const handleClickOpen = (): void => {
         // If not already saved it will not have id
         if (!currentKitchen.id) {
             // Open save dialog
@@ -41,21 +40,22 @@ export const SaveMenu = (props: IMenuProps): JSX.Element => {
                 .then(() => toast.success('Kitchen ' + currentKitchen.name + ' has been saved'))
                 .catch(() => toast.error('Kitchen ' + currentKitchen.name + ' failed to save!'));
         }
+        setIsLoading(true);
     };
 
     // When closing the save menu
     const handleClose = (): void => {
-        setIsLoading(true);
         setOpen(false);
+        setIsLoading(true);
     };
 
     // Render the JSX
     return (
         <>
-            <Button color="inherit" onClick={(e) => handleClickOpen(e)}>
+            <ColorButton color="inherit" onClick={() => handleClickOpen()}>
                 <SaveIcon />
-            </Button>
+            </ColorButton>
             <SaveDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={false} />
         </>
     );
-}
+};

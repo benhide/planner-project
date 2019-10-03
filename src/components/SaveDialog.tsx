@@ -1,9 +1,9 @@
-import { Button, createStyles, Dialog, DialogTitle, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
+import { createStyles, Dialog, DialogTitle, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Widgets } from '../engine/Widgets';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
+import { ColorButton } from '../style/Styles';
 import { IReduxPlannerState, ISaveDialogProps, IState } from '../utilities/Interfaces';
 
 // Component styling
@@ -73,13 +73,12 @@ export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {
     };
 
     // Save the current kitchen
-    const handleSave = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>): void => {
+    const handleSave = (): void => {
         // Name needs characters
         if (values.name.length <= 0) {
             toast.error('Kitchen needs a valid name!');
             return;
         } else {
-            e.preventDefault();
             // Dispatch action
             dispatch(
                 SaveKitchen(
@@ -103,7 +102,7 @@ export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle id="save-dialog-title">Save Current Kitchen</DialogTitle>
             <Typography className={style.information}>Please enter a name for the kitchen to save...</Typography>
-            <form className={style.container} noValidate autoComplete="off" onSubmit={(e) => handleSave(e)}>
+            <form className={style.container} noValidate autoComplete="off" onSubmit={() => handleSave()}>
                 <TextField
                     id="save-name"
                     label="Enter kitchen name"
@@ -114,12 +113,12 @@ export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {
                 />
             </form>
             <span>
-                <Button className={style.saveButton} onClick={(e) => handleSave(e)}>
+                <ColorButton className={style.saveButton} onClick={() => handleSave()}>
                     Save
-                </Button>
-                <Button className={style.cancelButton} onClick={() => handleClose()}>
+                </ColorButton>
+                <ColorButton className={style.cancelButton} onClick={() => handleClose()}>
                     Cancel
-                </Button>
+                </ColorButton>
             </span>
         </Dialog>
     );

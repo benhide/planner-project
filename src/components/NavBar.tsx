@@ -1,33 +1,20 @@
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { getKitchensList } from '../api/KitchenApi';
-import { WREN_GREEN } from '../utilities/Defaults';
+import { navBarStyle } from '../style/Styles';
 import { IMenuItem, IPlannerState } from '../utilities/Interfaces';
 import { AddMenu } from './AddMenu';
 import { DeleteMenu } from './DeleteMenu';
 import { LoadMenu } from './LoadMenu';
 import { SaveMenu } from './SaveMenu';
 
-// Navbar styling
-const useStyles = makeStyles(() =>
-    createStyles({
-        title: {
-            flexGrow: 1,
-        },
-        bar: {
-            backgroundColor: WREN_GREEN,
-        },
-    }),
-);
-
 // The navbar react component
 export const NavBar = (): JSX.Element => {
     // Style
-    const style = useStyles();
+    const style = navBarStyle();
 
     // Local state
     const [loadItems, setLoadItems] = React.useState<IMenuItem[]>(new Array<IMenuItem>());
@@ -38,9 +25,10 @@ export const NavBar = (): JSX.Element => {
 
     // When component mounted
     React.useEffect(() => {
-        // Getthe kitchen list from the server
-        getKitchensList().then((result: IPlannerState[]) => setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))));
-        setIsLoading(false);
+        // Get the kitchen list from the server
+        getKitchensList().then((result: IPlannerState[]) => {
+            setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))); setIsLoading(false);
+        });
     }, [isLoading]);
 
     // Return the JSX
@@ -48,9 +36,8 @@ export const NavBar = (): JSX.Element => {
         <>
             <AppBar position="static" className={style.bar}>
                 <Toolbar>
-                    <Typography variant="h6" color="inherit" className={style.title}>
-                        Wren Kitchen planner
-                    </Typography>
+                    <img src={require('../images/logo.png')} width="10%" />
+                    <Typography variant="h6" color="inherit" className={style.title}>Kitchen Planner</Typography>
                     <AddMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                     <SaveMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                     <LoadMenu loadItems={loadItems} setIsLoading={setIsLoading} dispatch={dispatch} />

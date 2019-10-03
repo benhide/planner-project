@@ -1,4 +1,4 @@
-import { Button, createStyles, Dialog, DialogTitle, makeStyles, Theme, Typography } from '@material-ui/core';
+import { createStyles, Dialog, DialogTitle, makeStyles, Theme, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -6,6 +6,7 @@ import { deleteKitchen } from '../api/KitchenApi';
 import { DeleteKitchen } from '../redux/actions/KitchenActions';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
 import { IDeleteDialogProps, IReduxPlannerState } from '../utilities/Interfaces';
+import { ColorButton } from '../style/Styles';
 
 // Component styling
 const menuStyles = makeStyles((theme: Theme) =>
@@ -57,7 +58,7 @@ export const DeleteKitchenDialog = (props: IDeleteDialogProps): JSX.Element => {
     };
 
     // Delete the current kitchen
-    const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    const handleDelete = (): void => {
         if (currentKitchen.id) {
             deleteKitchen(currentKitchen.id)
                 .then(() => {
@@ -77,12 +78,12 @@ export const DeleteKitchenDialog = (props: IDeleteDialogProps): JSX.Element => {
             <DialogTitle id="save-dialog-title">Delete Kitchen</DialogTitle>
             <Typography className={style.information}>You are about to delete this kitchen, are you sure you want to continue?</Typography>
             <span>
-                <Button className={style.deleteButton} onClick={(e) => handleDelete(e)}>
+                <ColorButton className={style.deleteButton} onClick={() => handleDelete()}>
                     Delete
-                </Button>
-                <Button className={style.cancelButton} onClick={() => handleClose()}>
+                </ColorButton>
+                <ColorButton className={style.cancelButton} onClick={() => handleClose()}>
                     Cancel
-                </Button>
+                </ColorButton>
             </span>
         </Dialog>
     );
