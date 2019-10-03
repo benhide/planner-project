@@ -29,14 +29,15 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'none',
         },
         root: {
-            padding: theme.spacing(3, 2),
-            width: '25%',
+            padding: theme.spacing(1, 1),
+            width: '20%',
             float: 'right' as 'right',
             color: WREN_GREEN,
             marginTop: '20px',
         },
         cell: {
             fontSize: '12px',
+            padding: theme.spacing(1, 1),
         },
     }),
 );
@@ -124,39 +125,39 @@ export const Basket = (): JSX.Element => {
         return (
             <TableRow key={item.desc}>
                 <TableCell className={style.cell}>{item.desc}</TableCell>
-                <TableCell className={style.cell} align="center">
+                <TableCell className={style.cell} align="left">
                     {item.qty}
                 </TableCell>
-                <TableCell className={style.cell} align="center">
+                <TableCell className={style.cell} align="left">
                     {item.m2 === 0 ? null : sqrd}
                 </TableCell>
-                <TableCell className={style.cell} align="center">
+                <TableCell className={style.cell} align="left">
                     {item.m2 === 0 ? `£${currencyFormat(item.price)}` : `£${currencyFormat(item.price * item.m2)}`}
                 </TableCell>
-                <TableCell className={style.cell} align="center">{`£${currencyFormat(item.total)}`}</TableCell>
+                <TableCell className={style.cell} align="left">{`£${currencyFormat(item.total)}`}</TableCell>
             </TableRow>
         );
     };
 
     // Render the JSX
     return (
-        <div>
+        <>
             <Paper className={style.root}>
                 <Typography variant="h4">Basket</Typography>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>Desc</TableCell>
-                            <TableCell size="small" align="center">
+                            <TableCell size="small" align="left">
                                 Quanity
                             </TableCell>
-                            <TableCell size="small" align="center">
+                            <TableCell size="small" align="left">
                                 Size
                             </TableCell>
-                            <TableCell size="small" align="center">
+                            <TableCell size="small" align="left">
                                 Price
                             </TableCell>
-                            <TableCell size="small" align="center">
+                            <TableCell size="small" align="left">
                                 Total
                             </TableCell>
                         </TableRow>
@@ -164,30 +165,30 @@ export const Basket = (): JSX.Element => {
                     <TableBody>
                         {basketItems.map((item) => row(item))}
                         <TableRow>
-                            <TableCell className={style.cell} rowSpan={4} />
-                            <TableCell className={style.cell} colSpan={3}>
+                            <TableCell className={style.cell} rowSpan={4} align="left" />
+                            <TableCell className={style.cell} colSpan={3} align="left">
                                 Subtotal
                             </TableCell>
-                            <TableCell className={style.cell} align="center">{`£${currencyFormat(subtotal)}`}</TableCell>
+                            <TableCell className={style.cell} align="left">{`£${currencyFormat(subtotal)}`}</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell className={style.cell} colSpan={2}>
+                            <TableCell className={style.cell} colSpan={2} align="left">
                                 VAT
                             </TableCell>
-                            <TableCell className={style.cell} align="center">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-                            <TableCell className={style.cell} align="center">{`£${currencyFormat(invoiceTaxes)}`}</TableCell>
+                            <TableCell className={style.cell} align="left">{`${(TAX_RATE * 100).toFixed(0)}%`}</TableCell>
+                            <TableCell className={style.cell} align="left">{`£${currencyFormat(invoiceTaxes)}`}</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell className={style.cell} colSpan={3}>
+                            <TableCell className={style.cell} colSpan={3} align="left">
                                 Shipping
                             </TableCell>
-                            <TableCell className={style.cell} align="center">{`£${currencyFormat(shippingTotal)}`}</TableCell>
+                            <TableCell className={style.cell} align="left">{`£${currencyFormat(shippingTotal)}`}</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell className={style.cell} colSpan={3}>
+                            <TableCell className={style.cell} colSpan={3} align="left">
                                 Total
                             </TableCell>
-                            <TableCell className={style.cell} align="center">{`£${currencyFormat(invoiceTotal)}`}</TableCell>
+                            <TableCell className={style.cell} align="left">{`£${currencyFormat(invoiceTotal)}`}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
@@ -201,6 +202,6 @@ export const Basket = (): JSX.Element => {
                     Buy Now
                 </Button>
             </Paper>
-        </div>
+        </>
     );
 };

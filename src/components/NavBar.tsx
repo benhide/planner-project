@@ -45,7 +45,7 @@ export const NavBar = (): JSX.Element => {
 
     // Return the JSX
     return (
-        <div>
+        <>
             <AppBar position="static" className={style.bar}>
                 <Toolbar>
                     <Typography variant="h6" color="inherit" className={style.title}>
@@ -57,6 +57,6 @@ export const NavBar = (): JSX.Element => {
                     <DeleteMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                 </Toolbar>
             </AppBar>
-        </div>
+        </>
     );
 };

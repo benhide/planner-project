@@ -54,11 +54,11 @@ export const AddMenu = (props: IMenuProps): JSX.Element => {
 
     // Rendert the JSX
     return (
-        <div>
+        <>
             <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <AddIcon />
             </Button>
             <SaveDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={true} />
-        </div>
+        </>
     );
 };

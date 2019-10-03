@@ -26,11 +26,11 @@ export const DeleteMenu = (props: IMenuProps): JSX.Element => {
 
     // Rendert the JSX
     return (
-        <div>
+        <>
             <Button color="inherit" onClick={(e) => handleClickDelete(e)}>
                 <DeleteIcon />
             </Button>
             <DeleteKitchenDialog open={open} onClose={handleClose} dispatch={dispatch} />
-        </div>
+        </>
     );
 };

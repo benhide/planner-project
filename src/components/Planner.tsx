@@ -2,20 +2,27 @@ import * as React from 'react';
 import { EventBus, GameEvent } from '../engine/EventBus';
 import { Widgets } from '../engine/Widgets';
 import { BaseWidget } from '../engine/widgets/BaseWidget';
+import { GREY } from '../utilities/Defaults';
 
 // The planner class initialisation
 export const Planner: React.FunctionComponent = () => {
 
     // Width of the canvas will match width of the screen
     const sizeCanvas = (canvas: HTMLCanvasElement) => {
-        canvas.width = window.innerWidth * 0.6;
+        canvas.width = window.innerWidth * 0.625;
         canvas.height = window.innerHeight * 0.9;
+    };
+
+    // Style the canvas
+    const styleCanvas = (canvas: HTMLCanvasElement): void => {
         canvas.style.padding = '0px';
         canvas.style.margin = '0px auto';
         canvas.style.marginTop = '20px';
-        canvas.style.zIndex = '-10'
+        canvas.style.zIndex = '-10';
         canvas.style.display = 'block';
-    };
+        canvas.style.border = `0.1px solid rgba(224, 224, 224, 1)`;
+        canvas.style.boxShadow = `0px 5px 5px 1px rgba(224, 224, 224, 1)`;
+    }
 
     // Called from init creates the canvas and adds it to the docuumnet
     const createCanvas = (): HTMLCanvasElement => {
@@ -81,16 +88,15 @@ export const Planner: React.FunctionComponent = () => {
     // Called first initialises the canvas, context and kitchen
     const init = (): void => {
         const canvas = createCanvas();
-        canvas.style.border = `1px solid rgba(55, 55, 55, 0.15)`;
+        styleCanvas(canvas);
 
         const ctx = canvas.getContext('2d');
-        const kitchen = Widgets.getInstance();
+        const kitchen = Widgets.get();
 
         // Draw function
         const draw = () => {
             if (ctx) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                kitchen.update();
                 kitchen.draw();
                 window.requestAnimationFrame(draw);
             }

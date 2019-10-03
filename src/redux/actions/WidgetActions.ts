@@ -4,13 +4,13 @@ import { KitchenActionTypes } from './ActionTypes';
 
 // Add widget action creator
 export const AddWidget = (widget: BaseWidget) => {
-    Widgets.getInstance().addWidget(widget);
+    Widgets.get().addWidget(widget);
     return { type: KitchenActionTypes.WIDGET_ADDED, widget };
 };
 
 // Remove widget action creator
 export const RemoveWidget = (widget: BaseWidget) => {
-    Widgets.getInstance().removeWidget(widget);
+    Widgets.get().removeWidget(widget);
     return { type: KitchenActionTypes.WIDGET_REMOVED, widget };
 };
 

@@ -11,13 +11,13 @@ export const selectTopWidget = (): void => {
 
     if (widgets.length > 0) {
         for (let pos = 0; pos < widgets.length; pos++) {
-            if (Widgets.getInstance().isSelected(pos)) {
+            if (Widgets.get().isSelected(pos)) {
                 top = pos;
-                Widgets.getInstance().setSelected(pos, false);
+                Widgets.get().setSelected(pos, false);
             }
         }
         if (top >= 0) {
-            Widgets.getInstance().setSelected(top, true);
+            Widgets.get().setSelected(top, true);
         }
     }
 };
@@ -31,13 +31,13 @@ export const setTopWidgetAsDeleting = (): void => {
 
     if (widgets.length > 0) {
         for (let pos = 0; pos < widgets.length; pos++) {
-            if (Widgets.getInstance().isDeleting(pos)) {
+            if (Widgets.get().isDeleting(pos)) {
                 top = pos;
-                Widgets.getInstance().setDeleting(pos, false);
+                Widgets.get().setDeleting(pos, false);
             }
         }
         if (top >= 0) {
-            Widgets.getInstance().setDeleting(top, true);
+            Widgets.get().setDeleting(top, true);
         }
     }
 };
@@ -52,4 +52,22 @@ export const canDeleteWidget = (id: number): boolean => {
         }
     }
     return false;
+};
+
+// Only scale the top widgets (dont grab widgets below)
+export const onlyScale = () => {
+    // Widgets from redux store
+    const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
+    let itemBeingScaled = false;
+
+    for (let pos = 0; pos < widgets.length; pos++) {
+        if (Widgets.get().isScaling(pos)) {
+            itemBeingScaled = true;
+        }
+    }
+    if (itemBeingScaled) {
+         for (let pos = 0; pos < widgets.length; pos++) {
+             Widgets.get().setSelected(pos, false);
+         }
+    }
 };

@@ -48,7 +48,7 @@ export const LoadMenu = (props: ILoadMenuProps): JSX.Element => {
 
     // Render the JSX
     return (
-        <div>
+        <>
             <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <CloudDownloadIcon />
             </Button>
@@ -60,6 +60,6 @@ export const LoadMenu = (props: ILoadMenuProps): JSX.Element => {
                     </MenuItem>
                 ))}
             </Menu>
-        </div>
+        </>
     );
 };

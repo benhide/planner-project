@@ -7,7 +7,6 @@ import { NavBar } from './components/NavBar';
 import { Planner } from './components/Planner';
 import { ToolBox } from './components/ToolBox';
 import { store } from './redux/ConfigureStore';
-import { WidgetOptions } from './components/WidgetOptions';
 
 // React render
 ReactDOM.render(
@@ -16,7 +15,6 @@ ReactDOM.render(
         <ToolBox />
         <Basket />
         <Planner />
-        {/* <WidgetOptions /> */}
         <ToastContainer position="bottom-left" autoClose={2000} />
     </Provider>,
     document.getElementById('App'),

@@ -51,11 +51,11 @@ export const SaveMenu = (props: IMenuProps): JSX.Element => {
 
     // Render the JSX
     return (
-        <div>
+        <>
             <Button color="inherit" onClick={(e) => handleClickOpen(e)}>
                 <SaveIcon />
             </Button>
             <SaveDialog open={open} onClose={handleClose} dispatch={dispatch} isNew={false} />
-        </div>
+        </>
     );
 }

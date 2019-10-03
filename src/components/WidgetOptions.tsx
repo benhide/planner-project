@@ -1,35 +1,35 @@
-import { Paper, Typography, makeStyles, Theme, createStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import * as React from 'react';
-import { WREN_GREEN, BLACK } from '../utilities/Defaults';
 
-// Styling
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        paper: {
-            // width: '55%',
-            // height: '500px',
-            zIndex: 10,
-            backgroundColor: BLACK,
-            // color: WREN_GREEN,
-            marginTop: '-30%',
-            // left: '50%',
-            // marginLeft: '15%',
-        },
-        media: {
-            // height: 140,
-        },
-    }),
-);
+export const WidgetOptions = (props: any) => {
 
-export const WidgetOptions = (): JSX.Element => {
-    const style = useStyles();
+    const { onClose, open } = props;
 
     return (
-        <Paper className={style.paper}>
-            <Typography variant="h5" component="h3">
-                This is a sheet of paper.
-            </Typography>
-            <Typography component="p">Paper can be used to build surface or other elements for your application.</Typography>
-        </Paper>
+        <>
+            <Dialog open={open} aria-labelledby="scroll-dialog-title" maxWidth="lg">
+                <DialogTitle id="scroll-dialog-title">Item Details</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        stuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff
+                        goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes
+                        herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes herestuff goes
+                        herestuff goes herestuff goes here stuff goes here
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={onClose} color="primary">
+                        Cancel
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
+
+// onClose = { handleClose };

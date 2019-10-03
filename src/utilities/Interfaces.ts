@@ -48,6 +48,15 @@ export interface ISelectable {
     isSelected: boolean;
 }
 
+// Widget info interface
+export interface IWidgetInfo {
+    type: string;
+    description: string;
+    colour: string;
+    price: number;
+    image: any;
+}
+
 /************************
  * COMPONENT INTERFACES *
  ************************/
@@ -102,9 +111,7 @@ export interface IState {
 
 // Interface for item details props
 export interface IWidgetDeatilsProps {
-    itemSelected: string;
-    itemInfo: string;
-    itemImg: string;
+    widgetInfo: IWidgetInfo;
 }
 
 

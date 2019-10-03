@@ -1,6 +1,6 @@
 import { RemoveWidget, UpdateWidget } from '../../redux/actions/WidgetActions';
 import { store } from '../../redux/ConfigureStore';
-import { IEventBusData, IReduxPlannerState } from '../../utilities/Interfaces';
+import { IEventBusData, IReduxPlannerState, IWidgetInfo } from '../../utilities/Interfaces';
 import { canvasHeight, canvasWidth } from '../CanvasReferences';
 import { isColliding, isIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
@@ -37,6 +37,7 @@ export class BaseWidget {
         public isScalable: boolean,
         public isRotatable: boolean,
         public type: string,
+        public widgetInfo: IWidgetInfo,
     ) {
         // Draw widget class
         this._drawWidget = new DrawWidgets();

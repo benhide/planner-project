@@ -1,6 +1,6 @@
+import { getCanvas } from './CanvasReferences';
 import { Vec2 } from './Transform';
 import { BaseWidget } from './widgets/BaseWidget';
-import { getCanvas } from './CanvasReferences';
 
 // Snap to grid
 export const snapToGrid = (obj: BaseWidget): void => {
@@ -118,5 +118,6 @@ export const collisionSnapping = (objA: BaseWidget, objB: BaseWidget): void => {
     }
 
     // Set position
-    objA.setPosition((objA.position.x += dir.x), (objA.position.y += dir.y));
+    objA.position.x += dir.x;
+    objA.position.y += dir.y;
 };

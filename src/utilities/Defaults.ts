@@ -53,3 +53,8 @@ export const WREN_GREEN = '#57B05E';
 export const GREY = '#808080';
 export const BLACK = '#000000';
 export const WHITE = '#FFFFFF';
+
+//
+export const DEFAULT_UNIT_DESC = 'This is a unit';
+export const DEFAULT_WALLUNIT_DESC = 'This is a wallunit';
+export const DEFAULT_WORKTOP_DESC = 'This is a worktop';

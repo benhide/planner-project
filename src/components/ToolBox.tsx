@@ -23,20 +23,20 @@ import {
     DEFUALT_WORKTOP_DIM,
     WREN_GREEN,
 } from '../utilities/Defaults';
+import { IWidgetInfo } from '../utilities/Interfaces';
 import { WidgetDetails } from './WidgetDetails';
 
 // Styling
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         button: {
-            width: '100%',
-            marginTop: '10px',
-            marginBottom: '10px',
-            fontSize: '15px',
+            width: '47%',
+            margin: theme.spacing(0.5),
+            fontSize: '12px',
         },
         root: {
-            padding: theme.spacing(3, 2),
-            width: '10%',
+            padding: theme.spacing(1, 1),
+            width: '15%',
             float: 'left' as 'left',
             color: WREN_GREEN,
             marginTop: '20px',
@@ -46,7 +46,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 // Toolbox react component
 export const ToolBox = (): JSX.Element => {
+    // Styling
     const style = useStyles();
+
+    // Local state
+    const [widgetInfo, setWidgetInfo] = React.useState<IWidgetInfo>({ type: '', description: '', colour: '', price: 0, image: '' });
 
     // Adds a unit to the kitchen
     const addUnit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -60,10 +64,12 @@ export const ToolBox = (): JSX.Element => {
             false,
             true,
             DEFAULT_UNIT_TYPE,
+            { type: 'Unit', description: 'This is a unit', colour: '', price: 0, image: '' },
         );
         unit.isSelected = true;
         unit.isHeld = true;
         store.dispatch(AddWidget(unit));
+        setWidgetInfo(unit.widgetInfo);
     };
 
     // Adds a worktop to the kitchen
@@ -78,10 +84,12 @@ export const ToolBox = (): JSX.Element => {
             true,
             true,
             DEFAULT_WORKTOP_TYPE,
+            { type: 'Worktop', description: 'This is a worktop', colour: '', price: 0, image: '' },
         );
         worktop.isSelected = true;
         worktop.isHeld = true;
         store.dispatch(AddWidget(worktop));
+        setWidgetInfo(worktop.widgetInfo);
     };
 
     // Adds a wall to the kitchen
@@ -96,10 +104,12 @@ export const ToolBox = (): JSX.Element => {
             false,
             true,
             DEFAULT_WALLUNIT_TYPE,
+            { type: 'Wallunit', description: 'This is a wall unit', colour: '', price: 0, image: '' },
         );
         wallunit.isSelected = true;
         wallunit.isHeld = true;
         store.dispatch(AddWidget(wallunit));
+        setWidgetInfo(wallunit.widgetInfo);
     };
 
     // Adds a wall to the kitchen
@@ -114,15 +124,17 @@ export const ToolBox = (): JSX.Element => {
             true,
             true,
             DEFAULT_WALL_TYPE,
+            { type: '', description: '', colour: '', price: 0, image: '' },
         );
         wall.isSelected = true;
         wall.isHeld = true;
         store.dispatch(AddWidget(wall));
+        setWidgetInfo(wall.widgetInfo);
     };
 
     // Render the JSX
     return (
-        <div>
+        <>
             <Paper className={style.root}>
                 <Typography variant="h4">Tool Box</Typography>
                 <Button variant="contained" className={style.button} onClick={(e) => addUnit(e)}>
@@ -138,16 +150,13 @@ export const ToolBox = (): JSX.Element => {
                     Add Wall
                 </Button>
                 <Button variant="contained" className={style.button}>
-                    Other
-                </Button>
-                <Button variant="contained" className={style.button}>
                     Another
                 </Button>
                 <Button variant="contained" className={style.button}>
                     And Another
                 </Button>
-                <WidgetDetails itemSelected={'Items'} itemInfo={'Information'} itemImg={'img'} />
+                <WidgetDetails widgetInfo={widgetInfo} />
             </Paper>
-        </div>
+        </>
     );
 };

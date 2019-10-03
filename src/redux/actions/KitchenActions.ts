@@ -11,13 +11,13 @@ import { KitchenActionTypes } from './ActionTypes';
 
 // Load kitchen action
 export const LoadKitchenSuccess = (kitchen: IPlannerState) => {
-    Widgets.getInstance().updateWidgets(populateWidgetArray(kitchen));
+    Widgets.get().updateWidgets(populateWidgetArray(kitchen));
     return { type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS, kitchen };
 };
 
 // Save kitchen action
 export const SaveKitchenSuccess = (kitchen: IPlannerState) => {
-    Widgets.getInstance().updateWidgets(populateWidgetArray(kitchen));
+    Widgets.get().updateWidgets(populateWidgetArray(kitchen));
     return { type: KitchenActionTypes.SAVE_KITCHEN_SUCCESS, kitchen };
 };
 
@@ -52,7 +52,7 @@ export function LoadKitchen(id: number) {
 
 // Remove kitchen thunk
 export function DeleteKitchen(kitchen: IPlannerState) {
-    Widgets.getInstance().resetWidgets();
+    Widgets.get().resetWidgets();
     return { type: KitchenActionTypes.REMOVED_KITCHEN_SUCCESS, kitchen };
 }
 
@@ -70,6 +70,7 @@ const populateWidgetArray = (kitchen: IPlannerState): BaseWidget[] => {
                 widget.isScalable,
                 widget.isRotatable,
                 widget.type,
+                widget.widgetInfo,
             );
         }
         if (widget.type === DEFAULT_WALLUNIT_TYPE) {
@@ -83,6 +84,7 @@ const populateWidgetArray = (kitchen: IPlannerState): BaseWidget[] => {
                 widget.isScalable,
                 widget.isRotatable,
                 widget.type,
+                widget.widgetInfo,
             );
         }
         if (widget.type === DEFAULT_WALL_TYPE) {
@@ -96,6 +98,7 @@ const populateWidgetArray = (kitchen: IPlannerState): BaseWidget[] => {
                 widget.isScalable,
                 widget.isRotatable,
                 widget.type,
+                widget.widgetInfo,
             );
         }
         if (widget.type === DEFAULT_WORKTOP_TYPE) {
@@ -109,6 +112,7 @@ const populateWidgetArray = (kitchen: IPlannerState): BaseWidget[] => {
                 widget.isScalable,
                 widget.isRotatable,
                 widget.type,
+                widget.widgetInfo,
             );
         }
     }) as BaseWidget[];

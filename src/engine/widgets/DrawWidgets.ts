@@ -5,8 +5,8 @@ import { Dimensions, Vec2 } from '../Transform';
 export class DrawWidgets {
     // Draw box for scaling
     public drawScalingBox(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions): void {
-        ctx.fillStyle = `rgba(255, 255, 255, 1)`;
-        ctx.strokeStyle = `rgba(0, 0, 0, 1)`;
+        ctx.fillStyle = WHITE;
+        ctx.strokeStyle = BLACK;
 
         ctx.fillRect(position.x + dimensions.w - 10, position.y + dimensions.l - 10, 10, 10);
         ctx.strokeRect(position.x + dimensions.w - 10, position.y + dimensions.l - 10, 10, 10);
