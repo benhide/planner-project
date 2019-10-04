@@ -1,5 +1,5 @@
 import { Button, createMuiTheme, Theme } from '@material-ui/core';
-import { withStyles, makeStyles, createStyles } from '@material-ui/styles';
+import { createStyles, makeStyles, withStyles } from '@material-ui/styles';
 import { WREN_GREEN } from '../utilities/Defaults';
 
 // App theme
@@ -16,7 +16,7 @@ export const theme = createMuiTheme({
     },
 });
 
-// Button
+// Coloured Button
 export const ColorButton = withStyles((theme: Theme) => ({
     root: {
         'margin': theme.spacing(0.25),
@@ -76,6 +76,56 @@ export const basketStyle = makeStyles((theme: Theme) =>
         cell: {
             fontSize: '12px',
             padding: theme.spacing(1, 1),
+        },
+    }),
+);
+
+// Component styling
+export const menuStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        container: {
+            marginLeft: theme.spacing(5),
+            marginRight: theme.spacing(5),
+            width: 400,
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        information: {
+            marginLeft: theme.spacing(3),
+            marginRight: theme.spacing(3),
+            width: 400,
+        },
+        textField: {
+            marginLeft: theme.spacing(-2),
+            marginRight: theme.spacing(-2),
+            width: 415,
+        },
+        saveButton: {
+            marginLeft: theme.spacing(3),
+            marginRight: theme.spacing(3),
+            marginBottom: theme.spacing(2),
+            marginTop: theme.spacing(2),
+            width: 150,
+            display: 'inline-block',
+            float: 'left' as 'left',
+        },
+        cancelButton: {
+            marginRight: theme.spacing(5),
+            marginLeft: theme.spacing(5),
+            marginBottom: theme.spacing(2),
+            marginTop: theme.spacing(2),
+            width: 150,
+            display: 'inline-block',
+            float: 'right' as 'right',
+        },
+        deleteButton: {
+            marginLeft: theme.spacing(3),
+            marginRight: theme.spacing(3),
+            marginBottom: theme.spacing(2),
+            marginTop: theme.spacing(2),
+            width: 150,
+            display: 'inline-block',
+            float: 'left' as 'left',
         },
     }),
 );

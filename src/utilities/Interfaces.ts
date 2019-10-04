@@ -51,8 +51,8 @@ export interface ISelectable {
 // Widget info interface
 export interface IWidgetInfo {
     type: string;
-    shortDesc: string;
-    longDesc: string;
+    shortDescription: string;
+    longDescription: string;
     colour: string;
     price: number;
     image: any;
@@ -64,9 +64,9 @@ export interface IWidgetInfo {
 
 // Basket item interface
 export interface IItem {
-    desc: string;
-    qty: number;
-    m2: number;
+    description: string;
+    quanity: number;
+    meteresSquared: number;
     price: number;
     total: number;
 }
@@ -174,4 +174,16 @@ export interface IPlannerState {
 // Redux planner state interface
 export interface IReduxPlannerState {
     kitchen: IPlannerState;
+}
+
+// Redux kitchen action interface
+export interface IKitchenAction {
+    type: KitchenActionTypes;
+    kitchen: IPlannerState;
+}
+
+// Redux widget action interface
+export interface IWidgetAction {
+    type: KitchenActionTypes;
+    widget: BaseWidget;
 }

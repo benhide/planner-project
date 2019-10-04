@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { basketStyle, ColorButton } from '../style/Styles';
 import {
-    DEFAULT_UNIT_PRICE,
-    DEFAULT_WALLUNIT_PRICE,
-    DEFAULT_WORKTOP_PRICE,
+    UNIT_PRICE,
+    WALLUNIT_PRICE,
+    WORKTOP_PRICE,
     SHIPPING_RATE,
     TAX_RATE,
-    UNITS_BASKET_DESC,
-    WALLUNITS_BASKET_DESC,
-    WORKTOP_BASKET_DESC,
+    UNITS_BASKET_DESCRIPTION,
+    WALLUNITS_BASKET_DESCRIPTION,
+    WORKTOP_BASKET_DESCRIPTION,
 } from '../utilities/Defaults';
 import { IItem, IReduxPlannerState } from '../utilities/Interfaces';
 
@@ -31,7 +31,7 @@ export const Basket = (): JSX.Element => {
     // Create an item in the basket items array
     const createItem = (desc: string, m2: number, qty: number, price: number): IItem => {
         const total = m2 === 0 ? qty * price : m2 * qty * price;
-        return { desc, qty, m2, price, total };
+        return { description: desc, quanity: qty, meteresSquared: m2, price, total };
     };
 
     // Update the basket
@@ -55,7 +55,7 @@ export const Basket = (): JSX.Element => {
             let sum = 0;
             widgets.forEach((widget) => {
                 if (widget.id >= 200 && widget.id < 300) {
-                    sum += (widget.dimensions.w / 100) * (widget.dimensions.l / 100);
+                    sum += (widget.dimensions.width / 100) * (widget.dimensions.length / 100);
                 }
             });
             return Math.round(sum * 10) / 10;
@@ -63,13 +63,13 @@ export const Basket = (): JSX.Element => {
 
         // Push items to the basket
         if (unitCount > 0) {
-            basketItems.push(createItem(UNITS_BASKET_DESC, 0, unitCount, DEFAULT_UNIT_PRICE));
+            basketItems.push(createItem(UNITS_BASKET_DESCRIPTION, 0, unitCount, UNIT_PRICE));
         }
         if (wallunitCount > 0) {
-            basketItems.push(createItem(WALLUNITS_BASKET_DESC, 0, wallunitCount, DEFAULT_WALLUNIT_PRICE));
+            basketItems.push(createItem(WALLUNITS_BASKET_DESCRIPTION, 0, wallunitCount, WALLUNIT_PRICE));
         }
         if (worktopCount > 0) {
-            basketItems.push(createItem(WORKTOP_BASKET_DESC, worktopMetersSquared(), worktopCount, DEFAULT_WORKTOP_PRICE));
+            basketItems.push(createItem(WORKTOP_BASKET_DESCRIPTION, worktopMetersSquared(), worktopCount, WORKTOP_PRICE));
         }
     };
 
@@ -88,23 +88,23 @@ export const Basket = (): JSX.Element => {
     const row = (item: IItem): JSX.Element => {
         const sqrd = (
             <span>
-                {item.m2 + 'm'}
+                {item.meteresSquared + 'm'}
                 <sup>2</sup>
             </span>
         );
 
         // Return the JSX
         return (
-            <TableRow key={item.desc}>
-                <TableCell className={style.cell}>{item.desc}</TableCell>
+            <TableRow key={item.description}>
+                <TableCell className={style.cell}>{item.description}</TableCell>
                 <TableCell className={style.cell} align="left">
-                    {item.qty}
+                    {item.quanity}
                 </TableCell>
                 <TableCell className={style.cell} align="left">
-                    {item.m2 === 0 ? null : sqrd}
+                    {item.meteresSquared === 0 ? null : sqrd}
                 </TableCell>
                 <TableCell className={style.cell} align="left">
-                    {item.m2 === 0 ? `£${currencyFormat(item.price)}` : `£${currencyFormat(item.price * item.m2)}`}
+                    {item.meteresSquared === 0 ? `£${currencyFormat(item.price)}` : `£${currencyFormat(item.price * item.meteresSquared)}`}
                 </TableCell>
                 <TableCell className={style.cell} align="left">{`£${currencyFormat(item.total)}`}</TableCell>
             </TableRow>

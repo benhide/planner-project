@@ -6,7 +6,9 @@ import { rootReducer } from './reducers/RootReducer';
 // Configure the store
 const ConfigureStore = (initState: Redux.DeepPartial<any> | undefined) => {
     const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || Redux.compose;
-    return Redux.createStore(rootReducer, initState, composeEnhancers(Redux.applyMiddleware(thunk, reduxImmutableStateInvariant())));
+    const middleware = Redux.applyMiddleware(thunk, reduxImmutableStateInvariant());
+    const enhancers = composeEnhancers(middleware);
+    return Redux.createStore(rootReducer, initState, enhancers);
 };
 
 // The redux store

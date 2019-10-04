@@ -1,7 +1,7 @@
+import { BLACK } from '../../utilities/Defaults';
 import { IRenderable, IRotatable, IScalable, ISelectable, IWidgetInfo } from '../../utilities/Interfaces';
 import { Dimensions, Vec2 } from '../Transform';
 import { BaseWidget } from './BaseWidget';
-import { BLACK } from '../../utilities/Defaults';
 
 // The unit class which inherits from base class BaseWidget
 // can be render and selected
@@ -30,8 +30,8 @@ export class WorkTop extends BaseWidget implements IRenderable, IRotatable, ISca
         ctx.strokeStyle = BLACK;
 
         // Just some drawing stuff
-        ctx.fillRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
-        ctx.strokeRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
+        ctx.fillRect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.length);
+        ctx.strokeRect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.length);
         super.drawDetails(ctx);
     }
 

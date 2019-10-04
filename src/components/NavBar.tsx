@@ -27,7 +27,8 @@ export const NavBar = (): JSX.Element => {
     React.useEffect(() => {
         // Get the kitchen list from the server
         getKitchensList().then((result: IPlannerState[]) => {
-            setLoadItems(result.map((item) => ({ id: item.id, name: item.name }))); setIsLoading(false);
+            setLoadItems(result.map((item) => ({ id: item.id, name: item.name })));
+            setIsLoading(false);
         });
     }, [isLoading]);
 
@@ -37,7 +38,9 @@ export const NavBar = (): JSX.Element => {
             <AppBar position="static" className={style.bar}>
                 <Toolbar>
                     <img src={require('../images/logo.png')} width="10%" />
-                    <Typography variant="h6" color="inherit" className={style.title}>Kitchen Planner</Typography>
+                    <Typography variant="h6" color="inherit" className={style.title}>
+                        Kitchen Planner
+                    </Typography>
                     <AddMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                     <SaveMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                     <LoadMenu loadItems={loadItems} setIsLoading={setIsLoading} dispatch={dispatch} />

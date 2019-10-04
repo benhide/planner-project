@@ -4,8 +4,8 @@ import { initialState } from './IntialState';
 
 // The kitchen reducer
 export const kitchenReducer = (state = initialState, action: KitchenActions) => {
-    const id = state.id;
-    const name = state.name;
+    // Name and id from the asate
+    const { id, name } = state;
 
     // Switch on action type
     switch (action.type) {

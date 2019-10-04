@@ -10,7 +10,7 @@ export const selectTopWidget = (): void => {
     const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
 
     if (widgets.length > 0) {
-        for (let pos = 0; pos < widgets.length; pos++) {
+        for (const [pos] of widgets.entries()) {
             if (Widgets.get().isSelected(pos)) {
                 top = pos;
                 Widgets.get().setSelected(pos, false);
@@ -30,7 +30,7 @@ export const setTopWidgetAsDeleting = (): void => {
     const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
 
     if (widgets.length > 0) {
-        for (let pos = 0; pos < widgets.length; pos++) {
+        for (const [pos] of widgets.entries()) {
             if (Widgets.get().isDeleting(pos)) {
                 top = pos;
                 Widgets.get().setDeleting(pos, false);
@@ -46,7 +46,7 @@ export const setTopWidgetAsDeleting = (): void => {
 export const canDeleteWidget = (id: number): boolean => {
     // Widgets from redux store
     const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
-    for (let pos = 0; pos < widgets.length; pos++) {
+    for (const [pos] of widgets.entries()) {
         if (widgets[pos].id === id) {
             return true;
         }
@@ -55,19 +55,19 @@ export const canDeleteWidget = (id: number): boolean => {
 };
 
 // Only scale the top widgets (dont grab widgets below)
-export const onlyScale = () => {
+export const onlyScale = (): void => {
     // Widgets from redux store
     const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
     let itemBeingScaled = false;
 
-    for (let pos = 0; pos < widgets.length; pos++) {
+    for (const [pos] of widgets.entries()) {
         if (Widgets.get().isScaling(pos)) {
             itemBeingScaled = true;
         }
     }
     if (itemBeingScaled) {
-         for (let pos = 0; pos < widgets.length; pos++) {
-             Widgets.get().setSelected(pos, false);
-         }
+        for (const [pos] of widgets.entries()) {
+            Widgets.get().setSelected(pos, false);
+        }
     }
 };

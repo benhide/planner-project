@@ -8,8 +8,8 @@ export class DrawWidgets {
         ctx.fillStyle = WHITE;
         ctx.strokeStyle = BLACK;
 
-        ctx.fillRect(position.x + dimensions.w - 10, position.y + dimensions.l - 10, 10, 10);
-        ctx.strokeRect(position.x + dimensions.w - 10, position.y + dimensions.l - 10, 10, 10);
+        ctx.fillRect(position.x + dimensions.width - 10, position.y + dimensions.length - 10, 10, 10);
+        ctx.strokeRect(position.x + dimensions.width - 10, position.y + dimensions.length - 10, 10, 10);
     }
 
     // Draw box for scaling
@@ -35,12 +35,18 @@ export class DrawWidgets {
         ctx.fillStyle = WHITE;
         ctx.strokeStyle = BLACK;
 
-        ctx.fillRect(position.x + dimensions.w - 10, position.y, 10, 10);
-        ctx.strokeRect(position.x + dimensions.w - 10, position.y, 10, 10);
+        ctx.fillRect(position.x + dimensions.width - 10, position.y, 10, 10);
+        ctx.strokeRect(position.x + dimensions.width - 10, position.y, 10, 10);
     }
 
     // Draw the guide lines
-    public drawLines(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, position: Vec2, dimensions: Dimensions): void {
+    public drawLines(
+        ctx: CanvasRenderingContext2D,
+        canvasWidth: number,
+        canvasHeight: number,
+        position: Vec2,
+        dimensions: Dimensions,
+    ): void {
         ctx.save();
         ctx.strokeStyle = GREY;
 
@@ -51,8 +57,8 @@ export class DrawWidgets {
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(position.x + dimensions.w, 0);
-        ctx.lineTo(position.x + dimensions.w, canvasHeight);
+        ctx.moveTo(position.x + dimensions.width, 0);
+        ctx.lineTo(position.x + dimensions.width, canvasHeight);
         ctx.stroke();
 
         ctx.beginPath();
@@ -61,8 +67,8 @@ export class DrawWidgets {
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(0, position.y + dimensions.l);
-        ctx.lineTo(canvasWidth, position.y + dimensions.l);
+        ctx.moveTo(0, position.y + dimensions.length);
+        ctx.lineTo(canvasWidth, position.y + dimensions.length);
         ctx.stroke();
 
         ctx.restore();
@@ -72,12 +78,12 @@ export class DrawWidgets {
     public drawWidgetInfo(ctx: CanvasRenderingContext2D, position: Vec2, dimensions: Dimensions, id: number): void {
         ctx.fillStyle = BLACK;
         ctx.font = '8px Arial';
-        ctx.fillText(id.toString(), position.x + 0.5 * dimensions.w - 5, position.y + 0.5 * dimensions.l);
+        ctx.fillText(id.toString(), position.x + 0.5 * dimensions.width - 5, position.y + 0.5 * dimensions.length);
 
         const pos = '(' + position.x + ':' + position.y + ')';
         ctx.fillText(pos, position.x - 45, position.y - 5);
 
-        const dim = '(' + dimensions.w + ':' + dimensions.l + ')';
-        ctx.fillText(dim, position.x + dimensions.w + 5, position.y + dimensions.l + 10);
+        const dim = '(' + dimensions.width + ':' + dimensions.length + ')';
+        ctx.fillText(dim, position.x + dimensions.width + 5, position.y + dimensions.length + 10);
     }
 }

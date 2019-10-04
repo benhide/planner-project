@@ -1,4 +1,4 @@
-import { IEventSubscription, SubscriptionFn, IEventBusData } from "../utilities/Interfaces";
+import { IEventBusData, IEventSubscription, SubscriptionFn } from '../utilities/Interfaces';
 
 // Type of event
 export enum GameEvent {

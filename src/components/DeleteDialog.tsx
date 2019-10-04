@@ -1,45 +1,14 @@
-import { createStyles, Dialog, DialogTitle, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Dialog, DialogTitle, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { deleteKitchen } from '../api/KitchenApi';
 import { DeleteKitchen } from '../redux/actions/KitchenActions';
+import { ColorButton, menuStyles } from '../style/Styles';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
 import { IDeleteDialogProps, IReduxPlannerState } from '../utilities/Interfaces';
-import { ColorButton } from '../style/Styles';
 
-// Component styling
-const menuStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        container: {
-            display: 'flex',
-            flexWrap: 'wrap',
-        },
-        information: {
-            marginLeft: theme.spacing(3),
-            marginRight: theme.spacing(3),
-            width: 400,
-        },
-        deleteButton: {
-            marginLeft: theme.spacing(3),
-            marginRight: theme.spacing(3),
-            marginBottom: theme.spacing(2),
-            marginTop: theme.spacing(2),
-            width: 150,
-            display: 'inline-block',
-            float: 'left' as 'left',
-        },
-        cancelButton: {
-            marginRight: theme.spacing(3),
-            marginLeft: theme.spacing(3),
-            marginBottom: theme.spacing(2),
-            marginTop: theme.spacing(2),
-            width: 150,
-            display: 'inline-block',
-            float: 'right' as 'right',
-        },
-    }),
-);
+
 
 // Delete dialog component
 export const DeleteKitchenDialog = (props: IDeleteDialogProps): JSX.Element => {

@@ -3,27 +3,28 @@ import * as React from 'react';
 import { Unit } from '../engine/widgets/Unit';
 import { Wall } from '../engine/widgets/Wall';
 import { WallUnit } from '../engine/widgets/WallUnit';
-import { GenerateId } from '../engine/widgets/WidgetsID';
+import { GenerateIDs } from '../engine/widgets/WidgetsID';
 import { WorkTop } from '../engine/widgets/Worktop';
 import { AddWidget } from '../redux/actions/WidgetActions';
 import { store } from '../redux/ConfigureStore';
 import { ColorButton, toolBoxStyle } from '../style/Styles';
 import {
-    DEFAULT_UNIT_DIM,
-    DEFAULT_UNIT_INFO,
-    DEFAULT_UNIT_TYPE,
-    DEFAULT_UNIT_ZINDEX,
-    DEFAULT_WALLUNIT_DIM,
-    DEFAULT_WALLUNIT_INFO,
-    DEFAULT_WALLUNIT_TYPE,
-    DEFAULT_WALLUNIT_ZINDEX,
-    DEFAULT_WALL_DIM,
-    DEFAULT_WALL_TYPE,
-    DEFAULT_WALL_ZINDEX,
-    DEFAULT_WORKTOP_DIM,
-    DEFAULT_WORKTOP_INFO,
-    DEFAULT_WORKTOP_TYPE,
-    DEFAULT_WORKTOP_ZINDEX,
+    DEFAULT_WALL_DIMENSIONS,
+    UNIT_DIMENSIONS,
+    UNIT_INFO,
+    UNIT_TYPE,
+    UNIT_ZINDEX,
+    WALLUNIT_DIMENSIONS,
+    WALLUNIT_INFO,
+    WALLUNIT_TYPE,
+    WALLUNIT_ZINDEX,
+    WALL_TYPE,
+    WALL_ZINDEX,
+    WIDGET_INFO,
+    WORKTOP_DIMENSIONS,
+    WORKTOP_INFO,
+    WORKTOP_TYPE,
+    WORKTOP_ZINDEX,
 } from '../utilities/Defaults';
 import { IWidgetInfo } from '../utilities/Interfaces';
 import { WidgetDetails } from './WidgetDetails';
@@ -34,84 +35,56 @@ export const ToolBox = (): JSX.Element => {
     const style = toolBoxStyle();
 
     // Local state
-    const [widgetInfo, setWidgetInfo] = React.useState<IWidgetInfo>({ type: '', shortDesc: '', longDesc: '', colour: '', price: 0, image: '' });
+    const [widgetInfo, setWidgetInfo] = React.useState<IWidgetInfo>(WIDGET_INFO);
 
     // Adds a unit to the kitchen
     const addUnit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        const unit = new Unit(
-            DEFAULT_UNIT_DIM.w,
-            DEFAULT_UNIT_DIM.l,
-            e.clientX,
-            e.clientY,
-            DEFAULT_UNIT_ZINDEX,
-            GenerateId.nextUnitId(),
-            false,
-            true,
-            DEFAULT_UNIT_TYPE,
-            DEFAULT_UNIT_INFO,
-        );
-        unit.isSelected = true;
-        unit.isHeld = true;
+        const { width, length } = UNIT_DIMENSIONS;
+        const id = GenerateIDs.get().nextUnitId();
+        const { clientX: x, clientY: y } = e;
+
+        // New unit
+        const unit = new Unit(width, length, x, y, UNIT_ZINDEX, id, false, true, UNIT_TYPE, UNIT_INFO);
+        unit.isHeldAndSelected = true;
         store.dispatch(AddWidget(unit));
         setWidgetInfo(unit.widgetInfo);
     };
 
     // Adds a worktop to the kitchen
     const addWorktop = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        const worktop = new WorkTop(
-            DEFAULT_WORKTOP_DIM.w,
-            DEFAULT_WORKTOP_DIM.l,
-            e.clientX,
-            e.clientY,
-            DEFAULT_WORKTOP_ZINDEX,
-            GenerateId.nextWorktopId(),
-            true,
-            true,
-            DEFAULT_WORKTOP_TYPE,
-            DEFAULT_WORKTOP_INFO,
-        );
-        worktop.isSelected = true;
-        worktop.isHeld = true;
+        const { width, length } = WORKTOP_DIMENSIONS;
+        const id = GenerateIDs.get().nextWorktopId();
+        const { clientX: x, clientY: y } = e;
+
+        // New worktop
+        const worktop = new WorkTop(width, length, x, y, WORKTOP_ZINDEX, id, true, true, WORKTOP_TYPE, WORKTOP_INFO);
+        worktop.isHeldAndSelected = true;
         store.dispatch(AddWidget(worktop));
         setWidgetInfo(worktop.widgetInfo);
     };
 
     // Adds a wall to the kitchen
     const addWallunit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        const wallunit = new WallUnit(
-            DEFAULT_WALLUNIT_DIM.w,
-            DEFAULT_WALLUNIT_DIM.l,
-            e.clientX,
-            e.clientY,
-            DEFAULT_WALLUNIT_ZINDEX,
-            GenerateId.nextWallunitId(),
-            false,
-            true,
-            DEFAULT_WALLUNIT_TYPE,
-            DEFAULT_WALLUNIT_INFO,
-        );
-        wallunit.isSelected = true;
-        wallunit.isHeld = true;
+        const { width, length } = WALLUNIT_DIMENSIONS;
+        const id = GenerateIDs.get().nextWallunitId();
+        const { clientX: x, clientY: y } = e;
+
+        // New wallunit
+        const wallunit = new WallUnit(width, length, x, y, WALLUNIT_ZINDEX, id, false, true, WALLUNIT_TYPE, WALLUNIT_INFO);
+        wallunit.isHeldAndSelected = true;
         store.dispatch(AddWidget(wallunit));
         setWidgetInfo(wallunit.widgetInfo);
     };
 
     // Adds a wall to the kitchen
     const addWall = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        const wall = new Wall(
-            DEFAULT_WALL_DIM.w,
-            DEFAULT_WALL_DIM.l,
-            e.clientX,
-            e.clientY,
-            DEFAULT_WALL_ZINDEX,
-            GenerateId.nextWallId(),
-            true,
-            true,
-            DEFAULT_WALL_TYPE,
-            { type: '', shortDesc: '', longDesc: '', colour: '', price: 0, image: '' },
-        );
-        wall.isSelected = true;
-        wall.isHeld = true;
+        const { width, length } = DEFAULT_WALL_DIMENSIONS;
+        const id = GenerateIDs.get().nextWallId();
+        const { clientX: x, clientY: y } = e;
+
+        // New wall
+        const wall = new Wall(width, length, x, y, WALL_ZINDEX, id, true, true, WALL_TYPE, WIDGET_INFO);
+        wall.isHeldAndSelected = true;
         store.dispatch(AddWidget(wall));
         setWidgetInfo(wall.widgetInfo);
     };

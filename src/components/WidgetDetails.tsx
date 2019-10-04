@@ -49,7 +49,7 @@ export const WidgetDetails = (props: IWidgetDeatilsProps): JSX.Element => {
                             {widgetInfo.type ? widgetInfo.type : 'Item Info'}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {widgetInfo.shortDesc ? widgetInfo.shortDesc : null}
+                            {widgetInfo.shortDescription ? widgetInfo.shortDescription : null}
                         </Typography>
                     </CardContent>
                     <CardMedia className={style.media} image={widgetInfo.image} />

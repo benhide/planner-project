@@ -1,10 +1,10 @@
 import { RemoveWidget, UpdateWidget } from '../../redux/actions/WidgetActions';
 import { store } from '../../redux/ConfigureStore';
 import { IEventBusData, IReduxPlannerState, IWidgetInfo } from '../../utilities/Interfaces';
-import { canvasHeight, canvasWidth } from '../CanvasReferences';
+import { getCanvas } from '../CanvasReferences';
 import { isColliding, isIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
-import { checkBounding, collisionSnapping, snapToGrid, snapToSize } from '../Snapping';
+import { collisionSnapping, forceWidgetInCanvasBounds, snapToGrid, snapToSize } from '../Snapping';
 import { Dimensions, Vec2 } from '../Transform';
 import { canDeleteWidget, selectTopWidget, setTopWidgetAsDeleting } from '../ZIndexControls';
 import { DrawWidgets } from './DrawWidgets';
@@ -43,20 +43,16 @@ export class BaseWidget {
         this._drawWidget = new DrawWidgets();
 
         // Catch the original dimensions
-        this._defaultWidth = this.dimensions.w;
-        this._defaultLength = this.dimensions.l;
+        this._defaultWidth = this.dimensions.width;
+        this._defaultLength = this.dimensions.length;
 
         // Set the initial position
         this.setPosition(position.x, position.y);
-        this.setDimensions(dimensions.w, dimensions.l);
+        this.setDimensions(dimensions.width, dimensions.length);
         this._lastValidPosition = position;
         this._lastValidDimensions = dimensions;
 
         // Subscribe to the events
-        EventBus.subscribe(GameEvent.MouseClick, (e: IEventBusData) => {
-            return;
-        });
-
         EventBus.subscribe(GameEvent.MouseMove, (e: IEventBusData) => {
             if (this._isSelected && this._isHeld) {
                 this.move(e);
@@ -138,6 +134,12 @@ export class BaseWidget {
         this._isHeld = isHeld;
     }
 
+    // Setter for is held and selected
+    public set isHeldAndSelected(heldSelected: boolean) {
+        this.isHeld = heldSelected;
+        this._isSelected = heldSelected;
+    }
+
     // Getters and setters for scaling
     public get isScaling() {
         return this._isScaling;
@@ -176,12 +178,12 @@ export class BaseWidget {
         this._lastValidDimensions = this.dimensions;
 
         // Make sure it is side the canvas bounds
-        checkBounding(this);
+        forceWidgetInCanvasBounds(this);
 
         const collidingIDs = this.collisionDetection();
         for (const id of collidingIDs) {
             if (id !== -1) {
-                this.setDimensions(this._lastValidDimensions.w, this._lastValidDimensions.l);
+                this.setDimensions(this._lastValidDimensions.width, this._lastValidDimensions.length);
                 return;
             }
         }
@@ -190,19 +192,18 @@ export class BaseWidget {
         this.setDimensions(e.x - this.position.x, e.y - this.position.y);
 
         // Get the canvas and keep the scaled size inside the canvas bounds (width)
-        const cw = canvasWidth();
-        const ch = canvasHeight();
-        if (this.dimensions.w < this._defaultWidth) {
-            this.setDimensions(this._defaultWidth, this.dimensions.l);
-        } else if (this.dimensions.w > cw) {
-            this.setDimensions(cw, this.dimensions.l);
+        const { width, height } = getCanvas();
+        if (this.dimensions.width < this._defaultWidth) {
+            this.setDimensions(this._defaultWidth, this.dimensions.length);
+        } else if (this.dimensions.width > width) {
+            this.setDimensions(width, this.dimensions.length);
         }
 
         // Keep the scaled size inside the canvas bounds (length)
-        if (this.dimensions.l < this._defaultLength) {
-            this.setDimensions(this.dimensions.w, this._defaultLength);
-        } else if (this.dimensions.l > ch) {
-            this.setDimensions(this.dimensions.w, ch);
+        if (this.dimensions.length < this._defaultLength) {
+            this.setDimensions(this.dimensions.width, this._defaultLength);
+        } else if (this.dimensions.length > height) {
+            this.setDimensions(this.dimensions.width, height);
         }
 
         snapToSize(this);
@@ -210,12 +211,12 @@ export class BaseWidget {
 
     // Move an widget
     private move(e: IEventBusData): void {
-        const offset = new Vec2(this.dimensions.w * 0.5, this.dimensions.l * 0.5);
+        const offset = new Vec2(this.dimensions.width * 0.5, this.dimensions.length * 0.5);
 
         // The last valid position the object was in without colliding
         this._lastValidPosition = this.position;
         this.setPosition(-offset.x + e.x, -offset.y + e.y);
-        checkBounding(this);
+        forceWidgetInCanvasBounds(this);
 
         // Widgets from redux store
         const widgets = (store.getState() as IReduxPlannerState).kitchen.widgets;
@@ -277,7 +278,7 @@ export class BaseWidget {
         if (this.isScalable) {
             this._isScaling = isIntersecting(
                 new Vec2(e.x as number, e.y as number),
-                new Vec2(this.position.x + this.dimensions.w - 15, this.position.y + this.dimensions.l - 15),
+                new Vec2(this.position.x + this.dimensions.width - 15, this.position.y + this.dimensions.length - 15),
                 new Dimensions(15, 15),
             );
         }
@@ -285,7 +286,11 @@ export class BaseWidget {
 
     // Should we try to delete the widget
     private shouldDelete(e: IEventBusData): void {
-        this._isDeleting = isIntersecting(new Vec2(e.x as number, e.y as number), new Vec2(this.position.x, this.position.y), new Dimensions(15, 15));
+        this._isDeleting = isIntersecting(
+            new Vec2(e.x as number, e.y as number),
+            new Vec2(this.position.x, this.position.y),
+            new Dimensions(15, 15),
+        );
         setTopWidgetAsDeleting();
     }
 
@@ -294,7 +299,7 @@ export class BaseWidget {
         if (this.isRotatable) {
             this._isRotating = isIntersecting(
                 new Vec2(e.x as number, e.y as number),
-                new Vec2(this.position.x + this.dimensions.w - 15, this.position.y),
+                new Vec2(this.position.x + this.dimensions.width - 15, this.position.y),
                 new Dimensions(20, 20),
             );
             return new Vec2(e.x as number, e.y as number);

@@ -1,7 +1,7 @@
+import { BLACK } from '../../utilities/Defaults';
 import { IRenderable, IRotatable, IScalable, ISelectable, IWidgetInfo } from '../../utilities/Interfaces';
 import { Dimensions, Vec2 } from '../Transform';
 import { BaseWidget } from './BaseWidget';
-import { BLACK } from '../../utilities/Defaults';
 
 // The unit class which inherits from base class BaseWidget
 // can be render and selected
@@ -16,7 +16,7 @@ export class Unit extends BaseWidget implements IRenderable, IRotatable, IScalab
         isScalable: boolean,
         isRotatable: boolean,
         type: string,
-        widgetInfo: IWidgetInfo
+        widgetInfo: IWidgetInfo,
     ) {
         super(new Dimensions(width, length), new Vec2(x, y), zIndex, id, isScalable, isRotatable, type, widgetInfo);
     }
@@ -31,8 +31,8 @@ export class Unit extends BaseWidget implements IRenderable, IRotatable, IScalab
         ctx.strokeStyle = BLACK;
 
         // Just some drawing stuff
-        ctx.fillRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
-        ctx.strokeRect(this.position.x, this.position.y, this.dimensions.w, this.dimensions.l);
+        ctx.fillRect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.length);
+        ctx.strokeRect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.length);
         this.drawHandle(ctx, new Vec2(0, 0));
         super.drawDetails(ctx);
     }
@@ -45,12 +45,11 @@ export class Unit extends BaseWidget implements IRenderable, IRotatable, IScalab
     // Draw handle
     private drawHandle(ctx: CanvasRenderingContext2D, handleSide: Vec2): void {
         ctx.fillStyle = this.getColour();
-        ctx.arc(this.position.x + (this.dimensions.w / 5) * 4, this.position.y + this.dimensions.l, 5, 0, Math.PI);
+        ctx.arc(this.position.x + (this.dimensions.width / 5) * 4, this.position.y + this.dimensions.length, 5, 0, Math.PI);
         ctx.fill();
         ctx.stroke();
     }
 }
-
 
 // if (this.isRotating) {
 //     // tslint:disable-next-line:no-console

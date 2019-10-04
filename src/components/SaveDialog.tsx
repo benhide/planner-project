@@ -1,51 +1,10 @@
-import { createStyles, Dialog, DialogTitle, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
+import { Dialog, DialogTitle, TextField, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
-import { ColorButton } from '../style/Styles';
+import { ColorButton, menuStyles } from '../style/Styles';
 import { IReduxPlannerState, ISaveDialogProps, IState } from '../utilities/Interfaces';
-
-// Component styling
-const menuStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        container: {
-            marginLeft: theme.spacing(5),
-            marginRight: theme.spacing(5),
-            width: 400,
-            display: 'flex',
-            flexWrap: 'wrap',
-        },
-        information: {
-            marginLeft: theme.spacing(3),
-            marginRight: theme.spacing(3),
-            width: 400,
-        },
-        textField: {
-            marginLeft: theme.spacing(-2),
-            marginRight: theme.spacing(-2),
-            width: 415,
-        },
-        saveButton: {
-            marginLeft: theme.spacing(3),
-            marginRight: theme.spacing(3),
-            marginBottom: theme.spacing(2),
-            marginTop: theme.spacing(2),
-            width: 150,
-            display: 'inline-block',
-            float: 'left' as 'left',
-        },
-        cancelButton: {
-            marginRight: theme.spacing(5),
-            marginLeft: theme.spacing(5),
-            marginBottom: theme.spacing(2),
-            marginTop: theme.spacing(2),
-            width: 150,
-            display: 'inline-block',
-            float: 'right' as 'right',
-        },
-    }),
-);
 
 // Save dialog component
 export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {

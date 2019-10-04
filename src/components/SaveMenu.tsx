@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SaveKitchen } from '../redux/actions/KitchenActions';
+import { ColorButton } from '../style/Styles';
 import { IMenuProps, IReduxPlannerState } from '../utilities/Interfaces';
 import { SaveDialog } from './SaveDialog';
-import { ColorButton } from '../style/Styles';
 
 // The save menu for kitchens
 export const SaveMenu = (props: IMenuProps): JSX.Element => {

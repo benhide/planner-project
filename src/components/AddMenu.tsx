@@ -2,7 +2,7 @@ import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { GenerateId } from '../engine/widgets/WidgetsID';
+import { GenerateIDs } from '../engine/widgets/WidgetsID';
 import { DeleteKitchen, SaveKitchen } from '../redux/actions/KitchenActions';
 import { ColorButton } from '../style/Styles';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
@@ -47,7 +47,7 @@ export const AddMenu = (props: IMenuProps): JSX.Element => {
     // When closing the save menu
     const handleClose = () => {
         setOpen(false);
-        GenerateId.resetAllIds();
+        GenerateIDs.get().resetAllIds();
         dispatch(DeleteKitchen(DEFAULT_KITCHEN));
         setIsLoading(true);
     };

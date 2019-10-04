@@ -4,120 +4,128 @@ import { BaseWidget } from './widgets/BaseWidget';
 
 // Snap to grid
 export const snapToGrid = (obj: BaseWidget): void => {
-    if (obj.position.x % 10 !== 0) {
-        obj.position.x = Math.ceil(obj.position.x / 10) * 10;
+    const { position } = obj;
+    if (position.x % 10 !== 0) {
+        position.x = Math.ceil(position.x / 10) * 10;
     }
-    if (obj.position.y % 10 !== 0) {
-        obj.position.y = Math.ceil(obj.position.y / 10) * 10;
+    if (position.y % 10 !== 0) {
+        position.y = Math.ceil(position.y / 10) * 10;
     }
 };
 
 // Snap to size
 export const snapToSize = (obj: BaseWidget): void => {
-    if (obj.dimensions.w % 10 !== 0) {
-        obj.dimensions.w = Math.ceil(obj.dimensions.w / 10) * 10;
+    const { dimensions } = obj;
+    if (dimensions.width % 10 !== 0) {
+        dimensions.width = Math.ceil(dimensions.width / 10) * 10;
     }
-    if (obj.dimensions.l % 10 !== 0) {
-        obj.dimensions.l = Math.ceil(obj.dimensions.l / 10) * 10;
+    if (dimensions.length % 10 !== 0) {
+        dimensions.length = Math.ceil(dimensions.length / 10) * 10;
     }
 };
 
 // Keep obj in bounds
-export const checkBounding = (obj: BaseWidget): void => {
-    const canvas = getCanvas();
-    obj.position.x = obj.position.x < 0 ? 0 : obj.position.x;
-    obj.position.y = obj.position.y < 0 ? 0 : obj.position.y;
-    obj.position.x = obj.position.x + obj.dimensions.w > canvas.width ? canvas.width - obj.dimensions.w : obj.position.x;
-    obj.position.y = obj.position.y + obj.dimensions.l > canvas.height ? canvas.height - obj.dimensions.l : obj.position.y;
+export const forceWidgetInCanvasBounds = (obj: BaseWidget): void => {
+    const { height: canvasHeight, width: canvasWidth } = getCanvas();
+    const { position, dimensions } = obj;
+    position.x = position.x < 0 ? 0 : position.x;
+    position.y = position.y < 0 ? 0 : position.y;
+    position.x = position.x + dimensions.width > canvasWidth ? canvasWidth - dimensions.width : position.x;
+    position.y = position.y + dimensions.length > canvasHeight ? canvasHeight - dimensions.length : position.y;
 };
 
 // Snap units together
-export const collisionSnapping = (objA: BaseWidget, objB: BaseWidget): void => {
-    const objACenter = new Vec2(objA.position.x + objA.dimensions.w * 0.5, objA.position.y + objA.dimensions.l * 0.5);
-    const objBCenter = new Vec2(objB.position.x + objB.dimensions.w * 0.5, objB.position.y + objB.dimensions.l * 0.5);
+export const collisionSnapping = (objOne: BaseWidget, objTwo: BaseWidget): void => {
+    const { position: positionOne } = objOne;
+    const { width: widthOne, length: lengthOne } = objOne.dimensions;
+    const { position: positionTwo } = objTwo;
+    const { width: widthTwo, length: lengthTwo } = objTwo.dimensions;
+
+    const objACenter = new Vec2(positionOne.x + widthOne * 0.5, positionOne.y + lengthOne * 0.5);
+    const objBCenter = new Vec2(positionTwo.x + widthTwo * 0.5, positionTwo.y + lengthTwo * 0.5);
 
     let left = 0;
     let right = 0;
     let top = 0;
     let bottom = 0;
 
-    const dir = new Vec2(0, 0);
+    const direction = new Vec2(0, 0);
 
     // left collision - / right collision +
-    if (objA.position.x + objA.dimensions.w > objB.position.x && objA.position.x + objA.dimensions.w < objB.position.x + objB.dimensions.w) {
-        left = objB.position.x - (objA.position.x + objA.dimensions.w);
-    } else if (objA.position.x < objB.position.x + objB.dimensions.w && objA.position.x >= objB.position.x) {
-        right = objB.position.x + objB.dimensions.w - objA.position.x;
+    if (positionOne.x + widthOne > positionTwo.x && positionOne.x + widthOne < positionTwo.x + widthTwo) {
+        left = positionTwo.x - (positionOne.x + widthOne);
+    } else if (positionOne.x < positionTwo.x + widthTwo && positionOne.x >= positionTwo.x) {
+        right = positionTwo.x + widthTwo - positionOne.x;
     }
 
     // top collision - / bottom collision +
-    if (objA.position.y + objA.dimensions.l > objB.position.y && objA.position.y + objA.dimensions.l < objB.position.y + objB.dimensions.l) {
-        top = objB.position.y - (objA.position.y + objA.dimensions.l);
-    } else if (objA.position.y < objB.position.y + objB.dimensions.l && objA.position.y >= objB.position.y) {
-        bottom = objB.position.y + objB.dimensions.l - objA.position.y;
+    if (positionOne.y + lengthOne > positionTwo.y && positionOne.y + lengthOne < positionTwo.y + lengthTwo) {
+        top = positionTwo.y - (positionOne.y + lengthOne);
+    } else if (positionOne.y < positionTwo.y + lengthTwo && positionOne.y >= positionTwo.y) {
+        bottom = positionTwo.y + lengthTwo - positionOne.y;
     }
 
     // Left and right collisions
     if (Math.abs(left) > 0) {
-        dir.x = left;
+        direction.x = left;
     } else if (right > 0) {
-        dir.x = right;
+        direction.x = right;
     } else if (Math.abs(left) > 0 && right > 0) {
-        dir.x = 0;
+        direction.x = 0;
     }
 
     // Top and bottom collisions
     if (Math.abs(top) > 0) {
-        dir.y = top;
+        direction.y = top;
     } else if (bottom > 0) {
-        dir.y = bottom;
+        direction.y = bottom;
     } else if (Math.abs(left) > 0 && right > 0) {
-        dir.y = 0;
+        direction.y = 0;
     }
 
     // Covered collision
     if (Math.abs(top) === 0 && Math.abs(left) === 0 && right === 0 && bottom === 0) {
-        const move = objACenter.direction(objBCenter);
-        if (move.x > 0) {
-            objA.position.x = objB.position.x - objA.dimensions.w;
-        } else if (move.x <= 0) {
-            objA.position.x = objB.position.x + objB.dimensions.w;
-        } else if (move.y > 0) {
-            objA.position.y = objB.position.y - objA.dimensions.l;
-        } else if (move.y <= 0) {
-            objA.position.y = objB.position.y + objB.dimensions.l;
+        const moveDirection = objACenter.vectorBetweenOtherVector(objBCenter);
+        if (moveDirection.x > 0) {
+            positionOne.x = positionTwo.x - widthOne;
+        } else if (moveDirection.x <= 0) {
+            positionOne.x = positionTwo.x + widthTwo;
+        } else if (moveDirection.y > 0) {
+            positionOne.y = positionTwo.y - lengthOne;
+        } else if (moveDirection.y <= 0) {
+            positionOne.y = positionTwo.y + lengthTwo;
         }
     }
 
     // Both horizontal sides or both vertical sides collisions
-    if (dir.x === 0) {
-        objA.position.y += dir.y;
-    } else if (dir.y === 0) {
-        objA.position.x += dir.x;
+    if (direction.x === 0) {
+        positionOne.y += direction.y;
+    } else if (direction.y === 0) {
+        positionOne.x += direction.x;
     }
 
     // Move left or right
     if (Math.abs(left) > right) {
-        dir.x = left;
+        direction.x = left;
     } else {
-        dir.x = right;
+        direction.x = right;
     }
 
     // Move up or down
     if (Math.abs(top) > bottom) {
-        dir.y = top;
+        direction.y = top;
     } else {
-        dir.y = bottom;
+        direction.y = bottom;
     }
 
     // Choose shorest direction of movement
-    if (Math.abs(dir.x) < Math.abs(dir.y)) {
-        dir.y = 0;
-    } else if (Math.abs(dir.y) < Math.abs(dir.x)) {
-        dir.x = 0;
+    if (Math.abs(direction.x) < Math.abs(direction.y)) {
+        direction.y = 0;
+    } else if (Math.abs(direction.y) < Math.abs(direction.x)) {
+        direction.x = 0;
     }
 
     // Set position
-    objA.position.x += dir.x;
-    objA.position.y += dir.y;
+    positionOne.x += direction.x;
+    positionOne.y += direction.y;
 };
