@@ -86,7 +86,7 @@ export const WIDGET_INFO: IWidgetInfo = {
     longDescription: '',
     colour: '',
     price: 0,
-    image: '',
+    image: 'no image',
 };
 export const UNIT_INFO: IWidgetInfo = {
     type: 'Unit',

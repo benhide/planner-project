@@ -4,13 +4,13 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 import { LoadKitchen } from '../redux/actions/KitchenActions';
-import { ColorButton, loadMenuStyle } from '../style/Styles';
-import { ILoadMenuProps, IMenuItem } from '../utilities/Interfaces';
+import { ColorButton, loadDeleteMenuStyle } from '../style/Styles';
+import { ILoadDeleteMenuProps, IMenuItem } from '../utilities/Interfaces';
 
 // The load menu component
-export const LoadMenu = (props: ILoadMenuProps): JSX.Element => {
+export const LoadMenu = (props: ILoadDeleteMenuProps): JSX.Element => {
     // The component styling
-    const style = loadMenuStyle();
+    const style = loadDeleteMenuStyle();
 
     // Props
     const { loadItems, setIsLoading, dispatch } = props;

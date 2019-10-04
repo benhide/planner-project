@@ -10,7 +10,7 @@ import { canDeleteWidget, selectTopWidget, setTopWidgetAsDeleting } from '../ZIn
 import { DrawWidgets } from './DrawWidgets';
 
 // The basewidget clas which all widgets inherit from
-export class BaseWidget {
+export abstract class BaseWidget {
     // Booleans for the widget
     private _isSelected: boolean = false;
     private _isHeld: boolean = false;
@@ -149,10 +149,7 @@ export class BaseWidget {
     }
 
     // Draw function
-    public draw(ctx: CanvasRenderingContext2D): void {
-        // Call the child class draw
-        this.draw(ctx);
-    }
+    public abstract draw(ctx: CanvasRenderingContext2D): void;
 
     // Draw other widget details
     public drawDetails(ctx: CanvasRenderingContext2D): void {

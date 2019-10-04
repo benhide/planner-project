@@ -51,7 +51,7 @@ export const NavBar = (): JSX.Element => {
         <>
             <AppBar position="static" className={style.bar}>
                 <Toolbar>
-                    <img src={require('../images/logo.png')} width="10%" />
+                    <img src={'/images/logo.png'} width="10%" />
                     <Typography variant="h6" color="inherit" className={style.title}>
                         Kitchen Planner
                     </Typography>
@@ -59,7 +59,7 @@ export const NavBar = (): JSX.Element => {
                     <AddMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                     <SaveMenu setIsLoading={setIsLoading} dispatch={dispatch} />
                     <LoadMenu loadItems={loadItems} setIsLoading={setIsLoading} dispatch={dispatch} />
-                    <DeleteMenu setIsLoading={setIsLoading} dispatch={dispatch} />
+                    <DeleteMenu loadItems={loadItems} setIsLoading={setIsLoading} dispatch={dispatch} />
                     <ColorButton color="inherit" onClick={() => openBasket()}>
                         <ShoppingBasketIcon />
                     </ColorButton>

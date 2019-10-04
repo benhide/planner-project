@@ -93,7 +93,7 @@ export interface ISaveDialogProps {
 }
 
 // Load menu props interface
-export interface ILoadMenuProps {
+export interface ILoadDeleteMenuProps {
     loadItems: IMenuItem[];
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     dispatch: ThunkDispatch<IPlannerState, void, Action<any>>;

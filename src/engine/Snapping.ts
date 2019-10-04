@@ -28,10 +28,8 @@ export const snapToSize = (obj: BaseWidget): void => {
 export const forceWidgetInCanvasBounds = (obj: BaseWidget): void => {
     const { height: canvasHeight, width: canvasWidth } = getCanvas();
     const { position, dimensions } = obj;
-    position.x = position.x < 0 ? 0 : position.x;
-    position.y = position.y < 0 ? 0 : position.y;
-    position.x = position.x + dimensions.width > canvasWidth ? canvasWidth - dimensions.width : position.x;
-    position.y = position.y + dimensions.length > canvasHeight ? canvasHeight - dimensions.length : position.y;
+    position.x = Math.max(0, Math.min(position.x, canvasWidth - dimensions.width));
+    position.y = Math.max(0, Math.min(position.y, canvasHeight - dimensions.length));
 };
 
 // Snap units together
@@ -65,26 +63,25 @@ export const collisionSnapping = (objOne: BaseWidget, objTwo: BaseWidget): void 
         bottom = positionTwo.y + lengthTwo - positionOne.y;
     }
 
+    const absLeft = Math.abs(left);
+    const absTop = Math.abs(top);
+
     // Left and right collisions
-    if (Math.abs(left) > 0) {
+    if (absLeft > 0) {
         direction.x = left;
     } else if (right > 0) {
         direction.x = right;
-    } else if (Math.abs(left) > 0 && right > 0) {
-        direction.x = 0;
     }
 
     // Top and bottom collisions
-    if (Math.abs(top) > 0) {
+    if (absTop > 0) {
         direction.y = top;
     } else if (bottom > 0) {
         direction.y = bottom;
-    } else if (Math.abs(left) > 0 && right > 0) {
-        direction.y = 0;
     }
 
     // Covered collision
-    if (Math.abs(top) === 0 && Math.abs(left) === 0 && right === 0 && bottom === 0) {
+    if (absTop === 0 && absLeft === 0 && right === 0 && bottom === 0) {
         const moveDirection = objACenter.vectorBetweenOtherVector(objBCenter);
         if (moveDirection.x > 0) {
             positionOne.x = positionTwo.x - widthOne;
@@ -105,23 +102,26 @@ export const collisionSnapping = (objOne: BaseWidget, objTwo: BaseWidget): void 
     }
 
     // Move left or right
-    if (Math.abs(left) > right) {
+    if (absLeft > right) {
         direction.x = left;
     } else {
         direction.x = right;
     }
 
     // Move up or down
-    if (Math.abs(top) > bottom) {
+    if (absTop > bottom) {
         direction.y = top;
     } else {
         direction.y = bottom;
     }
 
     // Choose shorest direction of movement
-    if (Math.abs(direction.x) < Math.abs(direction.y)) {
+    const absX = Math.abs(direction.x);
+    const absY = Math.abs(direction.y);
+
+    if (absX < absY) {
         direction.y = 0;
-    } else if (Math.abs(direction.y) < Math.abs(direction.x)) {
+    } else if (absY < absX) {
         direction.x = 0;
     }
 

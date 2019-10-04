@@ -195,7 +195,7 @@ export const widgetDetailStyle = makeStyles(() =>
 );
 
 // Styling
-export const loadMenuStyle = makeStyles((theme: Theme) =>
+export const loadDeleteMenuStyle = makeStyles((theme: Theme) =>
     createStyles({
         title: {
             margin: theme.spacing(2),

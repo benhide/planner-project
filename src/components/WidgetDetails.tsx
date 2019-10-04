@@ -16,12 +16,12 @@ export const WidgetDetails = (props: IWidgetDeatilsProps): JSX.Element => {
     const [open, setOpen] = React.useState(false);
 
     // Dsiaply the widget options menu
-    const openWidgetOptions = () => {
+    const openWidgetOptions = (): void => {
         setOpen(true);
     };
 
     // Closing the widgte menu options
-    const handleClose = () => {
+    const handleClose = (): void => {
         setOpen(false);
     };
 

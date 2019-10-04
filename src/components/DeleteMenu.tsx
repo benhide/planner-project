@@ -1,11 +1,11 @@
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as React from 'react';
 import { ColorButton } from '../style/Styles';
-import { IMenuProps } from '../utilities/Interfaces';
+import { ILoadDeleteMenuProps } from '../utilities/Interfaces';
 import { DeleteKitchenDialog } from './DeleteDialog';
 
 // Delete menu component
-export const DeleteMenu = (props: IMenuProps): JSX.Element => {
+export const DeleteMenu = (props: ILoadDeleteMenuProps): JSX.Element => {
     // Props
     const { setIsLoading, dispatch } = props;
 

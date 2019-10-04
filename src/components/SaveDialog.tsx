@@ -32,8 +32,9 @@ export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {
     };
 
     // Save the current kitchen
-    const handleSave = (): void => {
+    const handleSave = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         // Name needs characters
+        e.preventDefault();
         if (values.name.length <= 0) {
             toast.error('Kitchen needs a valid name!');
             return;
@@ -61,7 +62,7 @@ export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle id="save-dialog-title">Save Current Kitchen</DialogTitle>
             <Typography className={style.information}>Please enter a name for the kitchen to save...</Typography>
-            <form className={style.container} noValidate autoComplete="off" onSubmit={() => handleSave()}>
+            <form className={style.container} noValidate autoComplete="off" onSubmit={(e) => handleSave(e)}>
                 <TextField
                     id="save-name"
                     label="Enter kitchen name"
@@ -72,7 +73,7 @@ export const SaveDialog = (props: ISaveDialogProps): JSX.Element => {
                 />
             </form>
             <span>
-                <ColorButton className={style.saveButton} onClick={() => handleSave()}>
+                <ColorButton className={style.saveButton} onClick={(e) => handleSave(e)}>
                     Save
                 </ColorButton>
                 <ColorButton className={style.cancelButton} onClick={() => handleClose()}>
