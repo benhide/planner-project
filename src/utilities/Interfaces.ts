@@ -55,7 +55,7 @@ export interface IWidgetInfo {
     longDescription: string;
     colour: string;
     price: number;
-    image: any;
+    image: string;
 }
 
 /************************

@@ -6,15 +6,18 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import * as React from 'react';
 import { ColorButton } from '../style/Styles';
 
+// Options for the widgets selected
 export const WidgetOptions = (props: any) => {
+    // Props
     const { widgetInfo, onClose, open } = props;
 
+    // Render the jsx
     return (
         <>
             <Dialog open={open} aria-labelledby="scroll-dialog-title" maxWidth="lg">
                 <DialogTitle id="scroll-dialog-title">{widgetInfo.type}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>{widgetInfo.longDesc}</DialogContentText>
+                    <DialogContentText>{widgetInfo.longDescription}</DialogContentText>
                     <ColorButton>Select Material / Colour</ColorButton>
                 </DialogContent>
                 <DialogActions>

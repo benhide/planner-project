@@ -16,7 +16,7 @@ ReactDOM.render(
         <ThemeProvider theme={theme}>
             <NavBar />
             <ToolBox />
-            <Basket />
+            {/* <Basket /> */}
             <Planner />
             <ToastContainer position="bottom-left" autoClose={2000} />
         </ThemeProvider>

@@ -1,29 +1,13 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
-import { WREN_GREEN } from '../utilities/Defaults';
+import { widgetDetailStyle } from '../style/Styles';
 import { IWidgetDeatilsProps } from '../utilities/Interfaces';
 import { WidgetOptions } from './WidgetOptions';
-
-// Styling
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        card: {
-            width: '100%',
-            float: 'left' as 'left',
-            color: WREN_GREEN,
-            marginTop: '20px',
-        },
-        media: {
-            height: 140,
-        },
-    }),
-);
 
 // Itemdetails component
 export const WidgetDetails = (props: IWidgetDeatilsProps): JSX.Element => {
     // Styling
-    const style = useStyles();
+    const style = widgetDetailStyle();
 
     // Props
     const { widgetInfo } = props;
@@ -31,10 +15,12 @@ export const WidgetDetails = (props: IWidgetDeatilsProps): JSX.Element => {
     // Local state
     const [open, setOpen] = React.useState(false);
 
-    const handleClick = () => {
+    // Dsiaply the widget options menu
+    const openWidgetOptions = () => {
         setOpen(true);
     };
 
+    // Closing the widgte menu options
     const handleClose = () => {
         setOpen(false);
     };
@@ -43,7 +29,7 @@ export const WidgetDetails = (props: IWidgetDeatilsProps): JSX.Element => {
     return (
         <>
             <Card className={style.card}>
-                <CardActionArea onClick={() => handleClick()}>
+                <CardActionArea onClick={() => openWidgetOptions()}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
                             {widgetInfo.type ? widgetInfo.type : 'Item Info'}
@@ -60,17 +46,3 @@ export const WidgetDetails = (props: IWidgetDeatilsProps): JSX.Element => {
         </>
     );
 };
-
-// <ExpansionPanel>
-//     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-//         <Typography variant="caption">Hide/Show Details</Typography>
-//     </ExpansionPanelSummary>
-
-//      <ExpansionPanelDetails>
-//             <Typography variant="body2" color="textSecondary" component="p">
-//                 {widgetInfo.longDesc}
-//             </Typography>
-//         </ExpansionPanelDetails>
-//         <ExpansionPanelDetails></ExpansionPanelDetails>
-//                         </ExpansionPanel>
-//                                                 </ExpansionPanelDetails>

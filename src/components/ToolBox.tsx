@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Slide, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { Unit } from '../engine/widgets/Unit';
 import { Wall } from '../engine/widgets/Wall';
@@ -36,6 +36,7 @@ export const ToolBox = (): JSX.Element => {
 
     // Local state
     const [widgetInfo, setWidgetInfo] = React.useState<IWidgetInfo>(WIDGET_INFO);
+    const [checked, setChecked] = React.useState(false);
 
     // Adds a unit to the kitchen
     const addUnit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -48,6 +49,7 @@ export const ToolBox = (): JSX.Element => {
         unit.isHeldAndSelected = true;
         store.dispatch(AddWidget(unit));
         setWidgetInfo(unit.widgetInfo);
+        setChecked(true);
     };
 
     // Adds a worktop to the kitchen
@@ -61,6 +63,7 @@ export const ToolBox = (): JSX.Element => {
         worktop.isHeldAndSelected = true;
         store.dispatch(AddWidget(worktop));
         setWidgetInfo(worktop.widgetInfo);
+        setChecked(true);
     };
 
     // Adds a wall to the kitchen
@@ -74,6 +77,7 @@ export const ToolBox = (): JSX.Element => {
         wallunit.isHeldAndSelected = true;
         store.dispatch(AddWidget(wallunit));
         setWidgetInfo(wallunit.widgetInfo);
+        setChecked(true);
     };
 
     // Adds a wall to the kitchen
@@ -87,6 +91,7 @@ export const ToolBox = (): JSX.Element => {
         wall.isHeldAndSelected = true;
         store.dispatch(AddWidget(wall));
         setWidgetInfo(wall.widgetInfo);
+        setChecked(false);
     };
 
     // Render the JSX
@@ -134,8 +139,12 @@ export const ToolBox = (): JSX.Element => {
                     <br />
                     Dishwasher
                 </ColorButton>
-                {widgetInfo.type ? <WidgetDetails widgetInfo={widgetInfo} /> : null}
             </Paper>
+            <Slide direction="right" in={checked} mountOnEnter unmountOnExit timeout={300}>
+                <div>
+                    <WidgetDetails widgetInfo={widgetInfo} />
+                </div>
+            </Slide>
         </>
     );
 };

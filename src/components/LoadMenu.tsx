@@ -1,25 +1,16 @@
-import { createStyles, makeStyles, MenuItem, Theme, Typography } from '@material-ui/core';
+import { MenuItem, Typography } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 import { LoadKitchen } from '../redux/actions/KitchenActions';
-import { ColorButton } from '../style/Styles';
+import { ColorButton, loadMenuStyle } from '../style/Styles';
 import { ILoadMenuProps, IMenuItem } from '../utilities/Interfaces';
-
-// Styling
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        title: {
-            margin: theme.spacing(2),
-        },
-    }),
-);
 
 // The load menu component
 export const LoadMenu = (props: ILoadMenuProps): JSX.Element => {
     // The component styling
-    const style = useStyles();
+    const style = loadMenuStyle();
 
     // Props
     const { loadItems, setIsLoading, dispatch } = props;

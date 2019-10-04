@@ -34,8 +34,10 @@ export const Planner: React.FunctionComponent = () => {
 
 // Width of the canvas will match width of the screen
 const sizeCanvas = (canvas: HTMLCanvasElement) => {
-    canvas.width = window.innerWidth * 0.625;
+    canvas.width = window.innerWidth * 0.825;
     canvas.height = window.innerHeight * 0.875;
+    canvas.style.position = 'absolute';
+    canvas.style.left = '305px';
 };
 
 // Style the canvas

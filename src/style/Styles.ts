@@ -1,4 +1,5 @@
 import { Button, createMuiTheme, Theme } from '@material-ui/core';
+import { fade } from '@material-ui/core/styles';
 import { createStyles, makeStyles, withStyles } from '@material-ui/styles';
 import { WREN_GREEN } from '../utilities/Defaults';
 
@@ -10,7 +11,7 @@ export const theme = createMuiTheme({
             contrastText: '#FFFFFF',
         },
         secondary: {
-            main: '#00E676',
+            main: '#60C996',
             contrastText: '#FFFFFF',
         },
     },
@@ -36,6 +37,49 @@ export const navBarStyle = makeStyles(() =>
         },
         bar: {
             backgroundColor: WREN_GREEN,
+        },
+    }),
+);
+
+// Serach bar styling
+export const searchBarStyle = makeStyles(() =>
+    createStyles({
+        search: {
+            'position': 'relative',
+            'borderRadius': theme.shape.borderRadius,
+            'backgroundColor': fade(theme.palette.common.white, 0.15),
+            '&:hover': {
+                backgroundColor: fade(theme.palette.common.white, 0.25),
+            },
+            'marginLeft': 0,
+            'width': '100%',
+            [theme.breakpoints.up('sm')]: {
+                marginLeft: theme.spacing(1),
+                width: 'auto',
+            },
+        },
+        searchIcon: {
+            width: theme.spacing(7),
+            height: '100%',
+            position: 'absolute',
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        inputRoot: {
+            color: 'inherit',
+        },
+        inputInput: {
+            padding: theme.spacing(1, 1, 1, 7),
+            transition: theme.transitions.create('width'),
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                'width': 120,
+                '&:focus': {
+                    width: 200,
+                },
+            },
         },
     }),
 );
@@ -72,6 +116,9 @@ export const basketStyle = makeStyles((theme: Theme) =>
             width: '20%',
             float: 'right' as 'right',
             marginTop: '20px',
+            marginRight: '20px',
+            zIndex: 1,
+            position: 'relative',
         },
         cell: {
             fontSize: '12px',
@@ -126,6 +173,31 @@ export const menuStyles = makeStyles((theme: Theme) =>
             width: 150,
             display: 'inline-block',
             float: 'left' as 'left',
+        },
+    }),
+);
+
+// Styling
+export const widgetDetailStyle = makeStyles(() =>
+    createStyles({
+        card: {
+            width: '15.8%',
+            float: 'left' as 'left',
+            color: WREN_GREEN,
+            marginTop: '340px',
+            marginLeft: '-15.8%',
+        },
+        media: {
+            // height: 140,
+        },
+    }),
+);
+
+// Styling
+export const loadMenuStyle = makeStyles((theme: Theme) =>
+    createStyles({
+        title: {
+            margin: theme.spacing(2),
         },
     }),
 );

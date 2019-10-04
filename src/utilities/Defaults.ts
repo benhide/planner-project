@@ -59,6 +59,26 @@ export const UNIT_DESCRIPTION = `This is a unit, information about units goes he
 export const WALLUNIT_DESCRIPTION = `This is a wallunit, information about wallunits goes here ...`;
 export const WORKTOP_DESCRIPTION = `This is a worktop, information about worktops goes here ...`;
 
+export const UNIT_LONG_DESCRIPTION = `This is a unit, information about units goes here. Lorem ipsum dolor 
+sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Pellentesque habitant morbi tristique senectus et netus et. Orci nulla pellentesque dignissim enim sit amet 
+venenatis. Dictum non consectetur a erat nam at lectus urna duis. Ac ut consequat semper viverra nam. Egestas 
+purus viverra accumsan in nisl nisi scelerisque. Id volutpat lacus laoreet non curabitur. Nullam eget felis 
+eget nunc. Iaculis eu non diam phasellus. Quis commodo odio aenean sed adipiscing. Aliquam nulla facilisi cras 
+fermentum odio eu feugiat pretium. `;
+export const WALLUNIT_LONG_DESCRIPTION = `This is a wallunit, information about wallunits goes here. Lorem ipsum 
+dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Pellentesque habitant morbi tristique senectus et netus et. Orci nulla pellentesque dignissim enim sit amet venenatis. 
+Dictum non consectetur a erat nam at lectus urna duis. Ac ut consequat semper viverra nam. Egestas purus viverra 
+accumsan in nisl nisi scelerisque. Id volutpat lacus laoreet non curabitur. Nullam eget felis eget nunc. Iaculis 
+eu non diam phasellus. Quis commodo odio aenean sed adipiscing. Aliquam nulla facilisi cras fermentum odio eu feugiat pretium. `;
+export const WORKTOP_LONG_DESCRIPTION = `This is a worktop, information about worktops goes here. Lorem ipsum 
+dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Pellentesque habitant morbi tristique senectus et netus et. Orci nulla pellentesque dignissim enim sit amet venenatis. 
+Dictum non consectetur a erat nam at lectus urna duis. Ac ut consequat semper viverra nam. Egestas purus viverra 
+accumsan in nisl nisi scelerisque. Id volutpat lacus laoreet non curabitur. Nullam eget felis eget nunc. Iaculis eu 
+non diam phasellus. Quis commodo odio aenean sed adipiscing. Aliquam nulla facilisi cras fermentum odio eu feugiat pretium. `;
+
 // Default widget info
 export const WIDGET_INFO: IWidgetInfo = {
     type: '',
@@ -71,24 +91,24 @@ export const WIDGET_INFO: IWidgetInfo = {
 export const UNIT_INFO: IWidgetInfo = {
     type: 'Unit',
     shortDescription: UNIT_DESCRIPTION,
-    longDescription: UNIT_DESCRIPTION,
+    longDescription: UNIT_LONG_DESCRIPTION,
     colour: '',
     price: UNIT_PRICE,
-    image: 'img',
+    image: '../images/unit.png',
 };
 export const WALLUNIT_INFO: IWidgetInfo = {
     type: 'Wallunit',
     shortDescription: WALLUNIT_DESCRIPTION,
-    longDescription: WALLUNIT_DESCRIPTION,
+    longDescription: WALLUNIT_LONG_DESCRIPTION,
     colour: '',
     price: WALLUNIT_PRICE,
-    image: 'img',
+    image: '../images/wallunit.png',
 };
 export const WORKTOP_INFO: IWidgetInfo = {
     type: 'Worktop',
     shortDescription: WORKTOP_DESCRIPTION,
-    longDescription: WORKTOP_DESCRIPTION,
+    longDescription: WORKTOP_LONG_DESCRIPTION,
     colour: '',
     price: WORKTOP_PRICE,
-    image: 'img',
+    image: '../images/worktop.png',
 };

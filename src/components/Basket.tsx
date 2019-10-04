@@ -114,7 +114,7 @@ export const Basket = (): JSX.Element => {
     // Render the JSX
     return (
         <>
-            <Paper className={style.root}>
+            <Paper className={style.root} elevation={4}>
                 <Typography variant="h4">Basket</Typography>
                 <Table>
                     <TableHead>
