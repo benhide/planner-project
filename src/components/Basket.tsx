@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { basketStyle, ColorButton } from '../style/Styles';
 import {
-    UNIT_PRICE,
-    WALLUNIT_PRICE,
-    WORKTOP_PRICE,
     SHIPPING_RATE,
     TAX_RATE,
     UNITS_BASKET_DESCRIPTION,
+    UNIT_PRICE,
     WALLUNITS_BASKET_DESCRIPTION,
+    WALLUNIT_PRICE,
     WORKTOP_BASKET_DESCRIPTION,
+    WORKTOP_PRICE,
 } from '../utilities/Defaults';
 import { IItem, IReduxPlannerState } from '../utilities/Interfaces';
 

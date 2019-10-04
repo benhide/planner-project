@@ -3,7 +3,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import * as React from 'react';
 import { searchBarStyle } from '../style/Styles';
 
-// The navbar react component
+// The search bar react component
 export const SearchBar = (): JSX.Element => {
     // Style
     const style = searchBarStyle();

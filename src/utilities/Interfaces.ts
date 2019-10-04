@@ -110,9 +110,16 @@ export interface IState {
     name: string;
 }
 
-// Interface for item details props
+// Interface for widget details props
 export interface IWidgetDeatilsProps {
     widgetInfo: IWidgetInfo;
+}
+
+// Interface for widget options props
+export interface IWidgetOptionsProps {
+    widgetInfo: IWidgetInfo;
+    onClose: () => void;
+    open: boolean;
 }
 
 /**********************

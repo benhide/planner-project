@@ -8,8 +8,6 @@ import { ColorButton, menuStyles } from '../style/Styles';
 import { DEFAULT_KITCHEN } from '../utilities/Defaults';
 import { IDeleteDialogProps, IReduxPlannerState } from '../utilities/Interfaces';
 
-
-
 // Delete dialog component
 export const DeleteKitchenDialog = (props: IDeleteDialogProps): JSX.Element => {
     // Styling

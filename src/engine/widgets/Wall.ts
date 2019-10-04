@@ -6,6 +6,7 @@ import { BaseWidget } from './BaseWidget';
 // The unit class which inherits from base class BaseWidget
 // can be render and selected
 export class Wall extends BaseWidget implements IRenderable, IRotatable, IScalable, ISelectable {
+    // Constructor
     constructor(
         width: number,
         length: number,

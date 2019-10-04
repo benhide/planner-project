@@ -10,6 +10,7 @@ export enum GameEvent {
 
 // The event bus
 export namespace EventBus {
+    // Subscriptions
     const subscriptions = new Map<symbol, IEventSubscription>();
 
     // Subscribe to the event

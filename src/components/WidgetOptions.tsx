@@ -5,9 +5,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as React from 'react';
 import { ColorButton } from '../style/Styles';
+import { IWidgetOptionsProps } from '../utilities/Interfaces';
 
 // Options for the widgets selected
-export const WidgetOptions = (props: any) => {
+export const WidgetOptions = (props: IWidgetOptionsProps) => {
     // Props
     const { widgetInfo, onClose, open } = props;
 
@@ -29,5 +30,3 @@ export const WidgetOptions = (props: any) => {
         </>
     );
 };
-
-// onClose = { handleClose };

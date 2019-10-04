@@ -188,6 +188,7 @@ export const widgetDetailStyle = makeStyles(() =>
             marginLeft: '-15.8%',
         },
         media: {
+            // styling for the media card goes here
             // height: 140,
         },
     }),

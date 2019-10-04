@@ -5,13 +5,7 @@ import { Unit } from '../../engine/widgets/Unit';
 import { Wall } from '../../engine/widgets/Wall';
 import { WallUnit } from '../../engine/widgets/WallUnit';
 import { WorkTop } from '../../engine/widgets/Worktop';
-import {
-    DEFAULT_KITCHEN,
-    UNIT_TYPE,
-    WALLUNIT_TYPE,
-    WALL_TYPE,
-    WORKTOP_TYPE,
-} from '../../utilities/Defaults';
+import { DEFAULT_KITCHEN, UNIT_TYPE, WALLUNIT_TYPE, WALL_TYPE, WORKTOP_TYPE } from '../../utilities/Defaults';
 import { IKitchenAction, IPlannerState } from '../../utilities/Interfaces';
 import { KitchenActionTypes } from './ActionTypes';
 

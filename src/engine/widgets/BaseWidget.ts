@@ -170,7 +170,7 @@ export class BaseWidget {
             this._drawWidget.drawLines(ctx, canvas.width, canvas.height, this.position, this.dimensions);
         }
         this._drawWidget.drawWidgetInfo(ctx, this.position, this.dimensions, this.id);
-        this._drawWidget.drawRemoveBox(ctx, this.position, this.dimensions);
+        this._drawWidget.drawRemoveBox(ctx, this.position);
     }
 
     // Scale an widget
