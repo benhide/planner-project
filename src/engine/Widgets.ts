@@ -1,5 +1,5 @@
 import { GREY } from '../utilities/Defaults';
-import { getCanvas } from './CanvasReferences';
+import { CanvasReference } from './CanvasReferences';
 import { BaseWidget } from './widgets/BaseWidget';
 
 // The kitchen class
@@ -23,7 +23,7 @@ export class Widgets {
 
     // Constructor
     private constructor() {
-        this._ctx = getCanvas().getContext('2d') as CanvasRenderingContext2D;
+        this._ctx = CanvasReference.get().getContext('2d') as CanvasRenderingContext2D;
     }
 
     // Update the objects
@@ -41,7 +41,7 @@ export class Widgets {
 
     // Draw the canvas grid
     private drawGrid(): void {
-        const { width, height } = getCanvas();
+        const { width, height } = CanvasReference.get();
 
         // Draw the grid on the canvas
         this._ctx.save();
@@ -89,6 +89,8 @@ export class Widgets {
     public setSelected(pos: number, selected: boolean): void {
         this._widgets[pos].isSelected = selected;
         this._widgets[pos].isHeld = selected;
+        this._lastSelected = this._widgets[pos];
+        console.log("last selected ", this._lastSelected);
     }
 
     // Is the widget selected

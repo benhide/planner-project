@@ -1,4 +1,4 @@
-import { getCanvas } from './CanvasReferences';
+import { CanvasReference } from './CanvasReferences';
 import { Vec2 } from './Transform';
 import { BaseWidget } from './widgets/BaseWidget';
 
@@ -26,7 +26,7 @@ export const snapToSize = (obj: BaseWidget): void => {
 
 // Keep obj in bounds
 export const forceWidgetInCanvasBounds = (obj: BaseWidget): void => {
-    const { height: canvasHeight, width: canvasWidth } = getCanvas();
+    const { height: canvasHeight, width: canvasWidth } = CanvasReference.get();
     const { position, dimensions } = obj;
     position.x = Math.max(0, Math.min(position.x, canvasWidth - dimensions.width));
     position.y = Math.max(0, Math.min(position.y, canvasHeight - dimensions.length));

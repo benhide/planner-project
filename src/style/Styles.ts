@@ -116,7 +116,7 @@ export const basketStyle = makeStyles((theme: Theme) =>
             width: '20%',
             float: 'right' as 'right',
             marginTop: '20px',
-            marginRight: '20px',
+            marginRight: '10px',
             zIndex: 1,
             position: 'relative',
         },
@@ -178,7 +178,7 @@ export const menuStyles = makeStyles((theme: Theme) =>
 );
 
 // Styling
-export const widgetDetailStyle = makeStyles(() =>
+export const widgetDetailStyle = makeStyles((theme: Theme) =>
     createStyles({
         card: {
             width: '15.8%',
@@ -187,9 +187,42 @@ export const widgetDetailStyle = makeStyles(() =>
             marginTop: '340px',
             marginLeft: '-15.8%',
         },
-        media: {
-            // styling for the media card goes here
-            // height: 140,
+        media: {},
+        image: {
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            padding: theme.spacing(1, 1),
+        },
+    }),
+);
+// Styling
+export const widgetOptionsStyle = makeStyles((theme: Theme) =>
+    createStyles({
+        dialogContainer: {
+            height: '260px',
+        },
+        imageContainer: {
+            paddingRight: theme.spacing(4),
+            float: 'left' as 'left',
+            height: '110px',
+        },
+        imageHelper: {
+            display: 'inline-block',
+            height: '100%',
+            verticalAlign: 'middle',
+        },
+        image: {
+            display: 'inline-block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            verticalAlign: 'middle',
+        },
+        colourPicker: {
+            width: '20%',
+            left: '40%',
+            display: 'block',
+            margin: '0 auto',
         },
     }),
 );

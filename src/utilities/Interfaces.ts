@@ -35,22 +35,22 @@ export interface IRenderable {
 
 // Can widget be rotated interface
 export interface IRotatable {
-    isRotatable: boolean;
+    readonly isRotatable: boolean;
 }
 
 // Can widget be scaled interface
 export interface IScalable {
-    isScalable: boolean;
+    readonly isScalable: boolean;
 }
 
 // Can widget be selected interface
 export interface ISelectable {
-    isSelected: boolean;
+    readonly isSelected: boolean;
 }
 
 // Widget info interface
 export interface IWidgetInfo {
-    type: string;
+    readonly type: string;
     shortDescription: string;
     longDescription: string;
     colour: string;

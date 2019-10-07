@@ -47,7 +47,6 @@ function onMouseUp(canvas: HTMLCanvasElement | null, e: React.MouseEvent) {
 // The planner class initialisation
 export const Planner: React.FunctionComponent = () => {
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-
     React.useEffect(() => {
         const { current: canvas } = canvasRef;
 
@@ -79,11 +78,6 @@ export const Planner: React.FunctionComponent = () => {
         draw();
     }, [canvasRef]);
 
-    // Called first initialises the canvas, context and kitchen
-    const init = (): void => {};
-
-    // When the dom has loaded initialise!
-    window.addEventListener('DOMContentLoaded', () => init());
 
     // Return the canvas wrapper id
     return (

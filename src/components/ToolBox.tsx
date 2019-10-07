@@ -1,4 +1,4 @@
-import { Paper, Slide, Typography } from '@material-ui/core';
+import { Paper, Typography, Fade } from '@material-ui/core';
 import * as React from 'react';
 import { Unit } from '../engine/widgets/Unit';
 import { Wall } from '../engine/widgets/Wall';
@@ -140,11 +140,11 @@ export const ToolBox = (): JSX.Element => {
                     Dishwasher
                 </ColorButton>
             </Paper>
-            <Slide direction="right" in={checked} mountOnEnter unmountOnExit timeout={300}>
+            <Fade in={checked} mountOnEnter unmountOnExit timeout={checked ? 500 : 0}>
                 <div>
                     <WidgetDetails widgetInfo={widgetInfo} />
                 </div>
-            </Slide>
+            </Fade>
         </>
     );
 };

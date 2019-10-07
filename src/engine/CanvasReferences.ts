@@ -1,7 +1,20 @@
-// Canvas and ctx reference
-export const getCanvas = (): HTMLCanvasElement => {
-    return document.getElementById('canvas') as HTMLCanvasElement;
-};
-export const getCtx = (): CanvasRenderingContext2D => {
-    return getCanvas().getContext('2d') as CanvasRenderingContext2D;
-};
+// Static reference to the canvas
+export class CanvasReference {
+
+    // Singleton
+    private static _instance: CanvasReference;
+
+    // Cmavs element
+    private _canvas: HTMLCanvasElement;
+
+    // Singleton
+    public static get(): HTMLCanvasElement {
+        if (!CanvasReference._instance) {
+            CanvasReference._instance = new CanvasReference();
+        }
+        return CanvasReference._instance._canvas;
+    }
+    private constructor() {
+        this._canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    }
+}

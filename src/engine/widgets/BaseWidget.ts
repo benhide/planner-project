@@ -1,7 +1,7 @@
 import { RemoveWidget, UpdateWidget } from '../../redux/actions/WidgetActions';
 import { store } from '../../redux/ConfigureStore';
 import { IEventBusData, IReduxPlannerState, IWidgetInfo } from '../../utilities/Interfaces';
-import { getCanvas } from '../CanvasReferences';
+import { CanvasReference } from '../CanvasReferences';
 import { isColliding, isIntersecting } from '../CollisionDetection';
 import { EventBus, GameEvent } from '../EventBus';
 import { collisionSnapping, forceWidgetInCanvasBounds, snapToGrid, snapToSize } from '../Snapping';
@@ -189,7 +189,7 @@ export abstract class BaseWidget {
         this.setDimensions(e.x - this.position.x, e.y - this.position.y);
 
         // Get the canvas and keep the scaled size inside the canvas bounds (width)
-        const { width, height } = getCanvas();
+        const { width, height } = CanvasReference.get();
         if (this.dimensions.width < this._defaultWidth) {
             this.setDimensions(this._defaultWidth, this.dimensions.length);
         } else if (this.dimensions.width > width) {
