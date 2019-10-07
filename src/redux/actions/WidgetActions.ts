@@ -19,3 +19,8 @@ export const RemoveWidget = (widget: BaseWidget): IWidgetAction => {
 export const UpdateWidget = (widget: BaseWidget): IWidgetAction => {
     return { type: KitchenActionTypes.WIDGET_UPDATED, widget };
 };
+
+// TODO
+export const UpdateInfoWidget = (widget: BaseWidget): IWidgetAction => {
+    return { type: KitchenActionTypes.WIDGET_INFO_UPDATED, widget };
+};

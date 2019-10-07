@@ -1,6 +1,6 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
 import * as React from 'react';
-import { widgetDetailStyle, widgetOptionsStyle } from '../style/Styles';
+import { widgetDetailStyle } from '../style/Styles';
 import { IWidgetDeatilsProps } from '../utilities/Interfaces';
 import { WidgetOptions } from './WidgetOptions';
 
@@ -31,7 +31,9 @@ export const WidgetDetails = (props: IWidgetDeatilsProps): JSX.Element => {
             <Card className={style.card}>
                 <CardActionArea onClick={() => openWidgetOptions()}>
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">{widgetInfo.type}</Typography>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {widgetInfo.type}
+                        </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                             {widgetInfo.shortDescription ? widgetInfo.shortDescription : null}
                         </Typography>

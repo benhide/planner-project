@@ -114,10 +114,15 @@ export const ToolBox = (): JSX.Element => {
                     <br />
                     Wall Unit
                 </ColorButton>
-                <ColorButton className={style.button} variant="contained" onClick={(e) => addWall(e)}>
+                <ColorButton className={style.button} variant="contained">
                     Add
                     <br />
-                    Wall
+                    Corner Unit
+                </ColorButton>
+                <ColorButton className={style.button} variant="contained">
+                    Add
+                    <br />
+                    Fridge
                 </ColorButton>
                 <ColorButton className={style.button} variant="contained">
                     Add
@@ -129,15 +134,10 @@ export const ToolBox = (): JSX.Element => {
                     <br />
                     Cooker
                 </ColorButton>
-                <ColorButton className={style.button} variant="contained">
-                    Add
-                    <br />
-                    Fridge
-                </ColorButton>
-                <ColorButton className={style.button} variant="contained">
+                <ColorButton className={style.button} variant="contained" onClick={(e) => addWall(e)}>
                     And
                     <br />
-                    Dishwasher
+                    Wall
                 </ColorButton>
             </Paper>
             <Fade in={checked} mountOnEnter unmountOnExit timeout={checked ? 500 : 0}>

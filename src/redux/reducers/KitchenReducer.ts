@@ -42,6 +42,19 @@ export const kitchenReducer = (state = initialState, action: KitchenActions) => 
                 }),
             };
 
+        case KitchenActionTypes.WIDGET_INFO_UPDATED:
+            console.log(action.widget);
+            const x = { ...action.widget.widgetInfo.color };
+            console.log(x);
+             return {
+                 ...state,
+                 id,
+                 name,
+                 widgets: state.widgets.map((widget) => {
+                     return widget.id !== action.widget.id ? widget : { ...widget.widgetInfo, ...action.widget.widgetInfo };
+                 }),
+             };
+
         // Return the default state
         default:
             return state;

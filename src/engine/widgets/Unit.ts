@@ -40,7 +40,8 @@ export class Unit extends BaseWidget implements IRenderable, IRotatable, IScalab
 
     // Just get the colour of te unit
     private getColour(opacity = 1): string {
-        return `rgb(39, 174, 96, ${opacity})`;
+        const {r, g, b } = this.widgetInfo.color;
+        return `rgb(${r}, ${g}, ${b}, ${opacity})`;
     }
 
     // Draw handle

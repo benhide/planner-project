@@ -84,7 +84,7 @@ export const WIDGET_INFO: IWidgetInfo = {
     type: '',
     shortDescription: '',
     longDescription: '',
-    colour: '',
+    color: { r: 255, g: 255, b: 255 },
     price: 0,
     image: '',
 };
@@ -92,7 +92,7 @@ export const UNIT_INFO: IWidgetInfo = {
     type: 'Unit',
     shortDescription: UNIT_DESCRIPTION,
     longDescription: UNIT_LONG_DESCRIPTION,
-    colour: '',
+    color: { r: 39, g: 174, b: 96 },
     price: UNIT_PRICE,
     image: '/images/unit.png',
 };
@@ -100,7 +100,7 @@ export const WALLUNIT_INFO: IWidgetInfo = {
     type: 'Wallunit',
     shortDescription: WALLUNIT_DESCRIPTION,
     longDescription: WALLUNIT_LONG_DESCRIPTION,
-    colour: '',
+    color: { r: 174, g: 174, b: 96 },
     price: WALLUNIT_PRICE,
     image: '/images/wallunit.png',
 };
@@ -108,7 +108,7 @@ export const WORKTOP_INFO: IWidgetInfo = {
     type: 'Worktop',
     shortDescription: WORKTOP_DESCRIPTION,
     longDescription: WORKTOP_LONG_DESCRIPTION,
-    colour: '',
+    color: { r: 75, g: 75, b: 96 },
     price: WORKTOP_PRICE,
     image: '/images/worktop.png',
 };

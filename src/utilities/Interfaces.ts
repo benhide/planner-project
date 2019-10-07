@@ -17,8 +17,20 @@ export interface IEventSubscription {
 
 // Event bus data object interface
 export interface IEventBusData {
-    x: number;
-    y: number;
+    x?: number;
+    y?: number;
+    colorChange?: IColorChangeEvent;
+}
+
+export interface IColorChangeEvent {
+    color: IColor;
+    type: string;
+}
+
+export interface IColor {
+    r: number;
+    g: number;
+    b: number;
 }
 
 // Type declaration for subscription function
@@ -53,7 +65,7 @@ export interface IWidgetInfo {
     readonly type: string;
     shortDescription: string;
     longDescription: string;
-    colour: string;
+    color: IColor;
     price: number;
     image: string;
 }
@@ -144,6 +156,13 @@ export interface IKitchenWidgetUpdatedAction {
     widget: BaseWidget;
 }
 
+
+// Widget updated action interface
+export interface IKitchenWidgetInfoUpdatedAction {
+    type: KitchenActionTypes.WIDGET_INFO_UPDATED;
+    widget: BaseWidget;
+}
+
 // Kitchen loaded action interface
 export interface IKitchenLoadedAction {
     type: KitchenActionTypes.LOAD_KITCHEN_SUCCESS;
@@ -169,6 +188,7 @@ export type KitchenActions =
     | IKitchenRemovedAction
     | IKitchenWidgetAddedAction
     | IKitchenWidgetRemovedAction
+    | IKitchenWidgetInfoUpdatedAction
     | IKitchenWidgetUpdatedAction;
 
 // Planner state interface

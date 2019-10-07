@@ -1,4 +1,4 @@
-import { RemoveWidget, UpdateWidget } from '../../redux/actions/WidgetActions';
+import { RemoveWidget, UpdateInfoWidget, UpdateWidget } from '../../redux/actions/WidgetActions';
 import { store } from '../../redux/ConfigureStore';
 import { IEventBusData, IReduxPlannerState, IWidgetInfo } from '../../utilities/Interfaces';
 import { CanvasReference } from '../CanvasReferences';
@@ -17,6 +17,7 @@ export abstract class BaseWidget {
     private _isScaling: boolean = false;
     private _isRotating: boolean = false;
     private _isDeleting: boolean = false;
+    private _isUpdatingInfo: boolean = false;
 
     // Catch the defualt width and height
     private _defaultWidth: number;
@@ -97,6 +98,15 @@ export abstract class BaseWidget {
                 this.delete();
                 this._isDeleting = false;
             }
+        });
+
+        EventBus.subscribe(GameEvent.ColorChange, (e: IEventBusData) => {
+            // if (e.colorChange) {
+            //     if (e.colorChange.type === widgetInfo.type) {
+            //         const { r, g, b } = e.colorChange.color;
+            //         widgetInfo.color = { r, g, b };
+            //     }
+            // }
         });
     }
 
@@ -185,6 +195,10 @@ export abstract class BaseWidget {
             }
         }
 
+        if (!e.x || !e.y) {
+            return;
+        }
+
         // Scale the widget
         this.setDimensions(e.x - this.position.x, e.y - this.position.y);
 
@@ -212,6 +226,11 @@ export abstract class BaseWidget {
 
         // The last valid position the object was in without colliding
         this._lastValidPosition = this.position;
+
+        if (!e.x || !e.y) {
+            return;
+        }
+
         this.setPosition(-offset.x + e.x, -offset.y + e.y);
         forceWidgetInCanvasBounds(this);
 
@@ -239,6 +258,10 @@ export abstract class BaseWidget {
     // Update the store
     private update(): void {
         store.dispatch(UpdateWidget(this));
+    }
+
+    private updateInfo(): void {
+        store.dispatch(UpdateInfoWidget(this));
     }
 
     // Delete an widget

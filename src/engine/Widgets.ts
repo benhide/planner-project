@@ -90,7 +90,7 @@ export class Widgets {
         this._widgets[pos].isSelected = selected;
         this._widgets[pos].isHeld = selected;
         this._lastSelected = this._widgets[pos];
-        console.log("last selected ", this._lastSelected);
+        // console.log("last selected ", this._lastSelected);
     }
 
     // Is the widget selected

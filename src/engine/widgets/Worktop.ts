@@ -38,6 +38,7 @@ export class WorkTop extends BaseWidget implements IRenderable, IRotatable, ISca
 
     // Just get the colour of the unit
     private getColour(opacity = 0.9): string {
-        return `rgb(75, 75, 96, ${opacity})`;
+        const { r, g, b } = this.widgetInfo.color;
+        return `rgb(${r}, ${g}, ${b}, ${opacity})`;
     }
 }

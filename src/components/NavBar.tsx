@@ -1,4 +1,4 @@
-import { AppBar, ClickAwayListener, Toolbar, Typography, Fade} from '@material-ui/core';
+import { AppBar, ClickAwayListener, Fade, Toolbar, Typography } from '@material-ui/core';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
@@ -22,7 +22,7 @@ export const NavBar = (): JSX.Element => {
     // Local state
     const [loadItems, setLoadItems] = React.useState<IMenuItem[]>(new Array<IMenuItem>());
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState<boolean>(false);
 
     // Dispatch for thunks
     const dispatch = useDispatch<ThunkDispatch<IPlannerState, void, Action>>();

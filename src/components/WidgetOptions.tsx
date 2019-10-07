@@ -4,9 +4,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as React from 'react';
-import { CirclePicker } from 'react-color';
+import { CirclePicker, ColorResult } from 'react-color';
+import { EventBus, GameEvent } from '../engine/EventBus';
 import { ColorButton, widgetOptionsStyle } from '../style/Styles';
-import { IWidgetOptionsProps } from '../utilities/Interfaces';
+import { IColor, IColorChangeEvent, IWidgetOptionsProps } from '../utilities/Interfaces';
 
 // Options for the widgets selected
 export const WidgetOptions = (props: IWidgetOptionsProps) => {
@@ -15,6 +16,20 @@ export const WidgetOptions = (props: IWidgetOptionsProps) => {
 
     // Props
     const { widgetInfo, onClose, open } = props;
+
+    const handleChange = (selectedColor: ColorResult): void => {
+        onColourChange(selectedColor.rgb);
+    };
+
+    // Adds an event listener to where the mouse moved on the canvas
+    const onColourChange = (color: IColor): void => {
+        const colorChange: IColorChangeEvent = {
+            color: color,
+            type: widgetInfo.type,
+        };
+
+        EventBus.publish(GameEvent.ColorChange, { colorChange });
+    };
 
     // Render the jsx
     return (
@@ -29,9 +44,8 @@ export const WidgetOptions = (props: IWidgetOptionsProps) => {
                     <div>
                         <DialogContentText>{widgetInfo.longDescription}</DialogContentText>
                     </div>
-                    {/* <ColorButton>Select Material / Colour</ColorButton> */}
                     <div className={style.colourPicker}>
-                        <CirclePicker/>
+                        <CirclePicker onChangeComplete={(selectedColor) => handleChange(selectedColor)} />
                     </div>
                 </DialogContent>
                 <DialogActions>
@@ -43,3 +57,7 @@ export const WidgetOptions = (props: IWidgetOptionsProps) => {
         </>
     );
 };
+
+// {
+//     /* <ColorButton>Select Material / Colour</ColorButton> */
+// }

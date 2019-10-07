@@ -6,6 +6,7 @@ export enum GameEvent {
     MouseMove,
     MouseUp,
     MouseDown,
+    ColorChange,
 }
 
 // The event bus
@@ -31,4 +32,14 @@ export namespace EventBus {
     export const publish = (event: GameEvent, data: IEventBusData): void => {
         [...subscriptions.values()].filter((e: IEventSubscription) => e.event === event).forEach((e) => e.fn(data));
     };
+
+    // export const colorPublish = (color: string, type: string): void => {};
+
+    // // Subscribe to the event
+    // // takes a game event and subscription function
+    // export const colorSubscribe = (event: GameEvent, fn: SubscriptionFn): symbol => {
+    //     const id = Symbol();
+    //     subscriptions.set(id, { event, fn });
+    //     return id;
+    // };
 }

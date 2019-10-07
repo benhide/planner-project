@@ -39,7 +39,8 @@ export class WallUnit extends BaseWidget implements IRenderable, IRotatable, ISc
 
     // Just get the colour of te unit
     private getColour(opacity = 0.9): string {
-        return `rgb(174, 174, 96, ${opacity})`;
+        const { r, g, b } = this.widgetInfo.color;
+        return `rgb(${r}, ${g}, ${b}, ${opacity})`;
     }
 
     // Draw handle
