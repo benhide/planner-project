@@ -1,5 +1,6 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
 import * as React from 'react';
+import { Widgets } from '../engine/Widgets';
 import { widgetDetailStyle } from '../style/Styles';
 import { IWidgetDeatilsProps } from '../utilities/Interfaces';
 import { WidgetOptions } from './WidgetOptions';
@@ -14,6 +15,7 @@ export const WidgetDetails = (props: IWidgetDeatilsProps): JSX.Element => {
 
     // Local state
     const [open, setOpen] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
     // Dsiaply the widget options menu
     const openWidgetOptions = (): void => {

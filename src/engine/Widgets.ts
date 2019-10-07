@@ -16,7 +16,7 @@ export class Widgets {
 
     // Array of objects of type BaseWidget
     private _widgets = new Array<BaseWidget>();
-    private _lastSelected: BaseWidget | null = null;
+    private _lastSelected: BaseWidget | undefined = undefined;
 
     // The rendering context
     private _ctx: CanvasRenderingContext2D;
@@ -90,7 +90,7 @@ export class Widgets {
         this._widgets[pos].isSelected = selected;
         this._widgets[pos].isHeld = selected;
         this._lastSelected = this._widgets[pos];
-        // console.log("last selected ", this._lastSelected);
+        console.log("last selected ", this._lastSelected);
     }
 
     // Is the widget selected
@@ -111,5 +111,13 @@ export class Widgets {
     // Is the widget being scaled
     public isScaling(pos: number): boolean {
         return this._widgets[pos].isScaling;
+    }
+
+    public lastSelected(): string | undefined {
+        if (this._lastSelected) {
+            return this._lastSelected.widgetInfo.type;
+        } else {
+            return;
+        }
     }
 }

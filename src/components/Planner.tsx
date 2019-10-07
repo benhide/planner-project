@@ -4,6 +4,7 @@ import { Widgets } from '../engine/Widgets';
 
 // Adds an event listener to where the mouse moved on the canvas
 function onMouseMove(canvas: HTMLCanvasElement | null, e: React.MouseEvent) {
+    // Check it exsists
     if (!canvas) {
         return;
     }
@@ -18,6 +19,7 @@ function onMouseMove(canvas: HTMLCanvasElement | null, e: React.MouseEvent) {
 
 // Adds an event listener to where the canvas has clicked
 function onMouseDown(canvas: HTMLCanvasElement | null, e: React.MouseEvent) {
+    // Check it exsists
     if (!canvas) {
         return;
     }
@@ -50,23 +52,24 @@ export const Planner: React.FunctionComponent = () => {
     React.useEffect(() => {
         const { current: canvas } = canvasRef;
 
+        // Check it exsists
         if (!canvas) {
             return;
         }
 
+        // Style the canvas
         styleCanvas(canvas);
-
         const ctx = canvas.getContext('2d');
         const kitchen = Widgets.get();
 
         // Draw function
         const draw = () => {
             if (ctx) {
-                // Width of the canvas will match width of the screen
+                // Width and height of the canvas 
                 canvas.width = window.innerWidth * 0.825;
                 canvas.height = window.innerHeight * 0.875;
                 canvas.style.position = 'absolute';
-                canvas.style.left = '305px';
+                canvas.style.left = '17%';
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 kitchen.draw();
@@ -78,7 +81,6 @@ export const Planner: React.FunctionComponent = () => {
         draw();
     }, [canvasRef]);
 
-
     // Return the canvas wrapper id
     return (
         <div id="canvasWrapper">
@@ -88,9 +90,7 @@ export const Planner: React.FunctionComponent = () => {
                 onMouseMove={(e) => onMouseMove(canvasRef.current, e)}
                 onMouseDown={(e) => onMouseDown(canvasRef.current, e)}
                 onMouseUp={(e) => onMouseUp(canvasRef.current, e)}
-            >
-                .
-            </canvas>
+            ></canvas>
         </div>
     );
 };

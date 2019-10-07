@@ -101,6 +101,7 @@ export abstract class BaseWidget {
         });
 
         EventBus.subscribe(GameEvent.ColorChange, (e: IEventBusData) => {
+            // REDUX STORE -> IMUTABLE STATE INVARIANT ERROR HERE!!!!
             // if (e.colorChange) {
             //     if (e.colorChange.type === widgetInfo.type) {
             //         const { r, g, b } = e.colorChange.color;
@@ -195,6 +196,7 @@ export abstract class BaseWidget {
             }
         }
 
+        // Check it exsists
         if (!e.x || !e.y) {
             return;
         }
@@ -227,6 +229,7 @@ export abstract class BaseWidget {
         // The last valid position the object was in without colliding
         this._lastValidPosition = this.position;
 
+        // Check it exsists
         if (!e.x || !e.y) {
             return;
         }

@@ -156,7 +156,6 @@ export interface IKitchenWidgetUpdatedAction {
     widget: BaseWidget;
 }
 
-
 // Widget updated action interface
 export interface IKitchenWidgetInfoUpdatedAction {
     type: KitchenActionTypes.WIDGET_INFO_UPDATED;
