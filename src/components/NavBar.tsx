@@ -1,4 +1,4 @@
-import { AppBar, ClickAwayListener, Slide, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, ClickAwayListener, Toolbar, Typography, Fade} from '@material-ui/core';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
@@ -65,13 +65,13 @@ export const NavBar = (): JSX.Element => {
                     </ColorButton>
                 </Toolbar>
             </AppBar>
-            <Slide direction="left" in={checked} mountOnEnter unmountOnExit timeout={300}>
+            <Fade in={checked} mountOnEnter unmountOnExit timeout={500}>
                 <ClickAwayListener onClickAway={handleClickAway}>
                     <div>
                         <Basket />
                     </div>
                 </ClickAwayListener>
-            </Slide>
+            </Fade>
         </>
     );
 };
