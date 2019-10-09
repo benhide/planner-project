@@ -8,6 +8,7 @@ import { collisionSnapping, forceWidgetInCanvasBounds, snapToGrid, snapToSize } 
 import { Dimensions, Vec2 } from '../Transform';
 import { canDeleteWidget, selectTopWidget, setTopWidgetAsDeleting } from '../ZIndexControls';
 import { DrawWidgets } from './DrawWidgets';
+import { ThemeProvider } from '@material-ui/styles';
 
 // The basewidget clas which all widgets inherit from
 export abstract class BaseWidget {
@@ -27,8 +28,17 @@ export abstract class BaseWidget {
     private _lastValidPosition: Vec2;
     private _lastValidDimensions: Dimensions;
 
+    protected _points: Vec2[];
+    protected _angle: number;
+
+    protected _lastAngle: number;
+    protected _worldPoints: Vec2[];
+
+    protected _removeBox: Vec2[];
+    private _mouseDownPos: Vec2 = new Vec2(0, 0);
+
     // Draw functionality
-    private _drawWidget: DrawWidgets;
+    protected _drawWidget: DrawWidgets;
 
     constructor(
         public dimensions: Dimensions,
@@ -53,6 +63,22 @@ export abstract class BaseWidget {
         this._lastValidPosition = position;
         this._lastValidDimensions = dimensions;
 
+        this._angle = 0;
+        this._lastAngle = 0;
+        this._points = Array<Vec2>(4);
+        this._points[0] = new Vec2(-50, -50);
+        this._points[1] = new Vec2(50, -50);
+        this._points[2] = new Vec2(50, 50);
+        this._points[3] = new Vec2(-50, 50);
+        this._worldPoints = Array<Vec2>();
+        this._removeBox = Array<Vec2>();
+
+        this._worldPoints = [];
+        for (const p of this._points) {
+            const worldPoint = this.position.add(p.rotate(this._angle));
+            this._worldPoints.push(worldPoint);
+        }
+
         // Subscribe to the events
         EventBus.subscribe(GameEvent.MouseMove, (e: IEventBusData) => {
             if (this._isSelected && this._isHeld) {
@@ -62,7 +88,7 @@ export abstract class BaseWidget {
                 this.scale(e);
             }
             if (this.isRotatable && this._isRotating) {
-                // this.rotate(e);
+                this.rotate(e);
             }
         });
 
@@ -91,7 +117,11 @@ export abstract class BaseWidget {
                 this._isScaling = false;
                 this.update();
             }
-            this._isRotating = false;
+            if (this._isRotating) {
+                this._isRotating = false;
+                this._lastAngle = this._angle;
+                this.update();
+            }
 
             // Only remove the top widget
             if (this._isDeleting) {
@@ -169,16 +199,16 @@ export abstract class BaseWidget {
 
         // Draw object items if needed
         if (this.isRotatable) {
-            this._drawWidget.drawRotatingBox(ctx, this.position, this.dimensions);
+            this._drawWidget.drawRotatingBox(ctx, this.position, this.dimensions, this._angle);
         }
         if (this.isScalable) {
             this._drawWidget.drawScalingBox(ctx, this.position, this.dimensions);
         }
         if (this._isScaling || this._isSelected) {
-            this._drawWidget.drawLines(ctx, canvas.width, canvas.height, this.position, this.dimensions);
+            this._drawWidget.drawLines(ctx, canvas.width, canvas.height, this.position, this.dimensions, this._worldPoints);
         }
-        this._drawWidget.drawWidgetInfo(ctx, this.position, this.dimensions, this.id);
-        this._drawWidget.drawRemoveBox(ctx, this.position);
+        this._drawWidget.drawWidgetInfo(ctx, this.position, this.dimensions, this.id, this._angle);
+        this._drawWidget.drawRemoveBox(ctx, this.position, this.dimensions, this._angle);
     }
 
     // Scale an widget
@@ -226,6 +256,13 @@ export abstract class BaseWidget {
     private move(e: IEventBusData): void {
         const offset = new Vec2(this.dimensions.width * 0.5, this.dimensions.length * 0.5);
 
+        // // Set the world points
+        // this._worldPoints = [];
+        // for (const p of this._points) {
+        //     const worldPoint = this.position.add(p.rotate(this._angle));
+        //     this._worldPoints.push(worldPoint);
+        // }
+
         // The last valid position the object was in without colliding
         this._lastValidPosition = this.position;
 
@@ -256,6 +293,11 @@ export abstract class BaseWidget {
         }
 
         snapToGrid(this);
+    }
+
+    // Roate an widget
+    private rotate(e: IEventBusData): void {
+        this._angle = this._mouseDownPos.getAngleDegrees(new Vec2(e.x as number, e.y as number)) - this._lastAngle;
     }
 
     // Update the store
@@ -318,16 +360,16 @@ export abstract class BaseWidget {
     }
 
     // Should we try to rotate the widget
-    private shouldRotate(e: IEventBusData): Vec2 {
+    private shouldRotate(e: IEventBusData): void {
         if (this.isRotatable) {
             this._isRotating = isIntersecting(
                 new Vec2(e.x as number, e.y as number),
                 new Vec2(this.position.x + this.dimensions.width - 15, this.position.y),
                 new Dimensions(20, 20),
             );
-            return new Vec2(e.x as number, e.y as number);
         }
-        return new Vec2(0, 0);
+        console.log(this._isRotating);
+        this._lastAngle = this._mouseDownPos.getAngleDegrees(new Vec2(e.x as number, e.y as number)) - this._angle;
     }
 
     // Should we try to select the widget
